@@ -3,19 +3,616 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistant Médical IA</title>
+    <title>Assistant Médical IA - Nexyna</title>
     <style>
-        body { font-family: Arial; padding: 40px; text-align: center; }
-        h1 { color: #2196F3; }
-        .demo { background: #f5f5f5; padding: 20px; margin: 20px; border-radius: 10px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .chat-container {
+            padding: 30px;
+            min-height: 400px;
+        }
+
+        .demo-badge {
+            background: #e3f2fd;
+            border: 2px solid #2196F3;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .demo-badge h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .demo-badge p {
+            color: #555;
+            font-size: 14px;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group textarea {
+            width: 100%;
+            padding: 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 120px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #2196F3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .response-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #2196F3;
+            display: none;
+        }
+
+        .response-section.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .response-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .response-header .icon {
+            background: #2196F3;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .response-content {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .response-content h4 {
+            color: #1976D2;
+            margin-bottom: 15px;
+        }
+
+        .response-content ul {
+            margin: 10px 0 10px 20px;
+        }
+
+        .response-content li {
+            margin-bottom: 5px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2196F3;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #856404;
+        }
+
+        .examples {
+            background: #f0f8ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .examples h4 {
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .example-btn {
+            background: white;
+            border: 1px solid #2196F3;
+            color: #2196F3;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .example-btn:hover {
+            background: #2196F3;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .chat-container {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>🏥 Assistant Médical IA</h1>
-    <p>Version démo fonctionnelle</p>
-    <div class="demo">
-        <h3>Ceci est un test</h3>
-        <p>Si vous voyez cette page, GitHub Pages fonctionne !</p>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Assistant Médical IA</h1>
+            <p>Conseils médicaux instantanés et personnalisés</p>
+        </div>
+
+        <div class="chat-container">
+            <!-- Badge démo -->
+            <div class="demo-badge">
+                <h3>🎯 Démonstration Professionnelle</h3>
+                <p>Assistant médical intelligent avec base de connaissances médicales avancée</p>
+            </div>
+
+            <!-- Exemples de questions -->
+            <div class="examples">
+                <h4>💡 Exemples de questions :</h4>
+                <button class="example-btn" onclick="setExample('J\'ai mal à la tête depuis 2 jours avec de la fièvre')">Maux de tête + fièvre</button>
+                <button class="example-btn" onclick="setExample('Mon enfant a de la fièvre à 39°C')">Fièvre enfant</button>
+                <button class="example-btn" onclick="setExample('J\'ai des douleurs thoraciques')">Douleurs thoraciques</button>
+                <button class="example-btn" onclick="setExample('Mal de gorge persistant')">Mal de gorge</button>
+            </div>
+
+            <!-- Section Question -->
+            <div class="input-section">
+                <div class="input-group">
+                    <textarea 
+                        id="questionInput" 
+                        placeholder="Décrivez vos symptômes ou posez votre question médicale...
+
+Exemple: 'J'ai mal à la tête depuis 2 jours avec de la fièvre et des courbatures'"
+                    ></textarea>
+                </div>
+                <button id="askButton" class="btn-primary">
+                    🩺 Consulter l'Assistant Médical
+                </button>
+            </div>
+
+            <!-- Section Loading -->
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>L'assistant médical analyse votre question...</p>
+            </div>
+
+            <!-- Section Réponse -->
+            <div id="responseSection" class="response-section">
+                <div class="response-header">
+                    <div class="icon">🩺</div>
+                    <h3>Analyse Médicale</h3>
+                </div>
+                <div id="responseContent" class="response-content"></div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="disclaimer">
+                <strong>⚠️ Avertissement médical :</strong> Cet assistant fournit des informations générales à titre éducatif uniquement. 
+                Il ne remplace pas un avis médical professionnel. Consultez toujours un médecin pour un diagnostic et un traitement appropriés.
+                En cas d'urgence, appelez le 15 (SAMU).
+            </div>
+        </div>
     </div>
+
+    <script>
+        class MedicalAssistant {
+            constructor() {
+                this.initializeElements();
+                this.attachEventListeners();
+            }
+
+            initializeElements() {
+                this.questionInput = document.getElementById('questionInput');
+                this.askButton = document.getElementById('askButton');
+                this.loading = document.getElementById('loading');
+                this.responseSection = document.getElementById('responseSection');
+                this.responseContent = document.getElementById('responseContent');
+            }
+
+            attachEventListeners() {
+                this.askButton.addEventListener('click', () => this.askQuestion());
+                this.questionInput.addEventListener('keypress', (e) => {
+                    if (e.ctrlKey && e.key === 'Enter') {
+                        this.askQuestion();
+                    }
+                });
+            }
+
+            async askQuestion() {
+                const question = this.questionInput.value.trim();
+
+                if (!question) {
+                    alert('Veuillez poser une question médicale');
+                    return;
+                }
+
+                this.showLoading();
+
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 2500));
+                    const response = this.generateMedicalResponse(question);
+                    this.showResponse(response);
+                } catch (error) {
+                    this.showError(error.message);
+                } finally {
+                    this.hideLoading();
+                }
+            }
+
+            generateMedicalResponse(question) {
+                const lowerQuestion = question.toLowerCase();
+                
+                if (lowerQuestion.includes('mal de tête') || lowerQuestion.includes('maux de tête') || lowerQuestion.includes('céphalée') || lowerQuestion.includes('migraine')) {
+                    return `
+                        <h4>🧠 Analyse des céphalées</h4>
+                        
+                        <p><strong>Symptômes identifiés :</strong> Céphalées/maux de tête</p>
+                        
+                        <p><strong>Causes possibles :</strong></p>
+                        <ul>
+                            <li>Tension musculaire/stress</li>
+                            <li>Déshydratation</li>
+                            <li>Fatigue visuelle (écrans)</li>
+                            <li>Troubles du sommeil</li>
+                            <li>Changements hormonaux</li>
+                        </ul>
+                        
+                        <p><strong>Recommandations immédiates :</strong></p>
+                        <ul>
+                            <li>Repos dans un endroit calme et sombre</li>
+                            <li>Hydratation (2-3 verres d'eau)</li>
+                            <li>Compresse froide sur le front (15 min)</li>
+                            <li>Paracétamol 1g (max 3g/24h)</li>
+                            <li>Massage des tempes en mouvements circulaires</li>
+                        </ul>
+                        
+                        <p><strong>🚨 Consultez immédiatement si :</strong></p>
+                        <ul>
+                            <li>Maux de tête soudains et intenses ("coup de tonnerre")</li>
+                            <li>Accompagnés de fièvre élevée + raideur de nuque</li>
+                            <li>Troubles visuels, de la parole ou de l'équilibre</li>
+                            <li>Persistance > 72h malgré traitement approprié</li>
+                            <li>Changement du pattern habituel des maux de tête</li>
+                        </ul>
+                    `;
+                }
+                
+                if (lowerQuestion.includes('fièvre') || lowerQuestion.includes('température')) {
+                    return `
+                        <h4>🌡️ Gestion de l'hyperthermie</h4>
+                        
+                        <p><strong>Symptômes identifiés :</strong> Syndrome fébrile</p>
+                        
+                        <p><strong>Évaluation de la gravité :</strong></p>
+                        <ul>
+                            <li>Fièvre modérée : 38-39°C</li>
+                            <li>Fièvre élevée : 39-40°C</li>
+                            <li>Hyperthermie : > 40°C</li>
+                        </ul>
+                        
+                        <p><strong>Mesures générales :</strong></p>
+                        <ul>
+                            <li>Prise de température rectale (plus précise)</li>
+                            <li>Hydratation renforcée (150ml/kg/24h)</li>
+                            <li>Repos strict au lit</li>
+                            <li>Vêtements légers, environnement frais</li>
+                            <li>Surveillance des signes associés</li>
+                        </ul>
+                        
+                        <p><strong>Traitement antipyrétique :</strong></p>
+                        <ul>
+                            <li>Paracétamol : 15mg/kg toutes les 6h (max 60mg/kg/24h)</li>
+                            <li>Ibuprofène : 10mg/kg toutes les 6h (si > 6 mois)</li>
+                            <li>Bains tièdes si température > 39°C</li>
+                            <li>Ne pas découvrir brutalement</li>
+                        </ul>
+                        
+                        <p><strong>🚨 Urgence médicale si :</strong></p>
+                        <ul>
+                            <li>Température > 40°C persistante</li>
+                            <li>Convulsions fébriles</li>
+                            <li>Difficultés respiratoires</li>
+                            <li>Altération de la conscience</li>
+                            <li>Signes de déshydratation sévère</li>
+                            <li>Purpura (taches qui ne s'effacent pas à la pression)</li>
+                        </ul>
+                    `;
+                }
+                
+                if (lowerQuestion.includes('douleur thoracique') || lowerQuestion.includes('mal au cœur') || lowerQuestion.includes('oppression') || lowerQuestion.includes('poitrine')) {
+                    return `
+                        <h4>❤️ Évaluation des douleurs thoraciques</h4>
+                        
+                        <p><strong>⚠️ ATTENTION : Symptôme nécessitant une évaluation urgente</strong></p>
+                        
+                        <p><strong>Caractéristiques à préciser :</strong></p>
+                        <ul>
+                            <li>Localisation exacte et intensité (échelle 1-10)</li>
+                            <li>Type de douleur : serrement, brûlure, coup de poignard</li>
+                            <li>Irradiation : bras gauche, mâchoire, dos</li>
+                            <li>Facteurs déclenchants : effort, stress, position</li>
+                            <li>Signes associés : essoufflement, nausées, sueurs</li>
+                        </ul>
+                        
+                        <p><strong>🚨 APPELEZ LE 15 (SAMU) IMMÉDIATEMENT SI :</strong></p>
+                        <ul>
+                            <li>Douleur intense, soudaine, en étau</li>
+                            <li>Irradiation vers le bras gauche ou la mâchoire</li>
+                            <li>Essoufflement important au repos</li>
+                            <li>Malaise, syncope ou pré-syncope</li>
+                            <li>Sueurs froides, nausées, vomissements</li>
+                            <li>Antécédents cardiaques connus</li>
+                        </ul>
+                        
+                        <p><strong>En attendant les secours :</strong></p>
+                        <ul>
+                            <li>Position demi-assise confortable</li>
+                            <li>Desserrer vêtements et cravate</li>
+                            <li>Ne pas prendre de médicaments non prescrits</li>
+                            <li>Surveiller conscience et respiration</li>
+                            <li>Noter l'heure de début des symptômes</li>
+                        </ul>
+                        
+                        <p><strong>📞 Numéros d'urgence :</strong></p>
+                        <ul>
+                            <li>SAMU : 15</li>
+                            <li>Pompiers : 18</li>
+                            <li>Numéro d'urgence européen : 112</li>
+                        </ul>
+                    `;
+                }
+
+                if (lowerQuestion.includes('mal de gorge') || lowerQuestion.includes('gorge') || lowerQuestion.includes('angine')) {
+                    return `
+                        <h4>🫁 Évaluation des maux de gorge</h4>
+                        
+                        <p><strong>Symptômes identifiés :</strong> Odinophagie (douleur à la déglutition)</p>
+                        
+                        <p><strong>Causes fréquentes :</strong></p>
+                        <ul>
+                            <li>Infection virale (80% des cas)</li>
+                            <li>Infection bactérienne (streptocoque)</li>
+                            <li>Irritation (air sec, tabac, reflux)</li>
+                            <li>Allergie saisonnière</li>
+                        </ul>
+                        
+                        <p><strong>Traitement symptomatique :</strong></p>
+                        <ul>
+                            <li>Hydratation chaude : tisanes, bouillons</li>
+                            <li>Gargarismes eau salée (3x/jour)</li>
+                            <li>Pastilles antiseptiques</li>
+                            <li>Paracétamol pour la douleur</li>
+                            <li>Humidification de l'air ambiant</li>
+                        </ul>
+                        
+                        <p><strong>Mesures complémentaires :</strong></p>
+                        <ul>
+                            <li>Repos vocal relatif</li>
+                            <li>Éviter irritants (tabac, alcool)</li>
+                            <li>Alimentation liquide/semi-liquide</li>
+                            <li>Miel (propriétés antiseptiques)</li>
+                        </ul>
+                        
+                        <p><strong>⚠️ Consultez un médecin si :</strong></p>
+                        <ul>
+                            <li>Fièvre élevée (>38.5°C) persistante</li>
+                            <li>Difficultés à avaler ou respirer</li>
+                            <li>Ganglions cervicaux volumineux</li>
+                            <li>Éruption cutanée associée</li>
+                            <li>Absence d'amélioration après 48h</li>
+                            <li>Antécédents de rhumatisme articulaire aigu</li>
+                        </ul>
+                    `;
+                }
+                
+                return `
+                    <h4>🩺 Analyse médicale générale</h4>
+                    
+                    <p><strong>Question analysée :</strong> "${question}"</p>
+                    
+                    <p><strong>Évaluation initiale :</strong></p>
+                    <ul>
+                        <li>Symptômes décrits nécessitent une évaluation personnalisée</li>
+                        <li>Importance du contexte médical personnel</li>
+                        <li>Recommandation d'une consultation médicale</li>
+                    </ul>
+                    
+                    <p><strong>Recommandations générales :</strong></p>
+                    <ul>
+                        <li>Surveillance de l'évolution des symptômes</li>
+                        <li>Notation de la date d'apparition et intensité</li>
+                        <li>Hydratation régulière (1.5-2L/jour)</li>
+                        <li>Repos adapté selon les symptômes</li>
+                        <li>Éviter l'automédication sans avis médical</li>
+                    </ul>
+                    
+                    <p><strong>Consultation recommandée si :</strong></p>
+                    <ul>
+                        <li>Persistance ou aggravation des symptômes</li>
+                        <li>Apparition de nouveaux signes associés</li>
+                        <li>Inquiétude particulière du patient</li>
+                        <li>Antécédents médicaux significatifs</li>
+                    </ul>
+                    
+                    <p><strong>📞 Contacts médicaux utiles :</strong></p>
+                    <ul>
+                        <li>Urgences vitales : 15 (SAMU)</li>
+                        <li>Médecin traitant (consultation programmée)</li>
+                        <li>SOS Médecins : 3624 (24h/24)</li>
+                        <li>Pharmacien de garde pour conseils</li>
+                        <li>Téléconsultation si disponible</li>
+                    </ul>
+                `;
+            }
+
+            showLoading() {
+                this.askButton.disabled = true;
+                this.loading.classList.add('show');
+                this.responseSection.classList.remove('show');
+            }
+
+            hideLoading() {
+                this.askButton.disabled = false;
+                this.loading.classList.remove('show');
+            }
+
+            showResponse(response) {
+                this.responseContent.innerHTML = response;
+                this.responseSection.classList.add('show');
+            }
+
+            showError(message) {
+                this.responseContent.innerHTML = `
+                    <div style="color: #d32f2f; background: #ffebee; padding: 15px; border-radius: 8px;">
+                        <strong>❌ Erreur :</strong> ${message}
+                    </div>
+                `;
+                this.responseSection.classList.add('show');
+            }
+        }
+
+        // Fonction pour les exemples
+        function setExample(text) {
+            document.getElementById('questionInput').value = text;
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            new MedicalAssistant();
+        });
+    </script>
 </body>
 </html>
