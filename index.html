@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistant Médical IA - Nexyna</title>
+    <title>Assistant Médical IA 2.0 - Nexyna</title>
     <style>
         * {
             margin: 0;
@@ -15,77 +15,279 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Particules animées d'arrière-plan */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
         }
 
         .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            max-width: 900px;
-            width: 100%;
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            max-width: 1200px;
+            width: 95%;
+            margin: 20px auto;
             overflow: hidden;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .header {
             background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
             color: white;
-            padding: 30px;
+            padding: 40px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 3em;
+            margin-bottom: 15px;
             font-weight: 300;
+            position: relative;
+            z-index: 2;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255,255,255,0.5); }
+            to { text-shadow: 0 0 30px rgba(255,255,255,0.8); }
         }
 
         .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
+            font-size: 1.3em;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
         }
 
-        .chat-container {
+        .version-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 40px;
+        }
+
+        .left-panel {
+            animation: slideInLeft 0.8s ease-out 0.2s both;
+        }
+
+        .right-panel {
+            animation: slideInRight 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .body-diagram {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
             padding: 30px;
-            min-height: 400px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .demo-badge {
-            background: #e3f2fd;
-            border: 2px solid #2196F3;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
+        .body-diagram h3 {
+            color: #1976D2;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .body-svg {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .body-part {
+            fill: #e3f2fd;
+            stroke: #2196F3;
+            stroke-width: 2;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .body-part:hover {
+            fill: #2196F3;
+            transform: scale(1.05);
+            filter: drop-shadow(0 5px 15px rgba(33, 150, 243, 0.4));
+        }
+
+        .body-part.selected {
+            fill: #f44336;
+            stroke: #d32f2f;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .pain-scale {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .pain-scale h4 {
+            color: #1976D2;
+            margin-bottom: 15px;
             text-align: center;
         }
 
-        .demo-badge h3 {
-            color: #1976D2;
-            margin-bottom: 10px;
+        .pain-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: linear-gradient(to right, #4caf50, #ffeb3b, #ff9800, #f44336);
+            outline: none;
+            margin: 20px 0;
         }
 
-        .demo-badge p {
-            color: #555;
-            font-size: 14px;
+        .pain-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .input-section {
-            margin-bottom: 30px;
+        .pain-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
         }
 
-        .input-group {
+        .pain-display {
+            text-align: center;
+            font-size: 2em;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .voice-controls {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .voice-btn {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
             position: relative;
-            margin-bottom: 20px;
+            overflow: hidden;
         }
 
-        .input-group textarea {
+        .voice-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .voice-btn.recording {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            animation: recordingPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes recordingPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .question-input {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .question-input textarea {
             width: 100%;
             padding: 20px;
             border: 2px solid #e1e5e9;
-            border-radius: 15px;
+            border-radius: 12px;
             font-size: 16px;
             font-family: inherit;
             resize: vertical;
@@ -93,117 +295,80 @@
             transition: all 0.3s ease;
         }
 
-        .input-group textarea:focus {
+        .question-input textarea:focus {
             outline: none;
             border-color: #2196F3;
             box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+            transform: scale(1.02);
         }
 
-        .btn-primary {
+        .analyze-btn {
             background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
             color: white;
             border: none;
-            padding: 15px 40px;
+            padding: 18px 40px;
             border-radius: 50px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             display: block;
-            margin: 0 auto;
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(33, 150, 243, 0.3);
+        .analyze-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(33, 150, 243, 0.4);
         }
 
-        .btn-primary:disabled {
+        .analyze-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
         }
 
-        .response-section {
-            margin-top: 30px;
-            padding: 25px;
-            background: #f8f9fa;
-            border-radius: 15px;
-            border-left: 5px solid #2196F3;
-            display: none;
-        }
-
-        .response-section.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .response-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .response-header .icon {
-            background: #2196F3;
-            color: white;
-            width: 40px;
-            height: 40px;
+        .analyze-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-weight: bold;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
         }
 
-        .response-content {
-            line-height: 1.6;
-            color: #333;
-        }
-
-        .response-content h4 {
-            color: #1976D2;
-            margin-bottom: 15px;
-        }
-
-        .response-content ul {
-            margin: 10px 0 10px 20px;
-        }
-
-        .response-content li {
-            margin-bottom: 5px;
+        .analyze-btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .loading {
             display: none;
             text-align: center;
-            padding: 20px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            margin: 20px 0;
         }
 
         .loading.show {
             display: block;
+            animation: fadeIn 0.5s ease;
         }
 
         .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #2196F3;
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2196F3;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
+            margin: 0 auto 20px;
         }
 
         @keyframes spin {
@@ -211,159 +376,437 @@
             100% { transform: rotate(360deg); }
         }
 
-        .disclaimer {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #856404;
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 20px 0;
         }
 
-        .examples {
-            background: #f0f8ff;
-            border-radius: 10px;
-            padding: 20px;
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2196F3, #4caf50);
+            width: 0%;
+            transition: width 0.3s ease;
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
+        }
+
+        .response-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-left: 5px solid #2196F3;
+            display: none;
+            grid-column: 1 / -1;
+        }
+
+        .response-section.show {
+            display: block;
+            animation: expandIn 0.6s ease-out;
+        }
+
+        @keyframes expandIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .response-header {
+            display: flex;
+            align-items: center;
             margin-bottom: 20px;
         }
 
-        .examples h4 {
-            color: #1976D2;
-            margin-bottom: 10px;
+        .response-icon {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 20px;
+            animation: bounceIn 0.6s ease-out;
         }
 
-        .example-btn {
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        .emergency-alert {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            animation: emergencyBlink 1s ease-in-out infinite;
+        }
+
+        @keyframes emergencyBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .emergency-btn {
             background: white;
-            border: 1px solid #2196F3;
-            color: #2196F3;
-            padding: 8px 15px;
-            border-radius: 20px;
-            margin: 5px;
+            color: #f44336;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 10px;
             cursor: pointer;
-            font-size: 14px;
             transition: all 0.3s ease;
         }
 
-        .example-btn:hover {
-            background: #2196F3;
-            color: white;
+        .emergency-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .disclaimer {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 1px solid #ffeaa7;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+            font-size: 14px;
+            color: #856404;
+            grid-column: 1 / -1;
+            animation: fadeIn 0.8s ease-out 0.6s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @media (max-width: 768px) {
-            .container {
-                margin: 10px;
+            .main-content {
+                grid-template-columns: 1fr;
+                padding: 20px;
             }
             
             .header h1 {
-                font-size: 2em;
+                font-size: 2.2em;
             }
             
-            .chat-container {
-                padding: 20px;
+            .container {
+                margin: 10px;
             }
+        }
+
+        /* Effets de typing */
+        .typing-effect {
+            border-right: 2px solid #2196F3;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: #2196F3; }
         }
     </style>
 </head>
 <body>
+    <!-- Particules d'arrière-plan -->
+    <div class="particles" id="particles"></div>
+
     <div class="container">
         <div class="header">
+            <div class="version-badge">v2.0 BETA</div>
             <h1>🏥 Assistant Médical IA</h1>
-            <p>Conseils médicaux instantanés et personnalisés</p>
+            <p>Analyse intelligente et interactive de vos symptômes</p>
         </div>
 
-        <div class="chat-container">
-            <!-- Badge démo -->
-            <div class="demo-badge">
-                <h3>🎯 Démonstration Professionnelle</h3>
-                <p>Assistant médical intelligent avec base de connaissances médicales avancée</p>
-            </div>
-
-            <!-- Exemples de questions -->
-            <div class="examples">
-                <h4>💡 Exemples de questions :</h4>
-                <button class="example-btn" onclick="setExample('J\'ai mal à la tête depuis 2 jours avec de la fièvre')">Maux de tête + fièvre</button>
-                <button class="example-btn" onclick="setExample('Mon enfant a de la fièvre à 39°C')">Fièvre enfant</button>
-                <button class="example-btn" onclick="setExample('J\'ai des douleurs thoraciques')">Douleurs thoraciques</button>
-                <button class="example-btn" onclick="setExample('Mal de gorge persistant')">Mal de gorge</button>
-            </div>
-
-            <!-- Section Question -->
-            <div class="input-section">
-                <div class="input-group">
-                    <textarea 
-                        id="questionInput" 
-                        placeholder="Décrivez vos symptômes ou posez votre question médicale...
-
-Exemple: 'J'ai mal à la tête depuis 2 jours avec de la fièvre et des courbatures'"
-                    ></textarea>
+        <div class="main-content">
+            <div class="left-panel">
+                <!-- Schéma corporel interactif -->
+                <div class="body-diagram">
+                    <h3>📍 Où avez-vous mal ?</h3>
+                    <p>Cliquez sur la zone douloureuse</p>
+                    <svg class="body-svg" viewBox="0 0 200 400" id="bodySvg">
+                        <!-- Tête -->
+                        <circle class="body-part" data-part="tête" cx="100" cy="40" r="25" />
+                        <!-- Cou -->
+                        <rect class="body-part" data-part="cou" x="90" y="65" width="20" height="15" />
+                        <!-- Torse -->
+                        <rect class="body-part" data-part="poitrine" x="70" y="80" width="60" height="80" />
+                        <!-- Bras gauche -->
+                        <rect class="body-part" data-part="bras gauche" x="40" y="90" width="25" height="70" />
+                        <!-- Bras droit -->
+                        <rect class="body-part" data-part="bras droit" x="135" y="90" width="25" height="70" />
+                        <!-- Abdomen -->
+                        <rect class="body-part" data-part="abdomen" x="75" y="160" width="50" height="60" />
+                        <!-- Jambe gauche -->
+                        <rect class="body-part" data-part="jambe gauche" x="75" y="220" width="20" height="100" />
+                        <!-- Jambe droite -->
+                        <rect class="body-part" data-part="jambe droite" x="105" y="220" width="20" height="100" />
+                        <!-- Pieds -->
+                        <ellipse class="body-part" data-part="pied gauche" cx="85" cy="340" rx="15" ry="8" />
+                        <ellipse class="body-part" data-part="pied droit" cx="115" cy="340" rx="15" ry="8" />
+                    </svg>
+                    <div id="selectedPart" style="margin-top: 15px; font-weight: bold; color: #1976D2;"></div>
                 </div>
-                <button id="askButton" class="btn-primary">
-                    🩺 Consulter l'Assistant Médical
-                </button>
+
+                <!-- Échelle de douleur -->
+                <div class="pain-scale">
+                    <h4>📊 Intensité de la douleur</h4>
+                    <input type="range" class="pain-slider" id="painScale" min="0" max="10" value="0">
+                    <div class="pain-display" id="painDisplay">😊 0/10</div>
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: #666;">
+                        <span>Aucune</span>
+                        <span>Modérée</span>
+                        <span>Extrême</span>
+                    </div>
+                </div>
+
+                <!-- Contrôles vocaux -->
+                <div class="voice-controls">
+                    <h4>🎤 Parlez à l'assistant</h4>
+                    <button class="voice-btn" id="voiceBtn">
+                        <span id="voiceText">🎤 Cliquez et parlez</span>
+                    </button>
+                    <div id="voiceResult" style="margin-top: 10px; font-style: italic; color: #666;"></div>
+                </div>
             </div>
 
-            <!-- Section Loading -->
-            <div id="loading" class="loading">
-                <div class="spinner"></div>
-                <p>L'assistant médical analyse votre question...</p>
+            <div class="right-panel">
+                <!-- Question écrite -->
+                <div class="question-input">
+                    <h4>✍️ Ou décrivez vos symptômes</h4>
+                    <textarea id="questionInput" placeholder="Décrivez précisément vos symptômes, leur début, leur évolution...
+
+Exemple: 'J'ai mal à la tête depuis 2 jours, la douleur s'intensifie le matin, j'ai aussi des nausées...'"></textarea>
+                </div>
+
+                <button class="analyze-btn" id="analyzeBtn">
+                    🔍 Analyser mes symptômes
+                </button>
+
+                <!-- Loading avec progress bar -->
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p id="loadingText">Analyse en cours...</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
             </div>
 
             <!-- Section Réponse -->
-            <div id="responseSection" class="response-section">
+            <div class="response-section" id="responseSection">
                 <div class="response-header">
-                    <div class="icon">🩺</div>
-                    <h3>Analyse Médicale</h3>
+                    <div class="response-icon">🩺</div>
+                    <h3>Analyse Médicale Complète</h3>
                 </div>
-                <div id="responseContent" class="response-content"></div>
+                <div id="responseContent"></div>
             </div>
 
             <!-- Disclaimer -->
             <div class="disclaimer">
-                <strong>⚠️ Avertissement médical :</strong> Cet assistant fournit des informations générales à titre éducatif uniquement. 
-                Il ne remplace pas un avis médical professionnel. Consultez toujours un médecin pour un diagnostic et un traitement appropriés.
-                En cas d'urgence, appelez le 15 (SAMU).
+                <strong>⚠️ Avertissement médical :</strong> Cet assistant utilise l'intelligence artificielle pour fournir des informations médicales générales. 
+                Il ne remplace pas un diagnostic médical professionnel. En cas d'urgence ou de doute, consultez immédiatement un médecin ou appelez le 15 (SAMU).
             </div>
         </div>
     </div>
 
     <script>
-        class MedicalAssistant {
+        class MedicalAssistantV2 {
             constructor() {
+                this.selectedBodyPart = '';
+                this.painLevel = 0;
+                this.voiceRecognition = null;
                 this.initializeElements();
                 this.attachEventListeners();
+                this.createParticles();
+                this.initializeVoiceRecognition();
             }
 
             initializeElements() {
+                this.bodySvg = document.getElementById('bodySvg');
+                this.selectedPartDisplay = document.getElementById('selectedPart');
+                this.painScale = document.getElementById('painScale');
+                this.painDisplay = document.getElementById('painDisplay');
+                this.voiceBtn = document.getElementById('voiceBtn');
+                this.voiceText = document.getElementById('voiceText');
+                this.voiceResult = document.getElementById('voiceResult');
                 this.questionInput = document.getElementById('questionInput');
-                this.askButton = document.getElementById('askButton');
+                this.analyzeBtn = document.getElementById('analyzeBtn');
                 this.loading = document.getElementById('loading');
+                this.loadingText = document.getElementById('loadingText');
+                this.progressFill = document.getElementById('progressFill');
                 this.responseSection = document.getElementById('responseSection');
                 this.responseContent = document.getElementById('responseContent');
             }
 
             attachEventListeners() {
-                this.askButton.addEventListener('click', () => this.askQuestion());
+                // Schéma corporel
+                this.bodySvg.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('body-part')) {
+                        this.selectBodyPart(e.target);
+                    }
+                });
+
+                // Échelle de douleur
+                this.painScale.addEventListener('input', (e) => {
+                    this.updatePainLevel(e.target.value);
+                });
+
+                // Reconnaissance vocale
+                this.voiceBtn.addEventListener('click', () => {
+                    this.toggleVoiceRecognition();
+                });
+
+                // Analyse
+                this.analyzeBtn.addEventListener('click', () => {
+                    this.analyzeSymptoms();
+                });
+
+                // Enter pour analyser
                 this.questionInput.addEventListener('keypress', (e) => {
                     if (e.ctrlKey && e.key === 'Enter') {
-                        this.askQuestion();
+                        this.analyzeSymptoms();
                     }
                 });
             }
 
-            async askQuestion() {
-                const question = this.questionInput.value.trim();
+            createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.width = Math.random() * 10 + 5 + 'px';
+                    particle.style.height = particle.style.width;
+                    particle.style.animationDelay = Math.random() * 6 + 's';
+                    particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            }
 
-                if (!question) {
-                    alert('Veuillez poser une question médicale');
+            selectBodyPart(element) {
+                // Retirer sélection précédente
+                document.querySelectorAll('.body-part').forEach(part => {
+                    part.classList.remove('selected');
+                });
+
+                // Ajouter nouvelle sélection
+                element.classList.add('selected');
+                this.selectedBodyPart = element.dataset.part;
+                this.selectedPartDisplay.textContent = `Zone sélectionnée : ${this.selectedBodyPart}`;
+                
+                // Effet sonore (si supporté)
+                this.playClickSound();
+            }
+
+            updatePainLevel(level) {
+                this.painLevel = level;
+                const emojis = ['😊', '😐', '😐', '😟', '😟', '😣', '😣', '😖', '😖', '😫', '😱'];
+                const colors = ['#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#f44336', '#e91e63', '#9c27b0', '#673ab7'];
+                
+                this.painDisplay.textContent = `${emojis[level]} ${level}/10`;
+                this.painDisplay.style.color = colors[level];
+                
+                if (level >= 8) {
+                    this.painDisplay.style.animation = 'pulse 0.5s ease-in-out infinite';
+                } else {
+                    this.painDisplay.style.animation = 'none';
+                }
+            }
+
+            initializeVoiceRecognition() {
+                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    this.voiceRecognition = new SpeechRecognition();
+                    this.voiceRecognition.lang = 'fr-FR';
+                    this.voiceRecognition.continuous = false;
+                    this.voiceRecognition.interimResults = false;
+
+                    this.voiceRecognition.onstart = () => {
+                        this.voiceBtn.classList.add('recording');
+                        this.voiceText.textContent = '🔴 Parlez maintenant...';
+                        this.voiceResult.textContent = '';
+                    };
+
+                    this.voiceRecognition.onresult = (event) => {
+                        const transcript = event.results[0][0].transcript;
+                        this.questionInput.value = transcript;
+                        this.voiceResult.textContent = `Reconnu: "${transcript}"`;
+                        this.typeEffect(this.questionInput, transcript);
+                    };
+
+                    this.voiceRecognition.onerror = (event) => {
+                        this.voiceResult.textContent = 'Erreur de reconnaissance vocale';
+                        this.resetVoiceButton();
+                    };
+
+                    this.voiceRecognition.onend = () => {
+                        this.resetVoiceButton();
+                    };
+                } else {
+                    this.voiceBtn.style.display = 'none';
+                    document.querySelector('.voice-controls').innerHTML = '<p>🚫 Reconnaissance vocale non supportée</p>';
+                }
+            }
+
+            toggleVoiceRecognition() {
+                if (this.voiceRecognition) {
+                    if (this.voiceBtn.classList.contains('recording')) {
+                        this.voiceRecognition.stop();
+                    } else {
+                        this.voiceRecognition.start();
+                    }
+                }
+            }
+
+            resetVoiceButton() {
+                this.voiceBtn.classList.remove('recording');
+                this.voiceText.textContent = '🎤 Cliquez et parlez';
+            }
+
+            typeEffect(element, text) {
+                element.value = '';
+                element.classList.add('typing-effect');
+                let i = 0;
+                const typeInterval = setInterval(() => {
+                    element.value += text.charAt(i);
+                    i++;
+                    if (i > text.length) {
+                        clearInterval(typeInterval);
+                        element.classList.remove('typing-effect');
+                    }
+                }, 50);
+            }
+
+            async analyzeSymptoms() {
+                const question = this.questionInput.value.trim();
+                
+                if (!question && !this.selectedBodyPart) {
+                    alert('Veuillez décrire vos symptômes ou sélectionner une zone sur le corps');
                     return;
                 }
 
                 this.showLoading();
 
                 try {
-                    await new Promise(resolve => setTimeout(resolve, 2500));
-                    const response = this.generateMedicalResponse(question);
+                    await this.simulateAnalysis();
+                    const response = this.generateAdvancedResponse(question);
                     this.showResponse(response);
                 } catch (error) {
                     this.showError(error.message);
@@ -372,246 +815,318 @@ Exemple: 'J'ai mal à la tête depuis 2 jours avec de la fièvre et des courbatu
                 }
             }
 
-            generateMedicalResponse(question) {
+            async simulateAnalysis() {
+                const steps = [
+                    'Analyse des symptômes...',
+                    'Consultation de la base médicale...',
+                    'Évaluation des risques...',
+                    'Génération des recommandations...',
+                    'Finalisation du diagnostic...'
+                ];
+
+                for (let i = 0; i < steps.length; i++) {
+                    this.loadingText.textContent = steps[i];
+                    this.progressFill.style.width = ((i + 1) / steps.length) * 100 + '%';
+                    await new Promise(resolve => setTimeout(resolve, 800));
+                }
+            }
+
+            generateAdvancedResponse(question) {
                 const lowerQuestion = question.toLowerCase();
-                
-                if (lowerQuestion.includes('mal de tête') || lowerQuestion.includes('maux de tête') || lowerQuestion.includes('céphalée') || lowerQuestion.includes('migraine')) {
-                    return `
-                        <h4>🧠 Analyse des céphalées</h4>
-                        
-                        <p><strong>Symptômes identifiés :</strong> Céphalées/maux de tête</p>
-                        
-                        <p><strong>Causes possibles :</strong></p>
-                        <ul>
-                            <li>Tension musculaire/stress</li>
-                            <li>Déshydratation</li>
-                            <li>Fatigue visuelle (écrans)</li>
-                            <li>Troubles du sommeil</li>
-                            <li>Changements hormonaux</li>
-                        </ul>
-                        
-                        <p><strong>Recommandations immédiates :</strong></p>
-                        <ul>
-                            <li>Repos dans un endroit calme et sombre</li>
-                            <li>Hydratation (2-3 verres d'eau)</li>
-                            <li>Compresse froide sur le front (15 min)</li>
-                            <li>Paracétamol 1g (max 3g/24h)</li>
-                            <li>Massage des tempes en mouvements circulaires</li>
-                        </ul>
-                        
-                        <p><strong>🚨 Consultez immédiatement si :</strong></p>
-                        <ul>
-                            <li>Maux de tête soudains et intenses ("coup de tonnerre")</li>
-                            <li>Accompagnés de fièvre élevée + raideur de nuque</li>
-                            <li>Troubles visuels, de la parole ou de l'équilibre</li>
-                            <li>Persistance > 72h malgré traitement approprié</li>
-                            <li>Changement du pattern habituel des maux de tête</li>
-                        </ul>
-                    `;
-                }
-                
-                if (lowerQuestion.includes('fièvre') || lowerQuestion.includes('température')) {
-                    return `
-                        <h4>🌡️ Gestion de l'hyperthermie</h4>
-                        
-                        <p><strong>Symptômes identifiés :</strong> Syndrome fébrile</p>
-                        
-                        <p><strong>Évaluation de la gravité :</strong></p>
-                        <ul>
-                            <li>Fièvre modérée : 38-39°C</li>
-                            <li>Fièvre élevée : 39-40°C</li>
-                            <li>Hyperthermie : > 40°C</li>
-                        </ul>
-                        
-                        <p><strong>Mesures générales :</strong></p>
-                        <ul>
-                            <li>Prise de température rectale (plus précise)</li>
-                            <li>Hydratation renforcée (150ml/kg/24h)</li>
-                            <li>Repos strict au lit</li>
-                            <li>Vêtements légers, environnement frais</li>
-                            <li>Surveillance des signes associés</li>
-                        </ul>
-                        
-                        <p><strong>Traitement antipyrétique :</strong></p>
-                        <ul>
-                            <li>Paracétamol : 15mg/kg toutes les 6h (max 60mg/kg/24h)</li>
-                            <li>Ibuprofène : 10mg/kg toutes les 6h (si > 6 mois)</li>
-                            <li>Bains tièdes si température > 39°C</li>
-                            <li>Ne pas découvrir brutalement</li>
-                        </ul>
-                        
-                        <p><strong>🚨 Urgence médicale si :</strong></p>
-                        <ul>
-                            <li>Température > 40°C persistante</li>
-                            <li>Convulsions fébriles</li>
-                            <li>Difficultés respiratoires</li>
-                            <li>Altération de la conscience</li>
-                            <li>Signes de déshydratation sévère</li>
-                            <li>Purpura (taches qui ne s'effacent pas à la pression)</li>
-                        </ul>
-                    `;
-                }
-                
-                if (lowerQuestion.includes('douleur thoracique') || lowerQuestion.includes('mal au cœur') || lowerQuestion.includes('oppression') || lowerQuestion.includes('poitrine')) {
-                    return `
-                        <h4>❤️ Évaluation des douleurs thoraciques</h4>
-                        
-                        <p><strong>⚠️ ATTENTION : Symptôme nécessitant une évaluation urgente</strong></p>
-                        
-                        <p><strong>Caractéristiques à préciser :</strong></p>
-                        <ul>
-                            <li>Localisation exacte et intensité (échelle 1-10)</li>
-                            <li>Type de douleur : serrement, brûlure, coup de poignard</li>
-                            <li>Irradiation : bras gauche, mâchoire, dos</li>
-                            <li>Facteurs déclenchants : effort, stress, position</li>
-                            <li>Signes associés : essoufflement, nausées, sueurs</li>
-                        </ul>
-                        
-                        <p><strong>🚨 APPELEZ LE 15 (SAMU) IMMÉDIATEMENT SI :</strong></p>
-                        <ul>
-                            <li>Douleur intense, soudaine, en étau</li>
-                            <li>Irradiation vers le bras gauche ou la mâchoire</li>
-                            <li>Essoufflement important au repos</li>
-                            <li>Malaise, syncope ou pré-syncope</li>
-                            <li>Sueurs froides, nausées, vomissements</li>
-                            <li>Antécédents cardiaques connus</li>
-                        </ul>
-                        
-                        <p><strong>En attendant les secours :</strong></p>
-                        <ul>
-                            <li>Position demi-assise confortable</li>
-                            <li>Desserrer vêtements et cravate</li>
-                            <li>Ne pas prendre de médicaments non prescrits</li>
-                            <li>Surveiller conscience et respiration</li>
-                            <li>Noter l'heure de début des symptômes</li>
-                        </ul>
-                        
-                        <p><strong>📞 Numéros d'urgence :</strong></p>
-                        <ul>
-                            <li>SAMU : 15</li>
-                            <li>Pompiers : 18</li>
-                            <li>Numéro d'urgence européen : 112</li>
-                        </ul>
-                    `;
+                const bodyPart = this.selectedBodyPart;
+                const painLevel = this.painLevel;
+
+                // Construire le contexte complet
+                let context = '';
+                if (bodyPart) context += `Zone affectée: ${bodyPart}. `;
+                if (painLevel > 0) context += `Niveau de douleur: ${painLevel}/10. `;
+
+                // Détection d'urgence basée sur douleur + zone
+                if (painLevel >= 8 || this.detectEmergency(lowerQuestion, bodyPart)) {
+                    return this.generateEmergencyResponse(question, context);
                 }
 
-                if (lowerQuestion.includes('mal de gorge') || lowerQuestion.includes('gorge') || lowerQuestion.includes('angine')) {
-                    return `
-                        <h4>🫁 Évaluation des maux de gorge</h4>
-                        
-                        <p><strong>Symptômes identifiés :</strong> Odinophagie (douleur à la déglutition)</p>
-                        
-                        <p><strong>Causes fréquentes :</strong></p>
-                        <ul>
-                            <li>Infection virale (80% des cas)</li>
-                            <li>Infection bactérienne (streptocoque)</li>
-                            <li>Irritation (air sec, tabac, reflux)</li>
-                            <li>Allergie saisonnière</li>
-                        </ul>
-                        
-                        <p><strong>Traitement symptomatique :</strong></p>
-                        <ul>
-                            <li>Hydratation chaude : tisanes, bouillons</li>
-                            <li>Gargarismes eau salée (3x/jour)</li>
-                            <li>Pastilles antiseptiques</li>
-                            <li>Paracétamol pour la douleur</li>
-                            <li>Humidification de l'air ambiant</li>
-                        </ul>
-                        
-                        <p><strong>Mesures complémentaires :</strong></p>
-                        <ul>
-                            <li>Repos vocal relatif</li>
-                            <li>Éviter irritants (tabac, alcool)</li>
-                            <li>Alimentation liquide/semi-liquide</li>
-                            <li>Miel (propriétés antiseptiques)</li>
-                        </ul>
-                        
-                        <p><strong>⚠️ Consultez un médecin si :</strong></p>
-                        <ul>
-                            <li>Fièvre élevée (>38.5°C) persistante</li>
-                            <li>Difficultés à avaler ou respirer</li>
-                            <li>Ganglions cervicaux volumineux</li>
-                            <li>Éruption cutanée associée</li>
-                            <li>Absence d'amélioration après 48h</li>
-                            <li>Antécédents de rhumatisme articulaire aigu</li>
-                        </ul>
-                    `;
+                // Réponses spécialisées par zone corporelle
+                if (bodyPart) {
+                    return this.generateBodyPartResponse(bodyPart, painLevel, question);
                 }
-                
+
+                // Réponses par symptômes
+                if (lowerQuestion.includes('mal de tête') || lowerQuestion.includes('céphalée')) {
+                    return this.generateHeadacheResponse(painLevel);
+                }
+
+                if (lowerQuestion.includes('fièvre') || lowerQuestion.includes('température')) {
+                    return this.generateFeverResponse();
+                }
+
+                return this.generateGeneralResponse(question, context);
+            }
+
+            detectEmergency(question, bodyPart) {
+                const emergencyKeywords = [
+                    'difficulté respirer', 'essoufflement', 'souffle court',
+                    'douleur thoracique', 'mal poitrine', 'serrement',
+                    'perte conscience', 'évanouissement', 'syncope',
+                    'saignement abondant', 'hémorragie',
+                    'paralysie', 'engourdissement soudain',
+                    'convulsion', 'crise épilepsie'
+                ];
+
+                const emergencyBodyParts = ['poitrine', 'cou'];
+
+                return emergencyKeywords.some(keyword => question.includes(keyword)) ||
+                       emergencyBodyParts.includes(bodyPart);
+            }
+
+            generateEmergencyResponse(question, context) {
                 return `
-                    <h4>🩺 Analyse médicale générale</h4>
-                    
-                    <p><strong>Question analysée :</strong> "${question}"</p>
-                    
-                    <p><strong>Évaluation initiale :</strong></p>
+                    <div class="emergency-alert">
+                        <h3>🚨 URGENCE MÉDICALE DÉTECTÉE</h3>
+                        <p><strong>Vos symptômes nécessitent une prise en charge immédiate</strong></p>
+                        <button class="emergency-btn" onclick="window.open('tel:15')">📞 Appeler le 15 (SAMU)</button>
+                        <button class="emergency-btn" onclick="window.open('tel:18')">🚒 Appeler les Pompiers</button>
+                    </div>
+
+                    <h4>🎯 Analyse de votre situation</h4>
+                    <p><strong>Contexte identifié :</strong> ${context}</p>
+                    <p><strong>Symptômes rapportés :</strong> "${question}"</p>
+
+                    <p><strong>⚠️ ACTIONS IMMÉDIATES :</strong></p>
                     <ul>
-                        <li>Symptômes décrits nécessitent une évaluation personnalisée</li>
-                        <li>Importance du contexte médical personnel</li>
-                        <li>Recommandation d'une consultation médicale</li>
+                        <li>Appelez immédiatement le 15 (SAMU)</li>
+                        <li>Restez calme et en sécurité</li>
+                        <li>Ne prenez aucun médicament</li>
+                        <li>Préparez vos informations médicales</li>
+                        <li>Si possible, faites-vous accompagner</li>
                     </ul>
+
+                    <p><strong>📞 Numéros d'urgence :</strong></p>
+                    <ul>
+                        <li>SAMU : 15</li>
+                        <li>Pompiers : 18</li>
+                        <li>Urgences européennes : 112</li>
+                        <li>SOS Médecins : 3624</li>
+                    </ul>
+                `;
+            }
+
+            generateBodyPartResponse(bodyPart, painLevel, question) {
+                const responses = {
+                    'tête': `
+                        <h4>🧠 Analyse des céphalées - Zone : ${bodyPart}</h4>
+                        <p><strong>Intensité rapportée :</strong> ${painLevel}/10</p>
+                        
+                        ${painLevel >= 7 ? '<div style="background:#ffebee; padding:15px; border-radius:8px; margin:10px 0;"><strong>⚠️ Douleur intense détectée</strong> - Consultation urgente recommandée</div>' : ''}
+                        
+                        <p><strong>Causes possibles selon l'intensité :</strong></p>
+                        <ul>
+                            <li>Tension/stress (intensité 1-4)</li>
+                            <li>Migraine classique (intensité 5-7)</li>
+                            <li>Céphalée secondaire possible (intensité 8-10)</li>
+                        </ul>
+
+                        <p><strong>Recommandations personnalisées :</strong></p>
+                        <ul>
+                            <li>Repos dans un environnement calme</li>
+                            <li>Hydratation (2-3 verres d'eau)</li>
+                            <li>Compresse froide sur le front</li>
+                            ${painLevel <= 5 ? '<li>Paracétamol 1g si nécessaire</li>' : '<li>Consultation médicale recommandée avant automédication</li>'}
+                        </ul>
+                    `,
+
+                    'poitrine': `
+                        <h4>❤️ Analyse des douleurs thoraciques - Zone : ${bodyPart}</h4>
+                        <p><strong>⚠️ ATTENTION : Zone nécessitant une évaluation médicale</strong></p>
+                        <p><strong>Intensité rapportée :</strong> ${painLevel}/10</p>
+                        
+                        ${painLevel >= 6 ? this.generateEmergencyResponse(question, `Zone: ${bodyPart}, Douleur: ${painLevel}/10`) : `
+                        <p><strong>Évaluation immédiate nécessaire :</strong></p>
+                        <ul>
+                            <li>Type de douleur : serrement, brûlure, piqûre ?</li>
+                            <li>Irradiation vers bras, mâchoire, dos ?</li>
+                            <li>Essoufflement associé ?</li>
+                            <li>Facteurs déclenchants ?</li>
+                        </ul>
+
+                        <p><strong>📞 Consultez rapidement si :</strong></p>
+                        <ul>
+                            <li>Douleur persistante > 15 minutes</li>
+                            <li>Essoufflement important</li>
+                            <li>Irradiation vers le bras gauche</li>
+                            <li>Malaise associé</li>
+                        </ul>
+                        `}
+                    `,
+
+                    'abdomen': `
+                        <h4>🫄 Analyse des douleurs abdominales - Zone : ${bodyPart}</h4>
+                        <p><strong>Intensité rapportée :</strong> ${painLevel}/10</p>
+                        
+                        <p><strong>Localisation plus précise nécessaire :</strong></p>
+                        <ul>
+                            <li>Haute (estomac, foie, vésicule)</li>
+                            <li>Moyenne (intestin grêle, côlon)</li>
+                            <li>Basse (appendice, organes pelviens)</li>
+                        </ul>
+
+                        <p><strong>Signes d'accompagnement à surveiller :</strong></p>
+                        <ul>
+                            <li>Nausées, vomissements</li>
+                            <li>Fièvre</li>
+                            <li>Troubles du transit</li>
+                            <li>Ballonnements</li>
+                        </ul>
+
+                        ${painLevel >= 7 ? '<p><strong>🚨 Douleur intense : consultation d\'urgence recommandée</strong></p>' : ''}
+                    `,
+
+                    'jambe gauche': `
+                        <h4>🦵 Analyse - Jambe gauche affectée</h4>
+                        <p><strong>Intensité rapportée :</strong> ${painLevel}/10</p>
+                        
+                        <p><strong>Types de douleurs possibles :</strong></p>
+                        <ul>
+                            <li>Musculaire (effort, crampe)</li>
+                            <li>Articulaire (genou, cheville)</li>
+                            <li>Vasculaire (circulation)</li>
+                            <li>Nerveuse (sciatique)</li>
+                        </ul>
+
+                        <p><strong>Mesures immédiates :</strong></p>
+                        <ul>
+                            <li>Repos et surélévation</li>
+                            <li>Application de froid si traumatisme récent</li>
+                            <li>Éviter l'appui si douleur intense</li>
+                        </ul>
+                    `
+                };
+
+                return responses[bodyPart] || this.generateGeneralResponse(question, `Zone: ${bodyPart}, Douleur: ${painLevel}/10`);
+            }
+
+            generateHeadacheResponse(painLevel) {
+                return `
+                    <h4>🧠 Analyse spécialisée des céphalées</h4>
+                    <p><strong>Niveau d'intensité :</strong> ${painLevel}/10</p>
+                    
+                    ${painLevel >= 8 ? '<div class="emergency-alert"><p>🚨 Céphalée très intense - Consultation d\'urgence recommandée</p></div>' : ''}
+                    
+                    <p><strong>Classification selon l'intensité :</strong></p>
+                    <ul>
+                        <li>Légère (1-3) : Tension, fatigue</li>
+                        <li>Modérée (4-6) : Migraine classique</li>
+                        <li>Sévère (7-8) : Migraine forte</li>
+                        <li>Extrême (9-10) : Urgence médicale</li>
+                    </ul>
+
+                    <p><strong>Plan de traitement personnalisé :</strong></p>
+                    <ul>
+                        ${painLevel <= 3 ? '<li>Repos, hydratation, relaxation</li>' : ''}
+                        ${painLevel >= 4 && painLevel <= 6 ? '<li>Paracétamol ou ibuprofène, repos en environnement calme</li>' : ''}
+                        ${painLevel >= 7 ? '<li>Consultation médicale recommandée pour évaluation</li>' : ''}
+                    </ul>
+                `;
+            }
+
+            generateFeverResponse() {
+                return `
+                    <h4>🌡️ Gestion de la fièvre</h4>
+                    
+                    <p><strong>Évaluation nécessaire :</strong></p>
+                    <ul>
+                        <li>Température exacte ?</li>
+                        <li>Depuis quand ?</li>
+                        <li>Signes associés ?</li>
+                    </ul>
+
+                    <p><strong>Conduite à tenir par température :</strong></p>
+                    <ul>
+                        <li>37.5-38.5°C : Surveillance, hydratation</li>
+                        <li>38.5-39.5°C : Antipyrétiques si besoin</li>
+                        <li>>39.5°C : Consultation médicale</li>
+                        <li>>40°C : Urgence médicale</li>
+                    </ul>
+                `;
+            }
+
+            generateGeneralResponse(question, context) {
+                return `
+                    <h4>🩺 Analyse médicale personnalisée</h4>
+                    
+                    ${context ? `<p><strong>Contexte :</strong> ${context}</p>` : ''}
+                    <p><strong>Question analysée :</strong> "${question}"</p>
                     
                     <p><strong>Recommandations générales :</strong></p>
                     <ul>
                         <li>Surveillance de l'évolution des symptômes</li>
-                        <li>Notation de la date d'apparition et intensité</li>
-                        <li>Hydratation régulière (1.5-2L/jour)</li>
-                        <li>Repos adapté selon les symptômes</li>
-                        <li>Éviter l'automédication sans avis médical</li>
+                        <li>Notation précise des caractéristiques</li>
+                        <li>Hydratation adaptée</li>
+                        <li>Repos selon les besoins</li>
                     </ul>
-                    
+
                     <p><strong>Consultation recommandée si :</strong></p>
                     <ul>
-                        <li>Persistance ou aggravation des symptômes</li>
-                        <li>Apparition de nouveaux signes associés</li>
-                        <li>Inquiétude particulière du patient</li>
-                        <li>Antécédents médicaux significatifs</li>
+                        <li>Aggravation des symptômes</li>
+                        <li>Nouveaux signes associés</li>
+                        <li>Persistance > 48-72h</li>
+                        <li>Inquiétude du patient</li>
                     </ul>
-                    
-                    <p><strong>📞 Contacts médicaux utiles :</strong></p>
+
+                    <p><strong>📞 Contacts utiles :</strong></p>
                     <ul>
-                        <li>Urgences vitales : 15 (SAMU)</li>
                         <li>Médecin traitant (consultation programmée)</li>
-                        <li>SOS Médecins : 3624 (24h/24)</li>
-                        <li>Pharmacien de garde pour conseils</li>
-                        <li>Téléconsultation si disponible</li>
+                        <li>SOS Médecins : 3624</li>
+                        <li>Urgences : 15 (SAMU)</li>
+                        <li>Pharmacien pour conseils</li>
                     </ul>
                 `;
             }
 
             showLoading() {
-                this.askButton.disabled = true;
+                this.analyzeBtn.disabled = true;
                 this.loading.classList.add('show');
                 this.responseSection.classList.remove('show');
+                this.progressFill.style.width = '0%';
             }
 
             hideLoading() {
-                this.askButton.disabled = false;
+                this.analyzeBtn.disabled = false;
                 this.loading.classList.remove('show');
             }
 
             showResponse(response) {
                 this.responseContent.innerHTML = response;
                 this.responseSection.classList.add('show');
+                
+                // Scroll vers la réponse
+                this.responseSection.scrollIntoView({ behavior: 'smooth' });
             }
 
             showError(message) {
                 this.responseContent.innerHTML = `
-                    <div style="color: #d32f2f; background: #ffebee; padding: 15px; border-radius: 8px;">
+                    <div style="color: #d32f2f; background: #ffebee; padding: 20px; border-radius: 10px;">
                         <strong>❌ Erreur :</strong> ${message}
                     </div>
                 `;
                 this.responseSection.classList.add('show');
             }
-        }
 
-        // Fonction pour les exemples
-        function setExample(text) {
-            document.getElementById('questionInput').value = text;
+            playClickSound() {
+                // Son de clic (si supported)
+                try {
+                    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSsFJHfH8N2QQAoUXrTp66hVFApGn+zxtGQcBP');
+                    audio.volume = 0.1;
+                    audio.play();
+                } catch (e) {
+                    // Silently fail if audio not supported
+                }
+            }
         }
 
         // Initialisation
         document.addEventListener('DOMContentLoaded', () => {
-            new MedicalAssistant();
+            new MedicalAssistantV2();
         });
     </script>
 </body>
