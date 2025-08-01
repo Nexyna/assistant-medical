@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assistant Médical IA 2.0 - Nexyna</title>
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2196F3">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Médical IA">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMzIiIGZpbGw9IiMyMTk2RjMiLz4KPHBhdGggZD0iTTk2IDQ4QzEwNC44MzcgNDggMTEyIDU1LjE2MyAxMTIgNjRWODBIMTI4QzEzNi44MzcgODAgMTQ0IDg3LjE2MyAxNDQgOTZTMTM2LjgzNyAxMTIgMTI4IDExMkgxMTJWMTI4QzExMiAxMzYuODM3IDEwNC44MzcgMTQ0IDk2IDE0NEM4Ny4xNjMgMTQ0IDgwIDEzNi44MzcgODAgMTI4VjExMkg2NEM1NS4xNjMgMTEyIDQ4IDEwNC44MzcgNDggOTZTNTUuMTYzIDgwIDY0IDgwSDgwVjY0QzgwIDU1LjE2MyA4Ny4xNjMgNDggOTYgNDhaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K">
     <style>
         * {
             margin: 0;
@@ -1129,5 +1136,60 @@ Exemple: 'J'ai mal à la tête depuis 2 jours, la douleur s'intensifie le matin,
             new MedicalAssistantV2();
         });
     </script>
+
+ <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js')
+                    .then(function(registration) {
+                        console.log('SW registered: ', registration);
+                        
+                        setTimeout(() => {
+                            if (!window.matchMedia('(display-mode: standalone)').matches) {
+                                showInstallPrompt();
+                            }
+                        }, 3000);
+                    })
+                    .catch(function(registrationError) {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallPrompt();
+        });
+
+        function showInstallPrompt() {
+            const installBanner = document.createElement('div');
+            installBanner.innerHTML = \`
+                <div style="position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(135deg, #2196F3, #1976D2); color: white; padding: 15px; text-align: center; z-index: 9999; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+                    <p style="margin: 0; font-weight: bold;">📱 Installez l'application sur votre téléphone !</p>
+                    <button onclick="installApp()" style="background: white; color: #2196F3; border: none; padding: 8px 20px; border-radius: 20px; margin: 5px; font-weight: bold; cursor: pointer;">Installer</button>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 15px; border-radius: 20px; margin: 5px; cursor: pointer;">Plus tard</button>
+                </div>
+            \`;
+            document.body.appendChild(installBanner);
+        }
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('App installée !');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+    </script>
+</body>
+</html>   
 </body>
 </html>
