@@ -1,0 +1,24 @@
+{
+  "name": "Assistant Médical IA - Nexyna",
+  "short_name": "MédicalAI",
+  "description": "Assistant médical intelligent avec reconnaissance vocale et analyse interactive",
+  "start_url": "/assistant-medical/",
+  "display": "standalone",
+  "background_color": "#2196F3",
+  "theme_color": "#1976D2",
+  "orientation": "portrait",
+  "categories": ["medical", "health", "productivity"],
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMzIiIGZpbGw9IiMyMTk2RjMiLz4KPHBhdGggZD0iTTk2IDQ4QzEwNC44MzcgNDggMTEyIDU1LjE2MyAxMTIgNjRWODBIMTI4QzEzNi44MzcgODAgMTQ0IDg3LjE2MyAxNDQgOTZTMTM2LjgzNyAxMTIgMTI4IDExMkgxMTJWMTI4QzExMiAxMzYuODM3IDEwNC44MzcgMTQ0IDk2IDE0NEM4Ny4xNjMgMTQ0IDgwIDEzNi44MzcgODAgMTI4VjExMkg2NEM1NS4xNjMgMTEyIDQ4IDEwNC44MzcgNDggOTZTNTUuMTYzIDgwIDY0IDgwSDgwVjY0QzgwIDU1LjE2MyA4Ny4xNjMgNDggOTYgNDhaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iODUiIGZpbGw9IiMyMTk2RjMiLz4KPHBhdGggZD0iTTI1NiAxMjhDMjc5IDEyOCAyOTggMTQ3IDI5OCAxNzBWMjEzSDM0MUMzNjQgMjEzIDM4NCAyMzMgMzg0IDI1NlMyNjQgMjk5IDM0MSAyOTlIMjk4VjM0MkMyOTggMzY1IDI3OSAzODQgMjU2IDM4NEMyMzMgMzg0IDIxNCAzNjUgMjE0IDM0MlYyOTlIMTcxQzE0OCAyOTkgMTI4IDI3OSAxMjggMjU2UzE0OCAyMTMgMTcxIDIxM0gyMTRWMTcwQzIxNCAxNDcgMjMzIDEyOCAyNTYgMTI4WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
