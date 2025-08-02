@@ -1,4 +1,26 @@
 <!DOCTYPE html>
+<!--
+╔══════════════════════════════════════════════════════════════════╗
+║                    ASSISTANT MÉDICAL IA v4.0 ULTIMATE           ║
+║                         COPYRIGHT PROTECTION                      ║
+╠══════════════════════════════════════════════════════════════════╣
+║ © 2025 NEXYNA - TOUS DROITS RÉSERVÉS                           ║
+║ © 2025 NEXYNA - ALL RIGHTS RESERVED                            ║
+║                                                                  ║
+║ Auteur : Amine Kheloufi (amine@nexyna.ai)                        ║
+║ Author : Amine Kheloufi (amine@nexyna.ai)                        ║
+║ Première publication : 02/08/2025                              ║
+║                                                                  ║
+║ ⚠️  REPRODUCTION INTERDITE SANS AUTORISATION                   ║
+║ ⚠️  REPRODUCTION PROHIBITED WITHOUT AUTHORIZATION              ║
+║                                                                  ║
+║ Toute violation sera poursuivie selon la loi                   ║
+║ Any violation will be prosecuted according to law              ║
+║                                                                  ║
+║ Voir LICENSE pour conditions d'utilisation                     ║
+║ See LICENSE file for usage terms                               ║
+╚══════════════════════════════════════════════════════════════════╝
+-->
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -3115,6 +3137,15 @@
                         Machine Learning, IoT Integration, Cloud Sync, Telemedicine Platform.
                         Il ne remplace pas un diagnostic médical professionnel.
                     </p>
+                    <!-- Watermark Copyright Kheloufi -->
+<div class="nexyna-watermark" style="position: fixed; bottom: 10px; right: 10px; background: linear-gradient(135deg, #2196F3, #1976D2); color: white; padding: 8px 12px; border-radius: 15px; font-size: 11px; z-index: 9999; backdrop-filter: blur(10px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);">
+    <div style="display: flex; align-items: center; gap: 5px;">
+        <span>🏥</span>
+        <span style="font-weight: bold;">© 2025 Kheloufi</span>
+    </div>
+    <div style="font-size: 9px; opacity: 0.8; text-align: center;">v4.0 Ultimate</div>
+    <div style="font-size: 8px; opacity: 0.6; text-align: center;">amine@nexyna.ai</div>
+</div>
                 </body>
                 </html>
             `);
@@ -3126,7 +3157,38 @@
             medicalAssistant.manualSync();
             alert('💾 Consultation sauvegardée dans l\'historique et synchronisée avec le cloud !');
         }
-
+// 🛡️ PROTECTION COPYRIGHT NEXYNA
+        console.clear();
+        console.log('%c🏥 ASSISTANT MÉDICAL IA v4.0 ULTIMATE', 'color: #2196F3; font-size: 20px; font-weight: bold;');
+        console.log('%c© 2025 NEXYNA - Amine Kheloufi', 'color: #f44336; font-size: 14px; font-weight: bold;');
+        console.log('%c📧 Contact: amine@nexyna.ai', 'color: #4caf50; font-size: 12px;');
+        console.log('%c⚠️ Code protégé par copyright - Reproduction interdite', 'color: #ff9800; font-size: 12px;');
+        console.log('%c🚫 Any unauthorized reproduction is prohibited', 'color: #ff9800; font-size: 12px;');
+        console.log('%c📋 Voir LICENSE pour autorisations', 'color: #9c27b0; font-size: 12px;');
+        
+        // Protection contre copie
+        document.addEventListener('contextmenu', e => {
+            e.preventDefault();
+            alert('⚠️ Contenu protégé par copyright © 2025 Nexyna\n📧 amine@nexyna.ai');
+        });
+        
+        document.addEventListener('selectstart', e => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            e.preventDefault();
+        });
+        
+        // Signature développeur
+        window.NEXYNA_COPYRIGHT = {
+            author: 'Amine Kheloufi',
+            email: 'amine@nexyna.ai',
+            year: 2025,
+            version: '4.0 Ultimate',
+            rights: 'All Rights Reserved',
+            license: 'Voir LICENSE file'
+        };
+        
+        // Protection avancée
+        Object.freeze(window.NEXYNA_COPYRIGHT);
         // Initialisation
         let medicalAssistant;
         document.addEventListener('DOMContentLoaded', () => {
