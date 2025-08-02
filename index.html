@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistant Médical IA 2.0 - Nexyna</title>
+    <title>Assistant Médical IA 3.0 - Nexyna Pro</title>
     <style>
         * {
             margin: 0;
@@ -18,7 +18,6 @@
             overflow-x: hidden;
         }
 
-        /* Particules animées d'arrière-plan */
         .particles {
             position: fixed;
             top: 0;
@@ -48,7 +47,7 @@
             backdrop-filter: blur(10px);
             border-radius: 25px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-            max-width: 1200px;
+            max-width: 1400px;
             width: 95%;
             margin: 20px auto;
             overflow: hidden;
@@ -63,48 +62,16 @@
         .header {
             background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
             color: white;
-            padding: 40px;
+            padding: 30px;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: shine 3s ease-in-out infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-        }
-
         .header h1 {
-            font-size: 3em;
-            margin-bottom: 15px;
+            font-size: 2.8em;
+            margin-bottom: 10px;
             font-weight: 300;
-            position: relative;
-            z-index: 2;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { text-shadow: 0 0 20px rgba(255,255,255,0.5); }
-            to { text-shadow: 0 0 30px rgba(255,255,255,0.8); }
-        }
-
-        .header p {
-            font-size: 1.3em;
-            opacity: 0.95;
-            position: relative;
-            z-index: 2;
         }
 
         .version-badge {
@@ -116,54 +83,133 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
-            backdrop-filter: blur(10px);
         }
 
         .main-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 350px 1fr 400px;
             gap: 30px;
-            padding: 40px;
-        }
-
-        .left-panel {
-            animation: slideInLeft 0.8s ease-out 0.2s both;
-        }
-
-        .right-panel {
-            animation: slideInRight 0.8s ease-out 0.4s both;
-        }
-
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .body-diagram {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 20px;
             padding: 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .body-diagram h3 {
+        /* Panneau patient */
+        .patient-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .patient-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
             color: #1976D2;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #2196F3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+
+        .patient-summary {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        /* Panneau central - Corps */
+        .body-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .body-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
             margin-bottom: 20px;
-            font-size: 1.5em;
+        }
+
+        .body-type-btn {
+            padding: 10px 20px;
+            border: 2px solid #2196F3;
+            background: white;
+            color: #2196F3;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .body-type-btn.active {
+            background: #2196F3;
+            color: white;
+        }
+
+        .view-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .view-btn {
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .view-btn.active {
+            background: #4caf50;
+            color: white;
+        }
+
+        .body-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
 
         .body-svg {
             width: 100%;
-            max-width: 300px;
-            height: auto;
+            max-width: 280px;
+            height: 450px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -178,33 +224,29 @@
 
         .body-part:hover {
             fill: #2196F3;
-            transform: scale(1.05);
+            stroke: #1976D2;
+            stroke-width: 3;
             filter: drop-shadow(0 5px 15px rgba(33, 150, 243, 0.4));
         }
 
         .body-part.selected {
             fill: #f44336;
             stroke: #d32f2f;
+            stroke-width: 3;
             animation: pulse 1s ease-in-out infinite;
         }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.05); }
         }
 
         .pain-scale {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
             margin: 20px 0;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .pain-scale h4 {
-            color: #1976D2;
-            margin-bottom: 15px;
-            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .pain-slider {
@@ -213,36 +255,27 @@
             border-radius: 5px;
             background: linear-gradient(to right, #4caf50, #ffeb3b, #ff9800, #f44336);
             outline: none;
-            margin: 20px 0;
-        }
-
-        .pain-slider::-webkit-slider-thumb {
-            appearance: none;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background: white;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .pain-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
+            margin: 15px 0;
         }
 
         .pain-display {
             text-align: center;
-            font-size: 2em;
-            margin: 15px 0;
-            transition: all 0.3s ease;
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* Panneau droit - Symptômes */
+        .symptoms-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
         .voice-controls {
             background: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%);
             border-radius: 15px;
-            padding: 25px;
-            margin: 20px 0;
+            padding: 20px;
             text-align: center;
         }
 
@@ -250,19 +283,17 @@
             background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 15px 25px;
             border-radius: 50px;
-            font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 10px;
-            position: relative;
-            overflow: hidden;
+            width: 100%;
+            margin: 10px 0;
         }
 
         .voice-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
         }
 
         .voice-btn.recording {
@@ -278,20 +309,18 @@
         .question-input {
             background: white;
             border-radius: 15px;
-            padding: 25px;
-            margin: 20px 0;
+            padding: 20px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
 
         .question-input textarea {
             width: 100%;
-            padding: 20px;
+            padding: 15px;
             border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            font-size: 16px;
-            font-family: inherit;
-            resize: vertical;
+            border-radius: 10px;
+            font-size: 14px;
             min-height: 120px;
+            resize: vertical;
             transition: all 0.3s ease;
         }
 
@@ -299,7 +328,6 @@
             outline: none;
             border-color: #2196F3;
             box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
-            transform: scale(1.02);
         }
 
         .analyze-btn {
@@ -308,96 +336,54 @@
             border: none;
             padding: 18px 40px;
             border-radius: 50px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: block;
-            margin: 20px auto;
-            position: relative;
-            overflow: hidden;
+            width: 100%;
+            margin-top: 15px;
         }
 
         .analyze-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(33, 150, 243, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(33, 150, 243, 0.3);
         }
 
-        .analyze-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .analyze-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            transform: translate(-50%, -50%);
-        }
-
-        .analyze-btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 30px;
+        .quick-symptoms {
             background: white;
             border-radius: 15px;
-            margin: 20px 0;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
 
-        .loading.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
+        .symptom-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
         }
 
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #2196F3;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+        .symptom-tag {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .symptom-tag:hover {
+            background: #2196F3;
+            color: white;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: #e0e0e0;
-            border-radius: 3px;
-            overflow: hidden;
-            margin: 20px 0;
+        .symptom-tag.selected {
+            background: #4caf50;
+            color: white;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #2196F3, #4caf50);
-            width: 0%;
-            transition: width 0.3s ease;
-            animation: shimmer 2s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200px 0; }
-            100% { background-position: 200px 0; }
-        }
-
+        /* Section réponse */
         .response-section {
             background: white;
             border-radius: 20px;
@@ -419,33 +405,6 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        .response-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .response-icon {
-            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-            font-size: 20px;
-            animation: bounceIn 0.6s ease-out;
-        }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); }
-            50% { transform: scale(1.05); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); }
-        }
-
         .emergency-alert {
             background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
             color: white;
@@ -458,24 +417,63 @@
 
         @keyframes emergencyBlink {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            50% { opacity: 0.8; }
         }
 
-        .emergency-btn {
+        .history-section {
             background: white;
-            color: #f44336;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            grid-column: 1 / -1;
+        }
+
+        .history-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #2196F3;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: bold;
-            margin: 10px;
+            padding: 12px 25px;
+            border-radius: 25px;
             cursor: pointer;
+            margin: 10px 5px;
             transition: all 0.3s ease;
         }
 
-        .emergency-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2196F3;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .disclaimer {
@@ -487,38 +485,28 @@
             font-size: 14px;
             color: #856404;
             grid-column: 1 / -1;
-            animation: fadeIn 0.8s ease-out 0.6s both;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
         }
 
         @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                width: calc(100% - 20px);
+            }
+            
             .main-content {
-                grid-template-columns: 1fr;
                 padding: 20px;
             }
             
             .header h1 {
-                font-size: 2.2em;
+                font-size: 2em;
             }
-            
-            .container {
-                margin: 10px;
-            }
-        }
-
-        /* Effets de typing */
-        .typing-effect {
-            border-right: 2px solid #2196F3;
-            animation: blink 1s step-end infinite;
-        }
-
-        @keyframes blink {
-            0%, 50% { border-color: transparent; }
-            51%, 100% { border-color: #2196F3; }
         }
     </style>
 </head>
@@ -528,156 +516,366 @@
 
     <div class="container">
         <div class="header">
-            <div class="version-badge">v2.0 BETA</div>
-            <h1>🏥 Assistant Médical IA</h1>
-            <p>Analyse intelligente et interactive de vos symptômes</p>
+            <div class="version-badge">v3.0 PRO</div>
+            <h1>🏥 Assistant Médical IA Pro</h1>
+            <p>Consultation médicale virtuelle complète avec IA avancée</p>
         </div>
 
         <div class="main-content">
-            <div class="left-panel">
-                <!-- Schéma corporel interactif -->
-                <div class="body-diagram">
-                    <h3>📍 Où avez-vous mal ?</h3>
-                    <p>Cliquez sur la zone douloureuse</p>
-                    <svg class="body-svg" viewBox="0 0 200 400" id="bodySvg">
-                        <!-- Tête -->
-                        <circle class="body-part" data-part="tête" cx="100" cy="40" r="25" />
-                        <!-- Cou -->
-                        <rect class="body-part" data-part="cou" x="90" y="65" width="20" height="15" />
-                        <!-- Torse -->
-                        <rect class="body-part" data-part="poitrine" x="70" y="80" width="60" height="80" />
-                        <!-- Bras gauche -->
-                        <rect class="body-part" data-part="bras gauche" x="40" y="90" width="25" height="70" />
-                        <!-- Bras droit -->
-                        <rect class="body-part" data-part="bras droit" x="135" y="90" width="25" height="70" />
-                        <!-- Abdomen -->
-                        <rect class="body-part" data-part="abdomen" x="75" y="160" width="50" height="60" />
-                        <!-- Jambe gauche -->
-                        <rect class="body-part" data-part="jambe gauche" x="75" y="220" width="20" height="100" />
-                        <!-- Jambe droite -->
-                        <rect class="body-part" data-part="jambe droite" x="105" y="220" width="20" height="100" />
-                        <!-- Pieds -->
-                        <ellipse class="body-part" data-part="pied gauche" cx="85" cy="340" rx="15" ry="8" />
-                        <ellipse class="body-part" data-part="pied droit" cx="115" cy="340" rx="15" ry="8" />
-                    </svg>
-                    <div id="selectedPart" style="margin-top: 15px; font-weight: bold; color: #1976D2;"></div>
-                </div>
-
-                <!-- Échelle de douleur -->
-                <div class="pain-scale">
-                    <h4>📊 Intensité de la douleur</h4>
-                    <input type="range" class="pain-slider" id="painScale" min="0" max="10" value="0">
-                    <div class="pain-display" id="painDisplay">😊 0/10</div>
-                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: #666;">
-                        <span>Aucune</span>
-                        <span>Modérée</span>
-                        <span>Extrême</span>
+            <!-- Panneau Patient -->
+            <div class="patient-panel">
+                <h3 style="color: #1976D2; margin-bottom: 20px;">👤 Informations Patient</h3>
+                <form class="patient-form" id="patientForm">
+                    <div class="form-group">
+                        <label for="firstName">Prénom *</label>
+                        <input type="text" id="firstName" required>
                     </div>
-                </div>
-
-                <!-- Contrôles vocaux -->
-                <div class="voice-controls">
-                    <h4>🎤 Parlez à l'assistant</h4>
-                    <button class="voice-btn" id="voiceBtn">
-                        <span id="voiceText">🎤 Cliquez et parlez</span>
-                    </button>
-                    <div id="voiceResult" style="margin-top: 10px; font-style: italic; color: #666;"></div>
+                    
+                    <div class="form-group">
+                        <label for="lastName">Nom *</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="birthDate">Date de naissance *</label>
+                        <input type="date" id="birthDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gender">Sexe *</label>
+                        <select id="gender" required>
+                            <option value="">Sélectionner</option>
+                            <option value="homme">Homme</option>
+                            <option value="femme">Femme</option>
+                            <option value="enfant-garcon">Enfant (Garçon)</option>
+                            <option value="enfant-fille">Enfant (Fille)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="weight">Poids (kg)</label>
+                        <input type="number" id="weight" min="1" max="300">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="height">Taille (cm)</label>
+                        <input type="number" id="height" min="50" max="250">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="allergies">Allergies connues</label>
+                        <textarea id="allergies" rows="3" placeholder="Médicaments, aliments, substances..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="medications">Traitements actuels</label>
+                        <textarea id="medications" rows="3" placeholder="Médicaments pris régulièrement..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="medicalHistory">Antécédents médicaux</label>
+                        <textarea id="medicalHistory" rows="4" placeholder="Maladies, opérations, hospitalisations..."></textarea>
+                    </div>
+                </form>
+                
+                <div class="patient-summary" id="patientSummary">
+                    <strong>📋 Résumé:</strong>
+                    <div id="summaryContent">Remplissez les informations ci-dessus</div>
                 </div>
             </div>
 
-            <div class="right-panel">
-                <!-- Question écrite -->
-                <div class="question-input">
-                    <h4>✍️ Ou décrivez vos symptômes</h4>
-                    <textarea id="questionInput" placeholder="Décrivez précisément vos symptômes, leur début, leur évolution...
-
-Exemple: 'J'ai mal à la tête depuis 2 jours, la douleur s'intensifie le matin, j'ai aussi des nausées...'"></textarea>
+            <!-- Panneau Corps -->
+            <div class="body-panel">
+                <h3 style="color: #1976D2; margin-bottom: 20px;">🫁 Localisation des symptômes</h3>
+                
+                <!-- Contrôles type de corps -->
+                <div class="body-controls">
+                    <button class="body-type-btn active" data-type="homme">👨 Homme</button>
+                    <button class="body-type-btn" data-type="femme">👩 Femme</button>
+                    <button class="body-type-btn" data-type="enfant">🧒 Enfant</button>
                 </div>
-
-                <button class="analyze-btn" id="analyzeBtn">
-                    🔍 Analyser mes symptômes
-                </button>
-
-                <!-- Loading avec progress bar -->
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                    <p id="loadingText">Analyse en cours...</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
+                
+                <!-- Contrôles de vue -->
+                <div class="view-controls">
+                    <button class="view-btn active" data-view="face">Face</button>
+                    <button class="view-btn" data-view="profile">Profil</button>
+                    <button class="view-btn" data-view="back">Dos</button>
+                </div>
+                
+                <!-- Container du corps -->
+                <div class="body-container">
+                    <svg class="body-svg" viewBox="0 0 300 450" id="bodySvg">
+                        <!-- Corps Homme Face -->
+                        <g id="homme-face" class="body-view">
+                            <!-- Tête -->
+                            <ellipse class="body-part" data-part="tête" cx="150" cy="50" rx="35" ry="40" />
+                            <!-- Cou -->
+                            <rect class="body-part" data-part="cou" x="135" y="90" width="30" height="25" />
+                            <!-- Épaules -->
+                            <ellipse class="body-part" data-part="épaule gauche" cx="100" cy="130" rx="25" ry="15" />
+                            <ellipse class="body-part" data-part="épaule droite" cx="200" cy="130" rx="25" ry="15" />
+                            <!-- Torse -->
+                            <rect class="body-part" data-part="poitrine" x="110" y="115" width="80" height="80" />
+                            <!-- Bras -->
+                            <rect class="body-part" data-part="bras gauche" x="70" y="140" width="25" height="80" />
+                            <rect class="body-part" data-part="bras droit" x="205" y="140" width="25" height="80" />
+                            <!-- Avant-bras -->
+                            <rect class="body-part" data-part="avant-bras gauche" x="72" y="220" width="21" height="70" />
+                            <rect class="body-part" data-part="avant-bras droit" x="207" y="220" width="21" height="70" />
+                            <!-- Mains -->
+                            <ellipse class="body-part" data-part="main gauche" cx="82" cy="305" rx="12" ry="18" />
+                            <ellipse class="body-part" data-part="main droite" cx="218" cy="305" rx="12" ry="18" />
+                            <!-- Abdomen -->
+                            <rect class="body-part" data-part="abdomen" x="115" y="195" width="70" height="70" />
+                            <!-- Hanches -->
+                            <rect class="body-part" data-part="bassin" x="120" y="265" width="60" height="40" />
+                            <!-- Cuisses -->
+                            <rect class="body-part" data-part="cuisse gauche" x="125" y="305" width="25" height="80" />
+                            <rect class="body-part" data-part="cuisse droite" x="150" y="305" width="25" height="80" />
+                            <!-- Genoux -->
+                            <circle class="body-part" data-part="genou gauche" cx="137" cy="385" r="12" />
+                            <circle class="body-part" data-part="genou droit" cx="162" cy="385" r="12" />
+                            <!-- Jambes -->
+                            <rect class="body-part" data-part="jambe gauche" x="127" y="397" width="20" height="75" />
+                            <rect class="body-part" data-part="jambe droite" x="153" y="397" width="20" height="75" />
+                            <!-- Pieds -->
+                            <ellipse class="body-part" data-part="pied gauche" cx="137" cy="485" rx="18" ry="12" />
+                            <ellipse class="body-part" data-part="pied droit" cx="162" cy="485" rx="18" ry="12" />
+                        </g>
+                        
+                        <!-- Corps Femme Face (caché par défaut) -->
+                        <g id="femme-face" class="body-view" style="display: none;">
+                            <!-- Structure similaire mais adaptée -->
+                            <ellipse class="body-part" data-part="tête" cx="150" cy="50" rx="32" ry="38" />
+                            <rect class="body-part" data-part="cou" x="138" y="88" width="24" height="22" />
+                            <ellipse class="body-part" data-part="épaule gauche" cx="105" cy="125" rx="22" ry="12" />
+                            <ellipse class="body-part" data-part="épaule droite" cx="195" cy="125" rx="22" ry="12" />
+                            <rect class="body-part" data-part="poitrine" x="115" y="110" width="70" height="75" />
+                            <rect class="body-part" data-part="bras gauche" x="75" y="135" width="22" height="75" />
+                            <rect class="body-part" data-part="bras droit" x="203" y="135" width="22" height="75" />
+                            <rect class="body-part" data-part="avant-bras gauche" x="77" y="210" width="18" height="65" />
+                            <rect class="body-part" data-part="avant-bras droit" x="205" y="210" width="18" height="65" />
+                            <ellipse class="body-part" data-part="main gauche" cx="86" cy="285" rx="10" ry="15" />
+                            <ellipse class="body-part" data-part="main droite" cx="214" cy="285" rx="10" ry="15" />
+                            <rect class="body-part" data-part="abdomen" x="120" y="185" width="60" height="65" />
+                            <ellipse class="body-part" data-part="bassin" cx="150" cy="275" rx="35" ry="25" />
+                            <rect class="body-part" data-part="cuisse gauche" x="130" y="300" width="22" height="85" />
+                            <rect class="body-part" data-part="cuisse droite" x="148" y="300" width="22" height="85" />
+                            <circle class="body-part" data-part="genou gauche" cx="141" cy="385" r="10" />
+                            <circle class="body-part" data-part="genou droit" cx="159" cy="385" r="10" />
+                            <rect class="body-part" data-part="jambe gauche" x="133" y="395" width="16" height="75" />
+                            <rect class="body-part" data-part="jambe droite" x="151" y="395" width="16" height="75" />
+                            <ellipse class="body-part" data-part="pied gauche" cx="141" cy="480" rx="15" ry="10" />
+                            <ellipse class="body-part" data-part="pied droit" cx="159" cy="480" rx="15" ry="10" />
+                        </g>
+                        
+                        <!-- Corps Enfant Face (caché par défaut) -->
+                        <g id="enfant-face" class="body-view" style="display: none;">
+                            <!-- Proportions d'enfant -->
+                            <ellipse class="body-part" data-part="tête" cx="150" cy="60" rx="40" ry="45" />
+                            <rect class="body-part" data-part="cou" x="140" y="105" width="20" height="15" />
+                            <ellipse class="body-part" data-part="épaule gauche" cx="110" cy="135" rx="20" ry="10" />
+                            <ellipse class="body-part" data-part="épaule droite" cx="190" cy="135" rx="20" ry="10" />
+                            <rect class="body-part" data-part="poitrine" x="120" y="120" width="60" height="60" />
+                            <rect class="body-part" data-part="bras gauche" x="85" y="140" width="18" height="60" />
+                            <rect class="body-part" data-part="bras droit" x="197" y="140" width="18" height="60" />
+                            <rect class="body-part" data-part="avant-bras gauche" x="87" y="200" width="14" height="50" />
+                            <rect class="body-part" data-part="avant-bras droit" x="199" y="200" width="14" height="50" />
+                            <ellipse class="body-part" data-part="main gauche" cx="94" cy="260" rx="8" ry="12" />
+                            <ellipse class="body-part" data-part="main droite" cx="206" cy="260" rx="8" ry="12" />
+                            <rect class="body-part" data-part="abdomen" x="125" y="180" width="50" height="50" />
+                            <rect class="body-part" data-part="bassin" x="130" y="230" width="40" height="30" />
+                            <rect class="body-part" data-part="cuisse gauche" x="135" y="260" width="18" height="70" />
+                            <rect class="body-part" data-part="cuisse droite" x="147" y="260" width="18" height="70" />
+                            <circle class="body-part" data-part="genou gauche" cx="144" cy="330" r="8" />
+                            <circle class="body-part" data-part="genou droit" cx="156" cy="330" r="8" />
+                            <rect class="body-part" data-part="jambe gauche" x="138" y="338" width="12" height="60" />
+                            <rect class="body-part" data-part="jambe droite" x="150" y="338" width="12" height="60" />
+                            <ellipse class="body-part" data-part="pied gauche" cx="144" cy="408" rx="12" ry="8" />
+                            <ellipse class="body-part" data-part="pied droit" cx="156" cy="408" rx="12" ry="8" />
+                        </g>
+                    </svg>
+                </div>
+                
+                <div id="selectedPart" style="margin-top: 15px; font-weight: bold; color: #1976D2;"></div>
+                
+                <!-- Échelle de douleur -->
+                <div class="pain-scale">
+                    <h4 style="color: #1976D2; margin-bottom: 10px;">📊 Intensité de la douleur</h4>
+                    <input type="range" class="pain-slider" id="painScale" min="0" max="10" value="0">
+                    <div class="pain-display" id="painDisplay">😊 0/10</div>
+                    <div style="display: flex; justify-content: space-between; font-size: 11px; color: #666;">
+                        <span>Aucune</span>
+                        <span>Légère</span>
+                        <span>Modérée</span>
+                        <span>Sévère</span>
+                        <span>Extrême</span>
                     </div>
                 </div>
+            </div>
+
+            <!-- Panneau Symptômes -->
+            <div class="symptoms-panel">
+                <!-- Reconnaissance vocale -->
+                <div class="voice-controls">
+                    <h4 style="color: #1976D2; margin-bottom: 15px;">🎤 Reconnaissance vocale</h4>
+                    <button class="voice-btn" id="voiceBtn">
+                        <span id="voiceText">🎤 Cliquez et décrivez vos symptômes</span>
+                    </button>
+                    <div id="voiceResult" style="margin-top: 10px; font-style: italic; color: #666; font-size: 13px;"></div>
+                </div>
+
+                <!-- Symptômes rapides -->
+                <div class="quick-symptoms">
+                    <h4 style="color: #1976D2; margin-bottom: 10px;">⚡ Symptômes fréquents</h4>
+                    <div class="symptom-tags">
+                        <span class="symptom-tag" data-symptom="mal de tête">Mal de tête</span>
+                        <span class="symptom-tag" data-symptom="fièvre">Fièvre</span>
+                        <span class="symptom-tag" data-symptom="nausée">Nausée</span>
+                        <span class="symptom-tag" data-symptom="fatigue">Fatigue</span>
+                        <span class="symptom-tag" data-symptom="toux">Toux</span>
+                        <span class="symptom-tag" data-symptom="douleur musculaire">Douleur musculaire</span>
+                        <span class="symptom-tag" data-symptom="vertige">Vertige</span>
+                        <span class="symptom-tag" data-symptom="insomnie">Insomnie</span>
+                        <span class="symptom-tag" data-symptom="douleur abdominale">Douleur abdominale</span>
+                        <span class="symptom-tag" data-symptom="difficulté respiration">Difficulté à respirer</span>
+                    </div>
+                </div>
+
+                <!-- Description détaillée -->
+                <div class="question-input">
+                    <h4 style="color: #1976D2; margin-bottom: 15px;">✍️ Description détaillée</h4>
+                    <textarea id="questionInput" placeholder="Décrivez précisément vos symptômes, leur début, leur évolution, les facteurs aggravants ou soulageants...
+
+Exemple: 'Douleur pulsatile au niveau temporal droit depuis hier matin, s'aggrave avec la lumière, accompagnée de nausées...'"></textarea>
+                    
+                    <button class="analyze-btn" id="analyzeBtn">
+                        🔍 Lancer l'analyse complète
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p id="loadingText">Analyse en cours avec IA avancée...</p>
             </div>
 
             <!-- Section Réponse -->
             <div class="response-section" id="responseSection">
-                <div class="response-header">
-                    <div class="response-icon">🩺</div>
-                    <h3>Analyse Médicale Complète</h3>
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <div style="background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-size: 20px;">🩺</div>
+                    <h3>Diagnostic IA - Rapport Complet</h3>
+                    <div style="margin-left: auto;">
+                        <button class="export-btn" onclick="exportToPDF()">📄 Export PDF</button>
+                        <button class="export-btn" onclick="saveToHistory()">💾 Sauvegarder</button>
+                    </div>
                 </div>
                 <div id="responseContent"></div>
             </div>
 
+            <!-- Historique -->
+            <div class="history-section" id="historySection">
+                <h3 style="color: #1976D2; margin-bottom: 20px;">📚 Historique des consultations</h3>
+                <div id="historyContent">
+                    <p style="color: #666; font-style: italic;">Aucune consultation précédente</p>
+                </div>
+            </div>
+
             <!-- Disclaimer -->
             <div class="disclaimer">
-                <strong>⚠️ Avertissement médical :</strong> Cet assistant utilise l'intelligence artificielle pour fournir des informations médicales générales. 
-                Il ne remplace pas un diagnostic médical professionnel. En cas d'urgence ou de doute, consultez immédiatement un médecin ou appelez le 15 (SAMU).
+                <strong>⚠️ Avertissement médical important :</strong> 
+                Cet assistant utilise une intelligence artificielle avancée pour analyser vos symptômes et fournir des informations médicales. 
+                Il constitue un outil d'aide au pré-diagnostic mais ne remplace en aucun cas l'avis d'un professionnel de santé qualifié. 
+                En cas d'urgence médicale, de doute ou d'aggravation des symptômes, consultez immédiatement un médecin ou appelez le 15 (SAMU), 
+                le 18 (Pompiers) ou le 112 (numéro d'urgence européen).
             </div>
         </div>
     </div>
 
     <script>
-        class MedicalAssistantV2 {
+        class MedicalAssistantV3 {
             constructor() {
+                this.patient = {};
                 this.selectedBodyPart = '';
+                this.selectedSymptoms = [];
                 this.painLevel = 0;
+                this.currentBodyType = 'homme';
+                this.currentView = 'face';
                 this.voiceRecognition = null;
+                this.consultationHistory = JSON.parse(localStorage.getItem('consultationHistory') || '[]');
+                
                 this.initializeElements();
                 this.attachEventListeners();
                 this.createParticles();
                 this.initializeVoiceRecognition();
+                this.loadHistory();
             }
 
             initializeElements() {
+                // Patient form elements
+                this.patientForm = document.getElementById('patientForm');
+                this.patientSummary = document.getElementById('summaryContent');
+                
+                // Body diagram elements
                 this.bodySvg = document.getElementById('bodySvg');
                 this.selectedPartDisplay = document.getElementById('selectedPart');
                 this.painScale = document.getElementById('painScale');
                 this.painDisplay = document.getElementById('painDisplay');
+                
+                // Voice and symptoms elements
                 this.voiceBtn = document.getElementById('voiceBtn');
                 this.voiceText = document.getElementById('voiceText');
                 this.voiceResult = document.getElementById('voiceResult');
                 this.questionInput = document.getElementById('questionInput');
                 this.analyzeBtn = document.getElementById('analyzeBtn');
+                
+                // Response elements
                 this.loading = document.getElementById('loading');
                 this.loadingText = document.getElementById('loadingText');
-                this.progressFill = document.getElementById('progressFill');
                 this.responseSection = document.getElementById('responseSection');
                 this.responseContent = document.getElementById('responseContent');
+                this.historyContent = document.getElementById('historyContent');
             }
 
             attachEventListeners() {
-                // Schéma corporel
+                // Patient form
+                this.patientForm.addEventListener('input', () => this.updatePatientSummary());
+                
+                // Body type controls
+                document.querySelectorAll('.body-type-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => this.switchBodyType(e.target.dataset.type));
+                });
+                
+                // View controls
+                document.querySelectorAll('.view-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => this.switchView(e.target.dataset.view));
+                });
+                
+                // Body diagram
                 this.bodySvg.addEventListener('click', (e) => {
                     if (e.target.classList.contains('body-part')) {
                         this.selectBodyPart(e.target);
                     }
                 });
-
-                // Échelle de douleur
+                
+                // Pain scale
                 this.painScale.addEventListener('input', (e) => {
                     this.updatePainLevel(e.target.value);
                 });
-
-                // Reconnaissance vocale
-                this.voiceBtn.addEventListener('click', () => {
-                    this.toggleVoiceRecognition();
+                
+                // Symptom tags
+                document.querySelectorAll('.symptom-tag').forEach(tag => {
+                    tag.addEventListener('click', (e) => this.toggleSymptom(e.target));
                 });
-
-                // Analyse
-                this.analyzeBtn.addEventListener('click', () => {
-                    this.analyzeSymptoms();
-                });
-
-                // Enter pour analyser
+                
+                // Voice recognition
+                this.voiceBtn.addEventListener('click', () => this.toggleVoiceRecognition());
+                
+                // Analysis
+                this.analyzeBtn.addEventListener('click', () => this.analyzeSymptoms());
+                
+                // Keyboard shortcuts
                 this.questionInput.addEventListener('keypress', (e) => {
                     if (e.ctrlKey && e.key === 'Enter') {
                         this.analyzeSymptoms();
@@ -687,12 +885,12 @@ Exemple: 'J'ai mal à la tête depuis 2 jours, la douleur s'intensifie le matin,
 
             createParticles() {
                 const particlesContainer = document.getElementById('particles');
-                for (let i = 0; i < 20; i++) {
+                for (let i = 0; i < 25; i++) {
                     const particle = document.createElement('div');
                     particle.className = 'particle';
                     particle.style.left = Math.random() * 100 + '%';
                     particle.style.top = Math.random() * 100 + '%';
-                    particle.style.width = Math.random() * 10 + 5 + 'px';
+                    particle.style.width = Math.random() * 12 + 4 + 'px';
                     particle.style.height = particle.style.width;
                     particle.style.animationDelay = Math.random() * 6 + 's';
                     particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
@@ -700,24 +898,140 @@ Exemple: 'J'ai mal à la tête depuis 2 jours, la douleur s'intensifie le matin,
                 }
             }
 
-            selectBodyPart(element) {
-                // Retirer sélection précédente
+            updatePatientSummary() {
+                const formData = new FormData(this.patientForm);
+                const firstName = document.getElementById('firstName').value;
+                const lastName = document.getElementById('lastName').value;
+                const birthDate = document.getElementById('birthDate').value;
+                const gender = document.getElementById('gender').value;
+                const weight = document.getElementById('weight').value;
+                const height = document.getElementById('height').value;
+                
+                let summary = '';
+                if (firstName || lastName) {
+                    summary += `<div><strong>Patient:</strong> ${firstName} ${lastName}</div>`;
+                }
+                
+                if (birthDate) {
+                    const age = this.calculateAge(birthDate);
+                    summary += `<div><strong>Âge:</strong> ${age} ans</div>`;
+                }
+                
+                if (gender) {
+                    summary += `<div><strong>Sexe:</strong> ${gender}</div>`;
+                }
+                
+                if (weight && height) {
+                    const bmi = (weight / ((height/100) ** 2)).toFixed(1);
+                    summary += `<div><strong>IMC:</strong> ${bmi}</div>`;
+                }
+                
+                this.patientSummary.innerHTML = summary || 'Remplissez les informations ci-dessus';
+                
+                // Update patient object
+                this.patient = {
+                    firstName,
+                    lastName,
+                    birthDate,
+                    age: birthDate ? this.calculateAge(birthDate) : null,
+                    gender,
+                    weight: weight ? parseFloat(weight) : null,
+                    height: height ? parseFloat(height) : null,
+                    allergies: document.getElementById('allergies').value,
+                    medications: document.getElementById('medications').value,
+                    medicalHistory: document.getElementById('medicalHistory').value
+                };
+            }
+
+            calculateAge(birthDate) {
+                const birth = new Date(birthDate);
+                const today = new Date();
+                let age = today.getFullYear() - birth.getFullYear();
+                const monthDiff = today.getMonth() - birth.getMonth();
+                
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                    age--;
+                }
+                
+                return age;
+            }
+
+            switchBodyType(type) {
+                this.currentBodyType = type;
+                
+                // Update button states
+                document.querySelectorAll('.body-type-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.type === type);
+                });
+                
+                this.updateBodyDisplay();
+            }
+
+            switchView(view) {
+                this.currentView = view;
+                
+                // Update button states
+                document.querySelectorAll('.view-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.view === view);
+                });
+                
+                this.updateBodyDisplay();
+            }
+
+            updateBodyDisplay() {
+                // Hide all body views
+                document.querySelectorAll('.body-view').forEach(view => {
+                    view.style.display = 'none';
+                });
+                
+                // Show current view
+                const viewId = `${this.currentBodyType}-${this.currentView}`;
+                const currentView = document.getElementById(viewId);
+                if (currentView) {
+                    currentView.style.display = 'block';
+                } else {
+                    // Fallback to face view if specific view doesn't exist
+                    const faceView = document.getElementById(`${this.currentBodyType}-face`);
+                    if (faceView) {
+                        faceView.style.display = 'block';
+                    }
+                }
+                
+                // Clear selection when switching views
+                this.clearBodySelection();
+            }
+
+            clearBodySelection() {
                 document.querySelectorAll('.body-part').forEach(part => {
                     part.classList.remove('selected');
                 });
+                this.selectedBodyPart = '';
+                this.selectedPartDisplay.textContent = '';
+            }
 
-                // Ajouter nouvelle sélection
+            selectBodyPart(element) {
+                // Clear previous selection
+                this.clearBodySelection();
+                
+                // Add new selection
                 element.classList.add('selected');
                 this.selectedBodyPart = element.dataset.part;
                 this.selectedPartDisplay.textContent = `Zone sélectionnée : ${this.selectedBodyPart}`;
                 
-                // Effet sonore (si supporté)
-                this.playClickSound();
+                // Visual feedback
+                this.showSelectionFeedback();
+            }
+
+            showSelectionFeedback() {
+                // Add a ripple effect or sound (placeholder for future enhancement)
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(100);
+                }
             }
 
             updatePainLevel(level) {
                 this.painLevel = level;
-                const emojis = ['😊', '😐', '😐', '😟', '😟', '😣', '😣', '😖', '😖', '😫', '😱'];
+                const emojis = ['😊', '🙂', '😐', '😕', '😟', '😣', '😖', '😫', '😩', '😱', '🆘'];
                 const colors = ['#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#f44336', '#e91e63', '#9c27b0', '#673ab7'];
                 
                 this.painDisplay.textContent = `${emojis[level]} ${level}/10`;
@@ -730,29 +1044,61 @@ Exemple: 'J'ai mal à la tête depuis 2 jours, la douleur s'intensifie le matin,
                 }
             }
 
+            toggleSymptom(element) {
+                const symptom = element.dataset.symptom;
+                
+                if (element.classList.contains('selected')) {
+                    element.classList.remove('selected');
+                    this.selectedSymptoms = this.selectedSymptoms.filter(s => s !== symptom);
+                } else {
+                    element.classList.add('selected');
+                    this.selectedSymptoms.push(symptom);
+                }
+                
+                // Update textarea with selected symptoms
+                this.updateSymptomText();
+            }
+
+            updateSymptomText() {
+                const currentText = this.questionInput.value;
+                const symptomsText = this.selectedSymptoms.join(', ');
+                
+                if (symptomsText && !currentText.includes(symptomsText)) {
+                    this.questionInput.value = currentText ? `${currentText}\n\nSymptômes sélectionnés: ${symptomsText}` : `Symptômes sélectionnés: ${symptomsText}`;
+                }
+            }
+
             initializeVoiceRecognition() {
                 if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
                     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                     this.voiceRecognition = new SpeechRecognition();
                     this.voiceRecognition.lang = 'fr-FR';
                     this.voiceRecognition.continuous = false;
-                    this.voiceRecognition.interimResults = false;
+                    this.voiceRecognition.interimResults = true;
 
                     this.voiceRecognition.onstart = () => {
                         this.voiceBtn.classList.add('recording');
-                        this.voiceText.textContent = '🔴 Parlez maintenant...';
-                        this.voiceResult.textContent = '';
+                        this.voiceText.textContent = '🔴 Parlez maintenant... (Appuyez pour arrêter)';
+                        this.voiceResult.textContent = 'Écoute en cours...';
                     };
 
                     this.voiceRecognition.onresult = (event) => {
-                        const transcript = event.results[0][0].transcript;
-                        this.questionInput.value = transcript;
-                        this.voiceResult.textContent = `Reconnu: "${transcript}"`;
-                        this.typeEffect(this.questionInput, transcript);
+                        let transcript = '';
+                        for (let i = 0; i < event.results.length; i++) {
+                            transcript += event.results[i][0].transcript;
+                        }
+                        
+                        if (event.results[event.results.length - 1].isFinal) {
+                            this.questionInput.value = transcript;
+                            this.voiceResult.textContent = `Reconnu: "${transcript}"`;
+                            this.typeEffect(this.questionInput, transcript);
+                        } else {
+                            this.voiceResult.textContent = `En cours: "${transcript}"`;
+                        }
                     };
 
                     this.voiceRecognition.onerror = (event) => {
-                        this.voiceResult.textContent = 'Erreur de reconnaissance vocale';
+                        this.voiceResult.textContent = `Erreur: ${event.error}`;
                         this.resetVoiceButton();
                     };
 
@@ -761,7 +1107,7 @@ Exemple: 'J'ai mal à la tête depuis 2 jours, la douleur s'intensifie le matin,
                     };
                 } else {
                     this.voiceBtn.style.display = 'none';
-                    document.querySelector('.voice-controls').innerHTML = '<p>🚫 Reconnaissance vocale non supportée</p>';
+                    document.querySelector('.voice-controls').innerHTML = '<p>🚫 Reconnaissance vocale non supportée par ce navigateur</p>';
                 }
             }
 
@@ -777,36 +1123,30 @@ Exemple: 'J'ai mal à la tête depuis 2 jours, la douleur s'intensifie le matin,
 
             resetVoiceButton() {
                 this.voiceBtn.classList.remove('recording');
-                this.voiceText.textContent = '🎤 Cliquez et parlez';
+                this.voiceText.textContent = '🎤 Cliquez et décrivez vos symptômes';
             }
 
             typeEffect(element, text) {
                 element.value = '';
-                element.classList.add('typing-effect');
                 let i = 0;
                 const typeInterval = setInterval(() => {
                     element.value += text.charAt(i);
                     i++;
                     if (i > text.length) {
                         clearInterval(typeInterval);
-                        element.classList.remove('typing-effect');
                     }
-                }, 50);
+                }, 30);
             }
 
             async analyzeSymptoms() {
-                const question = this.questionInput.value.trim();
+                // Validation
+                if (!this.validateInput()) return;
                 
-                if (!question && !this.selectedBodyPart) {
-                    alert('Veuillez décrire vos symptômes ou sélectionner une zone sur le corps');
-                    return;
-                }
-
                 this.showLoading();
-
+                
                 try {
-                    await this.simulateAnalysis();
-                    const response = this.generateAdvancedResponse(question);
+                    await this.simulateAdvancedAnalysis();
+                    const response = this.generateComprehensiveResponse();
                     this.showResponse(response);
                 } catch (error) {
                     this.showError(error.message);
@@ -815,271 +1155,379 @@ Exemple: 'J'ai mal à la tête depuis 2 jours, la douleur s'intensifie le matin,
                 }
             }
 
-            async simulateAnalysis() {
+            validateInput() {
+                const question = this.questionInput.value.trim();
+                
+                if (!question && !this.selectedBodyPart && this.selectedSymptoms.length === 0) {
+                    alert('⚠️ Veuillez décrire vos symptômes, sélectionner une zone sur le corps ou choisir des symptômes fréquents');
+                    return false;
+                }
+                
+                if (!this.patient.firstName || !this.patient.lastName) {
+                    alert('⚠️ Veuillez remplir au minimum le nom et prénom du patient');
+                    return false;
+                }
+                
+                return true;
+            }
+
+            async simulateAdvancedAnalysis() {
                 const steps = [
-                    'Analyse des symptômes...',
-                    'Consultation de la base médicale...',
-                    'Évaluation des risques...',
+                    'Initialisation de l\'IA médicale...',
+                    'Analyse des informations patient...',
+                    'Traitement des symptômes rapportés...',
+                    'Consultation des bases de données médicales...',
+                    'Évaluation des facteurs de risque...',
+                    'Calcul des probabilités diagnostiques...',
                     'Génération des recommandations...',
-                    'Finalisation du diagnostic...'
+                    'Vérification des contre-indications...',
+                    'Finalisation du rapport...'
                 ];
 
                 for (let i = 0; i < steps.length; i++) {
                     this.loadingText.textContent = steps[i];
-                    this.progressFill.style.width = ((i + 1) / steps.length) * 100 + '%';
-                    await new Promise(resolve => setTimeout(resolve, 800));
+                    await new Promise(resolve => setTimeout(resolve, 600));
                 }
             }
 
-            generateAdvancedResponse(question) {
-                const lowerQuestion = question.toLowerCase();
-                const bodyPart = this.selectedBodyPart;
-                const painLevel = this.painLevel;
+            generateComprehensiveResponse() {
+                const consultation = {
+                    date: new Date(),
+                    patient: this.patient,
+                    symptoms: {
+                        description: this.questionInput.value,
+                        selectedSymptoms: this.selectedSymptoms,
+                        bodyPart: this.selectedBodyPart,
+                        painLevel: this.painLevel
+                    }
+                };
 
-                // Construire le contexte complet
-                let context = '';
-                if (bodyPart) context += `Zone affectée: ${bodyPart}. `;
-                if (painLevel > 0) context += `Niveau de douleur: ${painLevel}/10. `;
-
-                // Détection d'urgence basée sur douleur + zone
-                if (painLevel >= 8 || this.detectEmergency(lowerQuestion, bodyPart)) {
-                    return this.generateEmergencyResponse(question, context);
+                // Détection d'urgence
+                if (this.detectEmergency()) {
+                    return this.generateEmergencyResponse(consultation);
                 }
 
-                // Réponses spécialisées par zone corporelle
-                if (bodyPart) {
-                    return this.generateBodyPartResponse(bodyPart, painLevel, question);
+                // Analyse selon l'âge
+                if (this.patient.age && this.patient.age < 16) {
+                    return this.generatePediatricResponse(consultation);
                 }
 
-                // Réponses par symptômes
-                if (lowerQuestion.includes('mal de tête') || lowerQuestion.includes('céphalée')) {
-                    return this.generateHeadacheResponse(painLevel);
-                }
-
-                if (lowerQuestion.includes('fièvre') || lowerQuestion.includes('température')) {
-                    return this.generateFeverResponse();
-                }
-
-                return this.generateGeneralResponse(question, context);
+                // Analyse spécialisée
+                return this.generateStandardResponse(consultation);
             }
 
-            detectEmergency(question, bodyPart) {
+            detectEmergency() {
                 const emergencyKeywords = [
                     'difficulté respirer', 'essoufflement', 'souffle court',
-                    'douleur thoracique', 'mal poitrine', 'serrement',
+                    'douleur thoracique', 'mal poitrine', 'serrement poitrine',
                     'perte conscience', 'évanouissement', 'syncope',
                     'saignement abondant', 'hémorragie',
                     'paralysie', 'engourdissement soudain',
-                    'convulsion', 'crise épilepsie'
+                    'convulsion', 'crise épilepsie',
+                    'température très élevée', 'fièvre 40'
                 ];
-
-                const emergencyBodyParts = ['poitrine', 'cou'];
-
-                return emergencyKeywords.some(keyword => question.includes(keyword)) ||
-                       emergencyBodyParts.includes(bodyPart);
+                
+                const emergencyBodyParts = ['poitrine', 'cou', 'tête'];
+                const emergencySymptoms = ['difficulté respiration'];
+                const criticalPain = this.painLevel >= 9;
+                
+                const questionLower = this.questionInput.value.toLowerCase();
+                
+                return criticalPain ||
+                       emergencyKeywords.some(keyword => questionLower.includes(keyword)) ||
+                       emergencyBodyParts.includes(this.selectedBodyPart) ||
+                       emergencySymptoms.some(symptom => this.selectedSymptoms.includes(symptom));
             }
 
-            generateEmergencyResponse(question, context) {
+            generateEmergencyResponse(consultation) {
                 return `
                     <div class="emergency-alert">
-                        <h3>🚨 URGENCE MÉDICALE DÉTECTÉE</h3>
-                        <p><strong>Vos symptômes nécessitent une prise en charge immédiate</strong></p>
-                        <button class="emergency-btn" onclick="window.open('tel:15')">📞 Appeler le 15 (SAMU)</button>
-                        <button class="emergency-btn" onclick="window.open('tel:18')">🚒 Appeler les Pompiers</button>
+                        <h2>🚨 URGENCE MÉDICALE DÉTECTÉE</h2>
+                        <p><strong>ATTENTION: Les symptômes rapportés nécessitent une prise en charge médicale immédiate</strong></p>
+                        <div style="margin: 20px 0;">
+                            <button onclick="window.open('tel:15')" style="background: white; color: #f44336; border: none; padding: 15px 25px; border-radius: 25px; margin: 5px; font-weight: bold; cursor: pointer;">📞 SAMU (15)</button>
+                            <button onclick="window.open('tel:18')" style="background: white; color: #f44336; border: none; padding: 15px 25px; border-radius: 25px; margin: 5px; font-weight: bold; cursor: pointer;">🚒 Pompiers (18)</button>
+                            <button onclick="window.open('tel:112')" style="background: white; color: #f44336; border: none; padding: 15px 25px; border-radius: 25px; margin: 5px; font-weight: bold; cursor: pointer;">🆘 Urgences (112)</button>
+                        </div>
                     </div>
-
-                    <h4>🎯 Analyse de votre situation</h4>
-                    <p><strong>Contexte identifié :</strong> ${context}</p>
-                    <p><strong>Symptômes rapportés :</strong> "${question}"</p>
-
-                    <p><strong>⚠️ ACTIONS IMMÉDIATES :</strong></p>
-                    <ul>
-                        <li>Appelez immédiatement le 15 (SAMU)</li>
-                        <li>Restez calme et en sécurité</li>
-                        <li>Ne prenez aucun médicament</li>
-                        <li>Préparez vos informations médicales</li>
-                        <li>Si possible, faites-vous accompagner</li>
+                    
+                    <h3>📊 Analyse de la situation</h3>
+                    <div style="background: #ffebee; padding: 20px; border-radius: 12px; margin: 15px 0;">
+                        <p><strong>Patient:</strong> ${consultation.patient.firstName} ${consultation.patient.lastName}</p>
+                        <p><strong>Âge:</strong> ${consultation.patient.age || 'Non spécifié'} ans</p>
+                        <p><strong>Zone affectée:</strong> ${consultation.symptoms.bodyPart || 'Non spécifiée'}</p>
+                        <p><strong>Intensité douleur:</strong> ${consultation.symptoms.painLevel}/10</p>
+                        <p><strong>Symptômes:</strong> ${consultation.symptoms.description}</p>
+                    </div>
+                    
+                    <h3>⚡ Actions immédiates requises</h3>
+                    <ul style="color: #d32f2f; font-weight: bold;">
+                        <li>🆘 Appelez immédiatement les services d'urgence</li>
+                        <li>🛑 Ne prenez aucun médicament sans avis médical</li>
+                        <li>😌 Restez calme et en position de sécurité</li>
+                        <li>📋 Préparez la liste des médicaments actuels</li>
+                        <li>👥 Si possible, faites-vous accompagner</li>
+                        <li>📱 Gardez votre téléphone à portée</li>
                     </ul>
-
-                    <p><strong>📞 Numéros d'urgence :</strong></p>
-                    <ul>
-                        <li>SAMU : 15</li>
-                        <li>Pompiers : 18</li>
-                        <li>Urgences européennes : 112</li>
-                        <li>SOS Médecins : 3624</li>
-                    </ul>
+                    
+                    <div style="background: #e3f2fd; padding: 20px; border-radius: 12px; margin: 20px 0;">
+                        <h4>📞 Numéros d'urgence - France</h4>
+                        <ul>
+                            <li><strong>SAMU (Service d'Aide Médicale Urgente):</strong> 15</li>
+                            <li><strong>Pompiers:</strong> 18</li>
+                            <li><strong>Numéro d'urgence européen:</strong> 112</li>
+                            <li><strong>Centre antipoison:</strong> 01 40 05 48 48</li>
+                            <li><strong>SOS Médecins:</strong> 3624</li>
+                        </ul>
+                    </div>
                 `;
             }
 
-            generateBodyPartResponse(bodyPart, painLevel, question) {
-                const responses = {
-                    'tête': `
-                        <h4>🧠 Analyse des céphalées - Zone : ${bodyPart}</h4>
-                        <p><strong>Intensité rapportée :</strong> ${painLevel}/10</p>
+            generatePediatricResponse(consultation) {
+                return `
+                    <h3>👶 Consultation Pédiatrique - ${consultation.patient.firstName}</h3>
+                    
+                    <div style="background: #fff3e0; padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 4px solid #ff9800;">
+                        <h4>⚠️ Spécificités pédiatriques</h4>
+                        <p>Cette consultation concerne un enfant de ${consultation.patient.age} ans. Les recommandations sont adaptées à cette tranche d'âge.</p>
+                    </div>
+                    
+                    ${this.generateDetailedAnalysis(consultation)}
+                    
+                    <h4>🩺 Recommandations spécifiques enfant</h4>
+                    <ul>
+                        <li>💊 <strong>Dosage médicaments:</strong> Calculé selon le poids (${consultation.patient.weight || 'à préciser'} kg)</li>
+                        <li>🌡️ <strong>Surveillance température:</strong> Particulièrement importante chez l'enfant</li>
+                        <li>👨‍⚕️ <strong>Consultation pédiatrique:</strong> Recommandée dans les 24-48h</li>
+                        <li>👶 <strong>Surveillance parentale:</strong> Observation continue requise</li>
+                    </ul>
+                    
+                    <div style="background: #e8f5e8; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                        <h4>📞 Contacts pédiatriques</h4>
+                        <ul>
+                            <li>Pédiatre traitant en priorité</li>
+                            <li>Urgences pédiatriques: 15</li>
+                            <li>Centre antipoison: 01 40 05 48 48</li>
+                        </ul>
+                    </div>
+                `;
+            }
+
+            generateStandardResponse(consultation) {
+                return `
+                    <h3>🩺 Rapport de Consultation Médicale</h3>
+                    
+                    ${this.generatePatientInfo(consultation)}
+                    ${this.generateDetailedAnalysis(consultation)}
+                    ${this.generateRecommendations(consultation)}
+                    ${this.generateFollowUp(consultation)}
+                `;
+            }
+
+            generatePatientInfo(consultation) {
+                const bmi = consultation.patient.weight && consultation.patient.height 
+                    ? (consultation.patient.weight / ((consultation.patient.height/100) ** 2)).toFixed(1)
+                    : null;
+                
+                return `
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 15px 0;">
+                        <h4>👤 Informations Patient</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <p><strong>Nom:</strong> ${consultation.patient.firstName} ${consultation.patient.lastName}</p>
+                                <p><strong>Âge:</strong> ${consultation.patient.age || 'Non spécifié'} ans</p>
+                                <p><strong>Sexe:</strong> ${consultation.patient.gender || 'Non spécifié'}</p>
+                                ${bmi ? `<p><strong>IMC:</strong> ${bmi} kg/m²</p>` : ''}
+                            </div>
+                            <div>
+                                ${consultation.patient.allergies ? `<p><strong>Allergies:</strong> ${consultation.patient.allergies}</p>` : ''}
+                                ${consultation.patient.medications ? `<p><strong>Traitements:</strong> ${consultation.patient.medications}</p>` : ''}
+                                ${consultation.patient.medicalHistory ? `<p><strong>Antécédents:</strong> ${consultation.patient.medicalHistory}</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            generateDetailedAnalysis(consultation) {
+                const symptoms = consultation.symptoms;
+                
+                return `
+                    <div style="background: white; padding: 20px; border-radius: 12px; margin: 15px 0; border: 2px solid #e3f2fd;">
+                        <h4>🔍 Analyse des Symptômes</h4>
                         
-                        ${painLevel >= 7 ? '<div style="background:#ffebee; padding:15px; border-radius:8px; margin:10px 0;"><strong>⚠️ Douleur intense détectée</strong> - Consultation urgente recommandée</div>' : ''}
+                        <div style="margin: 15px 0;">
+                            <p><strong>📝 Description:</strong> "${symptoms.description}"</p>
+                            ${symptoms.bodyPart ? `<p><strong>🎯 Zone affectée:</strong> ${symptoms.bodyPart}</p>` : ''}
+                            ${symptoms.painLevel > 0 ? `<p><strong>📊 Intensité douleur:</strong> ${symptoms.painLevel}/10 ${this.getPainDescription(symptoms.painLevel)}</p>` : ''}
+                            ${symptoms.selectedSymptoms.length > 0 ? `<p><strong>✅ Symptômes sélectionnés:</strong> ${symptoms.selectedSymptoms.join(', ')}</p>` : ''}
+                        </div>
                         
-                        <p><strong>Causes possibles selon l'intensité :</strong></p>
-                        <ul>
-                            <li>Tension/stress (intensité 1-4)</li>
-                            <li>Migraine classique (intensité 5-7)</li>
-                            <li>Céphalée secondaire possible (intensité 8-10)</li>
-                        </ul>
+                        ${this.generateDifferentialDiagnosis(symptoms)}
+                        ${this.generateRiskAssessment(consultation)}
+                    </div>
+                `;
+            }
 
-                        <p><strong>Recommandations personnalisées :</strong></p>
-                        <ul>
-                            <li>Repos dans un environnement calme</li>
-                            <li>Hydratation (2-3 verres d'eau)</li>
-                            <li>Compresse froide sur le front</li>
-                            ${painLevel <= 5 ? '<li>Paracétamol 1g si nécessaire</li>' : '<li>Consultation médicale recommandée avant automédication</li>'}
-                        </ul>
-                    `,
-
-                    'poitrine': `
-                        <h4>❤️ Analyse des douleurs thoraciques - Zone : ${bodyPart}</h4>
-                        <p><strong>⚠️ ATTENTION : Zone nécessitant une évaluation médicale</strong></p>
-                        <p><strong>Intensité rapportée :</strong> ${painLevel}/10</p>
-                        
-                        ${painLevel >= 6 ? this.generateEmergencyResponse(question, `Zone: ${bodyPart}, Douleur: ${painLevel}/10`) : `
-                        <p><strong>Évaluation immédiate nécessaire :</strong></p>
-                        <ul>
-                            <li>Type de douleur : serrement, brûlure, piqûre ?</li>
-                            <li>Irradiation vers bras, mâchoire, dos ?</li>
-                            <li>Essoufflement associé ?</li>
-                            <li>Facteurs déclenchants ?</li>
-                        </ul>
-
-                        <p><strong>📞 Consultez rapidement si :</strong></p>
-                        <ul>
-                            <li>Douleur persistante > 15 minutes</li>
-                            <li>Essoufflement important</li>
-                            <li>Irradiation vers le bras gauche</li>
-                            <li>Malaise associé</li>
-                        </ul>
-                        `}
-                    `,
-
-                    'abdomen': `
-                        <h4>🫄 Analyse des douleurs abdominales - Zone : ${bodyPart}</h4>
-                        <p><strong>Intensité rapportée :</strong> ${painLevel}/10</p>
-                        
-                        <p><strong>Localisation plus précise nécessaire :</strong></p>
-                        <ul>
-                            <li>Haute (estomac, foie, vésicule)</li>
-                            <li>Moyenne (intestin grêle, côlon)</li>
-                            <li>Basse (appendice, organes pelviens)</li>
-                        </ul>
-
-                        <p><strong>Signes d'accompagnement à surveiller :</strong></p>
-                        <ul>
-                            <li>Nausées, vomissements</li>
-                            <li>Fièvre</li>
-                            <li>Troubles du transit</li>
-                            <li>Ballonnements</li>
-                        </ul>
-
-                        ${painLevel >= 7 ? '<p><strong>🚨 Douleur intense : consultation d\'urgence recommandée</strong></p>' : ''}
-                    `,
-
-                    'jambe gauche': `
-                        <h4>🦵 Analyse - Jambe gauche affectée</h4>
-                        <p><strong>Intensité rapportée :</strong> ${painLevel}/10</p>
-                        
-                        <p><strong>Types de douleurs possibles :</strong></p>
-                        <ul>
-                            <li>Musculaire (effort, crampe)</li>
-                            <li>Articulaire (genou, cheville)</li>
-                            <li>Vasculaire (circulation)</li>
-                            <li>Nerveuse (sciatique)</li>
-                        </ul>
-
-                        <p><strong>Mesures immédiates :</strong></p>
-                        <ul>
-                            <li>Repos et surélévation</li>
-                            <li>Application de froid si traumatisme récent</li>
-                            <li>Éviter l'appui si douleur intense</li>
-                        </ul>
-                    `
+            getPainDescription(level) {
+                const descriptions = {
+                    0: '(Aucune douleur)',
+                    1: '(Très légère)',
+                    2: '(Légère)',
+                    3: '(Légère à modérée)',
+                    4: '(Modérée)',
+                    5: '(Modérée)',
+                    6: '(Modérée à intense)',
+                    7: '(Intense)',
+                    8: '(Très intense)',
+                    9: '(Extrêmement intense)',
+                    10: '(Douleur maximale imaginable)'
                 };
-
-                return responses[bodyPart] || this.generateGeneralResponse(question, `Zone: ${bodyPart}, Douleur: ${painLevel}/10`);
+                return descriptions[level] || '';
             }
 
-            generateHeadacheResponse(painLevel) {
-                return `
-                    <h4>🧠 Analyse spécialisée des céphalées</h4>
-                    <p><strong>Niveau d'intensité :</strong> ${painLevel}/10</p>
-                    
-                    ${painLevel >= 8 ? '<div class="emergency-alert"><p>🚨 Céphalée très intense - Consultation d\'urgence recommandée</p></div>' : ''}
-                    
-                    <p><strong>Classification selon l'intensité :</strong></p>
-                    <ul>
-                        <li>Légère (1-3) : Tension, fatigue</li>
-                        <li>Modérée (4-6) : Migraine classique</li>
-                        <li>Sévère (7-8) : Migraine forte</li>
-                        <li>Extrême (9-10) : Urgence médicale</li>
-                    </ul>
+            generateDifferentialDiagnosis(symptoms) {
+                // Logique de diagnostic différentiel basée sur les symptômes
+                let hypotheses = [];
+                
+                if (symptoms.bodyPart === 'tête' || symptoms.selectedSymptoms.includes('mal de tête')) {
+                    hypotheses = [
+                        'Céphalée de tension (stress, fatigue)',
+                        'Migraine (si unilatérale, pulsatile)',
+                        'Sinusite (si congestion nasale)',
+                        'Hypertension artérielle (à vérifier)'
+                    ];
+                }
+                
+                if (symptoms.selectedSymptoms.includes('fièvre')) {
+                    hypotheses.push('Syndrome infectieux', 'Syndrome viral', 'Inflammation');
+                }
+                
+                if (symptoms.bodyPart === 'abdomen' || symptoms.selectedSymptoms.includes('douleur abdominale')) {
+                    hypotheses = [
+                        'Troubles digestifs fonctionnels',
+                        'Gastroentérite',
+                        'Syndrome du côlon irritable',
+                        'Appendicite (si douleur fosse iliaque droite)'
+                    ];
+                }
+                
+                return hypotheses.length > 0 ? `
+                    <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                        <h5>🎯 Hypothèses diagnostiques principales</h5>
+                        <ol>
+                            ${hypotheses.map(h => `<li>${h}</li>`).join('')}
+                        </ol>
+                    </div>
+                ` : '';
+            }
 
-                    <p><strong>Plan de traitement personnalisé :</strong></p>
+            generateRiskAssessment(consultation) {
+                const riskFactors = [];
+                
+                if (consultation.patient.age > 65) {
+                    riskFactors.push('Âge > 65 ans (surveillance renforcée)');
+                }
+                
+                if (consultation.symptoms.painLevel >= 7) {
+                    riskFactors.push('Douleur intense (nécessite évaluation rapide)');
+                }
+                
+                if (consultation.patient.medicalHistory) {
+                    riskFactors.push('Antécédents médicaux à considérer');
+                }
+                
+                if (consultation.patient.medications) {
+                    riskFactors.push('Interactions médicamenteuses à vérifier');
+                }
+                
+                return riskFactors.length > 0 ? `
+                    <div style="background: #fff3e0; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                        <h5>⚠️ Facteurs de risque identifiés</h5>
+                        <ul>
+                            ${riskFactors.map(rf => `<li>${rf}</li>`).join('')}
+                        </ul>
+                    </div>
+                ` : '';
+            }
+
+            generateRecommendations(consultation) {
+                return `
+                    <div style="background: #e8f5e8; padding: 20px; border-radius: 12px; margin: 15px 0;">
+                        <h4>💡 Recommandations Personnalisées</h4>
+                        
+                        <h5>🏠 Mesures immédiates</h5>
+                        <ul>
+                            <li>🛌 Repos dans un environnement calme</li>
+                            <li>💧 Hydratation régulière (1.5-2L/jour)</li>
+                            <li>🌡️ Surveillance de la température</li>
+                            <li>📝 Notation de l'évolution des symptômes</li>
+                        </ul>
+                        
+                        ${this.generateMedicationAdvice(consultation)}
+                        ${this.generateLifestyleAdvice(consultation)}
+                    </div>
+                `;
+            }
+
+            generateMedicationAdvice(consultation) {
+                if (consultation.symptoms.painLevel >= 4) {
+                    return `
+                        <h5>💊 Conseils médicamenteux</h5>
+                        <ul>
+                            <li>Paracétamol: 1g toutes les 6h (max 4g/jour)</li>
+                            <li>En cas d'inflammation: Ibuprofène 400mg toutes les 8h</li>
+                            <li>⚠️ Respecter les contre-indications et interactions</li>
+                            <li>🚫 Éviter l'aspirine chez l'enfant</li>
+                        </ul>
+                    `;
+                }
+                return '';
+            }
+
+            generateLifestyleAdvice(consultation) {
+                return `
+                    <h5>🌱 Conseils hygiéno-diététiques</h5>
                     <ul>
-                        ${painLevel <= 3 ? '<li>Repos, hydratation, relaxation</li>' : ''}
-                        ${painLevel >= 4 && painLevel <= 6 ? '<li>Paracétamol ou ibuprofène, repos en environnement calme</li>' : ''}
-                        ${painLevel >= 7 ? '<li>Consultation médicale recommandée pour évaluation</li>' : ''}
+                        <li>🍎 Alimentation équilibrée et légère</li>
+                        <li>😴 Sommeil suffisant (7-9h/nuit)</li>
+                        <li>🧘 Gestion du stress et relaxation</li>
+                        <li>🚭 Éviter tabac et alcool</li>
+                        <li>🌡️ Aération régulière des pièces</li>
                     </ul>
                 `;
             }
 
-            generateFeverResponse() {
+            generateFollowUp(consultation) {
                 return `
-                    <h4>🌡️ Gestion de la fièvre</h4>
-                    
-                    <p><strong>Évaluation nécessaire :</strong></p>
-                    <ul>
-                        <li>Température exacte ?</li>
-                        <li>Depuis quand ?</li>
-                        <li>Signes associés ?</li>
-                    </ul>
-
-                    <p><strong>Conduite à tenir par température :</strong></p>
-                    <ul>
-                        <li>37.5-38.5°C : Surveillance, hydratation</li>
-                        <li>38.5-39.5°C : Antipyrétiques si besoin</li>
-                        <li>>39.5°C : Consultation médicale</li>
-                        <li>>40°C : Urgence médicale</li>
-                    </ul>
-                `;
-            }
-
-            generateGeneralResponse(question, context) {
-                return `
-                    <h4>🩺 Analyse médicale personnalisée</h4>
-                    
-                    ${context ? `<p><strong>Contexte :</strong> ${context}</p>` : ''}
-                    <p><strong>Question analysée :</strong> "${question}"</p>
-                    
-                    <p><strong>Recommandations générales :</strong></p>
-                    <ul>
-                        <li>Surveillance de l'évolution des symptômes</li>
-                        <li>Notation précise des caractéristiques</li>
-                        <li>Hydratation adaptée</li>
-                        <li>Repos selon les besoins</li>
-                    </ul>
-
-                    <p><strong>Consultation recommandée si :</strong></p>
-                    <ul>
-                        <li>Aggravation des symptômes</li>
-                        <li>Nouveaux signes associés</li>
-                        <li>Persistance > 48-72h</li>
-                        <li>Inquiétude du patient</li>
-                    </ul>
-
-                    <p><strong>📞 Contacts utiles :</strong></p>
-                    <ul>
-                        <li>Médecin traitant (consultation programmée)</li>
-                        <li>SOS Médecins : 3624</li>
-                        <li>Urgences : 15 (SAMU)</li>
-                        <li>Pharmacien pour conseils</li>
-                    </ul>
+                    <div style="background: #e3f2fd; padding: 20px; border-radius: 12px; margin: 15px 0;">
+                        <h4>📅 Suivi et Surveillance</h4>
+                        
+                        <h5>🚨 Consultez en urgence si :</h5>
+                        <ul style="color: #d32f2f;">
+                            <li>Aggravation brutale des symptômes</li>
+                            <li>Fièvre > 39°C persistante</li>
+                            <li>Douleur devenant insupportable</li>
+                            <li>Apparition de nouveaux symptômes</li>
+                            <li>Difficulté à respirer</li>
+                            <li>Altération de l'état général</li>
+                        </ul>
+                        
+                        <h5>👨‍⚕️ Consultation programmée recommandée :</h5>
+                        <ul>
+                            <li>📞 Médecin traitant dans les 24-48h</li>
+                            <li>🏥 Spécialiste si symptômes persistants</li>
+                            <li>📋 Bilan complémentaire si nécessaire</li>
+                        </ul>
+                        
+                        <h5>📞 Contacts utiles :</h5>
+                        <ul>
+                            <li>Médecin traitant (consultation programmée)</li>
+                            <li>SOS Médecins: 3624 (visite à domicile)</li>
+                            <li>Pharmacien de garde (conseils)</li>
+                            <li>Urgences: 15 (SAMU) - 18 (Pompiers) - 112</li>
+                        </ul>
+                    </div>
                 `;
             }
 
@@ -1087,7 +1535,6 @@ Exemple: 'J'ai mal à la tête depuis 2 jours, la douleur s'intensifie le matin,
                 this.analyzeBtn.disabled = true;
                 this.loading.classList.add('show');
                 this.responseSection.classList.remove('show');
-                this.progressFill.style.width = '0%';
             }
 
             hideLoading() {
@@ -1099,34 +1546,137 @@ Exemple: 'J'ai mal à la tête depuis 2 jours, la douleur s'intensifie le matin,
                 this.responseContent.innerHTML = response;
                 this.responseSection.classList.add('show');
                 
-                // Scroll vers la réponse
-                this.responseSection.scrollIntoView({ behavior: 'smooth' });
+                // Smooth scroll to response
+                setTimeout(() => {
+                    this.responseSection.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }, 300);
             }
 
             showError(message) {
                 this.responseContent.innerHTML = `
-                    <div style="color: #d32f2f; background: #ffebee; padding: 20px; border-radius: 10px;">
-                        <strong>❌ Erreur :</strong> ${message}
+                    <div style="color: #d32f2f; background: #ffebee; padding: 20px; border-radius: 15px;">
+                        <h4>❌ Erreur lors de l'analyse</h4>
+                        <p>${message}</p>
                     </div>
                 `;
                 this.responseSection.classList.add('show');
             }
 
-            playClickSound() {
-                // Son de clic (si supported)
-                try {
-                    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSsFJHfH8N2QQAoUXrTp66hVFApGn+zxtGQcBP');
-                    audio.volume = 0.1;
-                    audio.play();
-                } catch (e) {
-                    // Silently fail if audio not supported
+            saveToHistory() {
+                const consultation = {
+                    id: Date.now(),
+                    date: new Date(),
+                    patient: this.patient,
+                    symptoms: {
+                        description: this.questionInput.value,
+                        selectedSymptoms: this.selectedSymptoms,
+                        bodyPart: this.selectedBodyPart,
+                        painLevel: this.painLevel
+                    },
+                    analysis: this.responseContent.innerHTML
+                };
+                
+                this.consultationHistory.unshift(consultation);
+                
+                // Limiter à 10 consultations
+                if (this.consultationHistory.length > 10) {
+                    this.consultationHistory = this.consultationHistory.slice(0, 10);
+                }
+                
+                localStorage.setItem('consultationHistory', JSON.stringify(this.consultationHistory));
+                this.loadHistory();
+                
+                alert('✅ Consultation sauvegardée dans l\'historique');
+            }
+
+            loadHistory() {
+                if (this.consultationHistory.length === 0) {
+                    this.historyContent.innerHTML = '<p style="color: #666; font-style: italic;">Aucune consultation précédente</p>';
+                    return;
+                }
+                
+                const historyHtml = this.consultationHistory.map(consultation => {
+                    const date = new Date(consultation.date).toLocaleString('fr-FR');
+                    return `
+                        <div class="history-item">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <h5>${consultation.patient.firstName} ${consultation.patient.lastName}</h5>
+                                    <p style="color: #666; font-size: 13px;">${date}</p>
+                                    <p style="margin: 5px 0;"><strong>Symptômes:</strong> ${consultation.symptoms.description.substring(0, 100)}...</p>
+                                </div>
+                                <div>
+                                    <button onclick="medicalAssistant.viewConsultation(${consultation.id})" style="background: #2196F3; color: white; border: none; padding: 8px 15px; border-radius: 15px; cursor: pointer; margin: 2px;">👁️ Voir</button>
+                                    <button onclick="medicalAssistant.deleteConsultation(${consultation.id})" style="background: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 15px; cursor: pointer; margin: 2px;">🗑️</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                this.historyContent.innerHTML = historyHtml;
+            }
+
+            viewConsultation(id) {
+                const consultation = this.consultationHistory.find(c => c.id === id);
+                if (consultation) {
+                    this.responseContent.innerHTML = consultation.analysis;
+                    this.responseSection.classList.add('show');
+                    this.responseSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+
+            deleteConsultation(id) {
+                if (confirm('Êtes-vous sûr de vouloir supprimer cette consultation ?')) {
+                    this.consultationHistory = this.consultationHistory.filter(c => c.id !== id);
+                    localStorage.setItem('consultationHistory', JSON.stringify(this.consultationHistory));
+                    this.loadHistory();
                 }
             }
         }
 
+        // Fonctions globales pour les boutons
+        function exportToPDF() {
+            const content = document.getElementById('responseContent').innerHTML;
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Rapport Médical - ${new Date().toLocaleDateString('fr-FR')}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        h3, h4, h5 { color: #1976D2; }
+                        .emergency-alert { background: #ffebee; padding: 20px; border: 2px solid #f44336; }
+                    </style>
+                </head>
+                <body>
+                    <h1>🏥 Rapport de Consultation Médicale</h1>
+                    <p><strong>Date:</strong> ${new Date().toLocaleString('fr-FR')}</p>
+                    <hr>
+                    ${content}
+                    <hr>
+                    <p style="font-size: 12px; color: #666;">
+                        Ce rapport a été généré par l'Assistant Médical IA v3.0. 
+                        Il ne remplace pas un diagnostic médical professionnel.
+                    </p>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        function saveToHistory() {
+            medicalAssistant.saveToHistory();
+        }
+
         // Initialisation
+        let medicalAssistant;
         document.addEventListener('DOMContentLoaded', () => {
-            new MedicalAssistantV2();
+            medicalAssistant = new MedicalAssistantV3();
         });
     </script>
 </body>
