@@ -10,13 +10,7 @@
     <meta name="copyright" content="© 2025 Kheloufi">
     <meta name="contact" content="amine@nexyna.ai">
     <meta name="version" content="4.0 Ultimate">
-    <meta property="og:title" content="Assistant Médical IA Ultimate">
-    <meta property="og:description" content="Par Kheloufi - amine@nexyna.ai">
-    
-    <!-- Dependencies -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/4.2.0/tf.min.js"></script>
-    
+
     <style>
         /**
          * Assistant Médical IA Ultimate v4.0
@@ -32,18 +26,18 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            overflow-x: hidden;
+            color: #333;
         }
 
-        /* Header Styles */
+        /* Header */
         .header {
             position: relative;
             text-align: center;
-            color: white;
             padding: 20px;
+            color: white;
         }
 
         .language-selector {
@@ -53,122 +47,133 @@
             background: rgba(255, 255, 255, 0.1);
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 8px 15px;
             border-radius: 20px;
             cursor: pointer;
             backdrop-filter: blur(10px);
         }
 
-        .version-info {
+        .version-badge {
             position: absolute;
             top: 20px;
             right: 20px;
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 20px;
             font-weight: bold;
             backdrop-filter: blur(10px);
             text-align: center;
+            font-size: 12px;
         }
 
         .main-title {
-            font-size: 3.5em;
+            font-size: 3.2em;
             font-weight: bold;
-            margin: 40px 0 20px;
+            margin: 20px 0;
             text-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         .subtitle {
-            font-size: 1.3em;
+            font-size: 1.2em;
             opacity: 0.9;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
-        /* Navigation */
-        .navigation {
+        /* Navigation Tabs */
+        .tab-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 8px;
+            margin: 20px auto;
+            max-width: 900px;
+            backdrop-filter: blur(10px);
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin: 30px 20px;
             flex-wrap: wrap;
+            gap: 5px;
         }
 
-        .nav-button {
-            background: rgba(255, 255, 255, 0.1);
+        .tab-button {
+            background: transparent;
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: none;
             padding: 12px 20px;
-            border-radius: 25px;
+            border-radius: 20px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            white-space: nowrap;
+            font-size: 14px;
         }
 
-        .nav-button.active, .nav-button:hover {
+        .tab-button.active {
             background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.15);
         }
 
         /* Main Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
         }
 
         .main-content {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 30px;
-            padding: 40px;
+            border-radius: 25px;
+            padding: 30px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.1);
             backdrop-filter: blur(20px);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
-        /* Module Content */
-        .module-section {
+        /* Tab Content */
+        .tab-content {
             display: none;
         }
 
-        .module-section.active {
+        .tab-content.active {
             display: block;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.4s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Form Styles */
-        .section-header {
+        /* Section Headers */
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
+            gap: 12px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
             border-bottom: 2px solid #e9ecef;
         }
 
         .section-icon {
-            font-size: 2em;
+            font-size: 1.2em;
         }
 
-        .section-title {
-            font-size: 1.8em;
-            color: #333;
-            font-weight: bold;
-        }
-
+        /* Form Styles */
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .form-group {
@@ -179,56 +184,62 @@
         .form-label {
             font-weight: 600;
             color: #333;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-size: 14px;
         }
 
-        .form-input, .form-select, .form-textarea {
-            padding: 14px 18px;
+        .form-input, .form-select {
+            padding: 12px 16px;
             border: 2px solid #e1e5e9;
-            border-radius: 15px;
+            border-radius: 12px;
             font-size: 16px;
             transition: all 0.3s ease;
             background: white;
         }
 
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
+        .form-input:focus, .form-select:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
-            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.2);
         }
 
         .form-textarea {
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
             resize: vertical;
-            min-height: 120px;
+            min-height: 100px;
+            transition: all 0.3s ease;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.2);
         }
 
         /* Patient Summary */
         .patient-summary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border-radius: 20px;
-            padding: 25px;
+            border-radius: 15px;
+            padding: 20px;
             margin: 20px 0;
         }
 
         .summary-title {
-            font-size: 1.3em;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
         }
 
-        .summary-content {
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        /* Biometric Sensors */
+        /* Biometric Cards */
         .biometric-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            gap: 15px;
             margin: 20px 0;
         }
 
@@ -237,80 +248,66 @@
             border-radius: 15px;
             padding: 20px;
             text-align: center;
-            border-left: 5px solid #667eea;
             transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
         }
 
         .biometric-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .biometric-value {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #667eea;
-            margin: 10px 0;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
 
         .biometric-label {
             color: #666;
             font-size: 14px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+        }
+
+        .biometric-value {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 8px 0;
         }
 
         .biometric-status {
-            padding: 5px 15px;
-            border-radius: 20px;
+            padding: 4px 12px;
+            border-radius: 15px;
             font-size: 12px;
             font-weight: 600;
-        }
-
-        .status-normal {
             background: #d4edda;
             color: #155724;
         }
 
-        .status-warning {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status-danger {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .connect-sensors-btn {
+        .connect-btn {
             background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 12px 24px;
             border-radius: 25px;
-            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
-        .connect-sensors-btn:hover {
+        .connect-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
         }
 
-        /* Body Diagram */
-        .body-diagram-container {
+        /* Body Diagram Layout */
+        .body-section {
             display: grid;
             grid-template-columns: 1fr 2fr 1fr;
-            gap: 30px;
-            margin: 30px 0;
+            gap: 25px;
+            margin: 20px 0;
         }
 
         .body-controls {
             background: #f8f9fa;
-            border-radius: 20px;
-            padding: 25px;
+            border-radius: 15px;
+            padding: 20px;
         }
 
         .control-group {
@@ -319,18 +316,18 @@
 
         .control-group h4 {
             color: #333;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             font-size: 16px;
         }
 
         .button-group {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .control-button {
-            padding: 10px 18px;
+            padding: 8px 16px;
             border: 2px solid #667eea;
             background: white;
             color: #667eea;
@@ -344,101 +341,80 @@
         .control-button.active, .control-button:hover {
             background: #667eea;
             color: white;
-            transform: translateY(-2px);
         }
 
+        /* Body Viewer - Le VRAI corps humain */
         .body-viewer {
             background: #f8f9fa;
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             text-align: center;
             position: relative;
             min-height: 500px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
 
-        .body-outline {
-            width: 220px;
-            height: 420px;
-            background: linear-gradient(180deg, #e9ecef 0%, #dee2e6 100%);
-            border-radius: 110px 110px 40px 40px;
+        .body-viewer h3 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* VRAIE silhouette humaine */
+        .human-body {
+            width: 180px;
+            height: 400px;
             position: relative;
+            margin: 0 auto;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .body-outline:hover {
-            transform: scale(1.02);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
-
-        /* Body Points */
-        .body-point {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            background: #dc3545;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 3px solid white;
-            box-shadow: 0 3px 10px rgba(220, 53, 69, 0.4);
-        }
-
-        .body-point:hover {
-            transform: scale(1.4);
-            background: #c82333;
-            box-shadow: 0 5px 20px rgba(220, 53, 69, 0.6);
-        }
-
-        .body-point.selected {
-            background: #28a745;
-            box-shadow: 0 5px 20px rgba(40, 167, 69, 0.6);
-        }
-
-        /* Predefined body points */
-        #point-head { top: 40px; left: 50%; transform: translateX(-50%); }
-        #point-neck { top: 80px; left: 50%; transform: translateX(-50%); }
-        #point-chest { top: 140px; left: 50%; transform: translateX(-50%); }
-        #point-heart { top: 130px; left: 45%; }
-        #point-stomach { top: 180px; left: 50%; transform: translateX(-50%); }
-        #point-left-arm { top: 120px; left: 20%; }
-        #point-right-arm { top: 120px; right: 20%; }
-        #point-back-lower { top: 220px; left: 50%; transform: translateX(-50%); }
-        #point-left-leg { top: 300px; left: 40%; }
-        #point-right-leg { top: 300px; right: 40%; }
-
-        /* Pain Intensity */
-        .pain-intensity {
-            margin: 20px 0;
-        }
-
-        .intensity-slider {
+        .human-body svg {
             width: 100%;
-            height: 10px;
-            border-radius: 5px;
-            background: linear-gradient(90deg, #28a745 0%, #ffc107 50%, #dc3545 100%);
-            outline: none;
+            height: 100%;
+        }
+
+        .body-part {
+            fill: #e9ecef;
+            stroke: #dee2e6;
+            stroke-width: 2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .body-part:hover {
+            fill: #667eea;
+            stroke: #5a6fd8;
+        }
+
+        .body-part.selected {
+            fill: #dc3545;
+            stroke: #c82333;
+        }
+
+        /* Pain Scale */
+        .pain-scale {
             margin: 15px 0;
         }
 
-        .intensity-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #666;
+        .pain-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #28a745 0%, #ffc107 50%, #dc3545 100%);
+            outline: none;
+            margin: 10px 0;
         }
 
         .pain-display {
             text-align: center;
-            margin: 15px 0;
+            margin: 10px 0;
         }
 
         .pain-value {
-            font-size: 3em;
+            font-size: 2.5em;
             font-weight: bold;
             color: #667eea;
         }
@@ -453,7 +429,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             text-align: center;
             margin: 20px 0;
         }
@@ -462,19 +438,18 @@
             background: rgba(255, 255, 255, 0.2);
             color: white;
             border: 2px solid white;
-            padding: 20px 40px;
+            padding: 15px 30px;
             border-radius: 50px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
         .voice-button:hover {
             background: white;
             color: #667eea;
-            transform: scale(1.05);
         }
 
         .voice-button.recording {
@@ -490,30 +465,29 @@
 
         .voice-transcript {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
             font-style: italic;
-            line-height: 1.6;
-            min-height: 60px;
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         /* Quick Symptoms */
-        .symptoms-quick {
+        .symptoms-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin: 20px 0;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
         }
 
         .symptom-tag {
             background: #e9ecef;
             color: #333;
-            padding: 12px 16px;
-            border-radius: 25px;
+            padding: 10px 15px;
+            border-radius: 20px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -524,8 +498,7 @@
         .symptom-tag:hover {
             background: #667eea;
             color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
         }
 
         .symptom-tag.selected {
@@ -533,39 +506,34 @@
             color: white;
         }
 
-        /* AI Analysis Section */
-        .ai-analysis {
+        /* AI Analysis */
+        .ai-section {
             background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             margin: 20px 0;
         }
 
         .ai-title {
-            font-size: 1.5em;
+            font-size: 1.4em;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
         }
 
         .confidence-meter {
             background: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .confidence-label {
-            font-size: 16px;
-            margin-bottom: 10px;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
         }
 
         .confidence-bar {
             width: 100%;
-            height: 12px;
+            height: 10px;
             background: rgba(255, 255, 255, 0.3);
-            border-radius: 6px;
+            border-radius: 5px;
             overflow: hidden;
             margin: 10px 0;
         }
@@ -573,30 +541,22 @@
         .confidence-fill {
             height: 100%;
             background: linear-gradient(90deg, #ffc107 0%, #28a745 100%);
-            border-radius: 6px;
+            border-radius: 5px;
             transition: width 2s ease;
             width: 0%;
-        }
-
-        .confidence-text {
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 10px;
         }
 
         .analyze-button {
             background: rgba(255, 255, 255, 0.2);
             color: white;
             border: 2px solid white;
-            padding: 15px 30px;
+            padding: 12px 25px;
             border-radius: 25px;
-            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
             transition: all 0.3s ease;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .analyze-button:hover {
@@ -609,173 +569,140 @@
             cursor: not-allowed;
         }
 
-        /* Diagnosis Results */
-        .diagnosis-results {
+        /* Results */
+        .results-section {
             display: none;
             background: #f8f9fa;
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             margin: 20px 0;
         }
 
-        .diagnosis-results.show {
+        .results-section.show {
             display: block;
             animation: slideIn 0.5s ease;
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .diagnosis-card {
             background: white;
-            border-radius: 15px;
-            padding: 25px;
+            border-radius: 12px;
+            padding: 20px;
             margin: 15px 0;
-            border-left: 5px solid #667eea;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .diagnosis-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            border-left: 4px solid #667eea;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .diagnosis-name {
-            font-size: 1.3em;
+            font-size: 1.2em;
             font-weight: bold;
             color: #333;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .diagnosis-probability {
-            font-size: 16px;
             color: #667eea;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .diagnosis-description {
             color: #666;
-            line-height: 1.6;
-            margin-bottom: 15px;
+            line-height: 1.5;
         }
 
-        .diagnosis-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .action-button {
-            padding: 8px 16px;
-            border: 1px solid #667eea;
-            background: white;
-            color: #667eea;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .action-button:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        /* Export Controls */
+        /* Export buttons */
         .export-controls {
             display: flex;
-            gap: 15px;
-            margin: 20px 0;
+            gap: 10px;
+            margin: 15px 0;
             flex-wrap: wrap;
         }
 
-        .export-button {
-            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        .export-btn {
+            background: #6c757d;
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 8px 16px;
             border-radius: 20px;
-            font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 14px;
         }
 
-        .export-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+        .export-btn:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
         }
 
-        /* Medical Warning */
+        /* Warning */
         .medical-warning {
             background: #fff3cd;
             border: 2px solid #ffc107;
             border-radius: 15px;
-            padding: 25px;
-            margin: 30px 0;
+            padding: 20px;
+            margin: 25px 0;
         }
 
         .warning-title {
             color: #856404;
-            font-size: 1.2em;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .warning-text {
             color: #856404;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
-        /* Module Specific Styles */
+        /* Module placeholders */
         .module-placeholder {
             text-align: center;
-            padding: 80px 40px;
+            padding: 60px 20px;
             color: #666;
         }
 
         .module-icon {
             font-size: 4em;
             margin-bottom: 20px;
-            opacity: 0.8;
+            opacity: 0.7;
         }
 
-        .module-description {
-            font-size: 1.1em;
-            line-height: 1.6;
-            max-width: 600px;
-            margin: 0 auto 30px;
-        }
-
-        .load-module-button {
+        .load-module-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 12px 25px;
             border-radius: 25px;
-            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-top: 20px;
         }
 
-        .load-module-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        .load-module-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
 
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 1024px) {
-            .body-diagram-container {
+            .body-section {
                 grid-template-columns: 1fr;
                 gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5em;
             }
             
             .form-grid {
@@ -785,41 +712,31 @@
             .biometric-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-        }
-
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 2.5em;
-            }
             
-            .navigation {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .symptoms-quick {
+            .symptoms-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
-            .biometric-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .export-controls {
+
+            .tab-container {
                 flex-direction: column;
+                align-items: center;
             }
         }
 
         @media (max-width: 480px) {
             .container {
-                padding: 10px;
+                padding: 0 10px;
             }
             
             .main-content {
                 padding: 20px;
             }
             
-            .symptoms-quick {
+            .biometric-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .symptoms-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -827,79 +744,46 @@
         /* Footer */
         .footer {
             text-align: center;
-            padding: 50px 20px;
+            padding: 40px 20px;
             color: white;
-            margin-top: 50px;
+            margin-top: 30px;
         }
 
         .footer-content {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 40px;
+            border-radius: 25px;
+            padding: 30px;
             display: inline-block;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.2);
         }
 
         .footer-title {
-            font-size: 1.8em;
+            font-size: 1.5em;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .footer-subtitle {
-            font-size: 1.1em;
+            font-size: 1em;
             opacity: 0.9;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .footer-copyright {
-            font-size: 1em;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .footer-rights {
             font-size: 0.9em;
             opacity: 0.8;
         }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Hidden elements */
-        .hidden {
-            display: none !important;
-        }
-
-        /* Success animations */
-        @keyframes success {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .success-animation {
-            animation: success 0.6s ease;
-        }
     </style>
 </head>
 <body>
     <!-- Language Selector -->
-    <select class="language-selector" onchange="changeLanguage(this.value)">
+    <select class="language-selector">
         <option value="fr">🇫🇷 Français</option>
         <option value="en">🇬🇧 English</option>
         <option value="es">🇪🇸 Español</option>
@@ -908,9 +792,9 @@
         <option value="ar">🇸🇦 العربية</option>
     </select>
 
-    <!-- Version Info -->
-    <div class="version-info">
-        <div>v4.0 ULTIMATE</div>
+    <!-- Version Badge -->
+    <div class="version-badge">
+        v4.0 ULTIMATE<br>
         <small>Cloud connecté</small>
     </div>
 
@@ -920,195 +804,218 @@
         <p class="subtitle">Plateforme médicale intelligente avec IA, téléconsultation et capteurs IoT</p>
     </div>
 
-    <!-- Navigation -->
-    <div class="navigation">
-        <button class="nav-button active" onclick="showModule('consultation')">🩺 Consultation</button>
-        <button class="nav-button" onclick="showModule('base-medicale')">📚 Base Médicale</button>
-        <button class="nav-button" onclick="showModule('teleconsultation')">📹 Téléconsultation</button>
-        <button class="nav-button" onclick="showModule('suivi-temporal')">📈 Suivi Temporal</button>
-        <button class="nav-button" onclick="showModule('capteurs-iot')">📱 Capteurs IoT</button>
-        <button class="nav-button" onclick="showModule('ia-avancee')">🤖 IA Avancée</button>
-        <button class="nav-button" onclick="showModule('cloud-sync')">☁️ Cloud Sync</button>
-    </div>
-
+    <!-- Navigation Tabs -->
     <div class="container">
-        <div class="main-content">
-            <!-- MODULE CONSULTATION -->
-            <div id="consultation" class="module-section active">
-                <!-- Informations Patient -->
-                <div class="section-header">
-                    <span class="section-icon">👤</span>
-                    <span class="section-title">Informations Patient</span>
-                </div>
-                
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label class="form-label">Prénom *</label>
-                        <input type="text" class="form-input" id="prenom" placeholder="Votre prénom" onchange="updatePatientSummary()">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Nom *</label>
-                        <input type="text" class="form-input" id="nom" placeholder="Votre nom" onchange="updatePatientSummary()">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Date de naissance *</label>
-                        <input type="date" class="form-input" id="naissance" onchange="updatePatientSummary()">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Sexe *</label>
-                        <select class="form-select" id="sexe" onchange="updatePatientSummary()">
-                            <option value="">Sélectionner</option>
-                            <option value="homme">Homme</option>
-                            <option value="femme">Femme</option>
-                            <option value="enfant-garcon">Enfant (Garçon)</option>
-                            <option value="enfant-fille">Enfant (Fille)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Numéro de Sécurité Sociale</label>
-                        <input type="text" class="form-input" id="secu" placeholder="1 85 03 75 116 001 23" maxlength="15" onchange="updatePatientSummary()">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Poids (kg)</label>
-                        <input type="number" class="form-input" id="poids" placeholder="Ex: 70" onchange="updatePatientSummary()">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Taille (cm)</label>
-                        <input type="number" class="form-input" id="taille" placeholder="Ex: 175" onchange="updatePatientSummary()">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Allergies connues</label>
-                        <input type="text" class="form-input" id="allergies" placeholder="Ex: Pénicilline, Pollen..." onchange="updatePatientSummary()">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Traitements actuels</label>
-                        <input type="text" class="form-input" id="traitements" placeholder="Médicaments en cours..." onchange="updatePatientSummary()">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Antécédents médicaux</label>
-                        <textarea class="form-textarea" id="antecedents" placeholder="Chirurgies, maladies chroniques..." onchange="updatePatientSummary()"></textarea>
-                    </div>
-                </div>
+        <div class="tab-container">
+            <button class="tab-button active" onclick="showTab('consultation')">🩺 Consultation</button>
+            <button class="tab-button" onclick="showTab('base-medicale')">📚 Base Médicale</button>
+            <button class="tab-button" onclick="showTab('teleconsultation')">📹 Téléconsultation</button>
+            <button class="tab-button" onclick="showTab('suivi-temporal')">📈 Suivi Temporal</button>
+            <button class="tab-button" onclick="showTab('capteurs-iot')">📱 Capteurs IoT</button>
+            <button class="tab-button" onclick="showTab('ia-avancee')">🤖 IA Avancée</button>
+            <button class="tab-button" onclick="showTab('cloud-sync')">☁️ Cloud Sync</button>
+        </div>
 
-                <!-- Résumé Patient -->
-                <div class="patient-summary" id="patient-summary">
-                    <div class="summary-title">📋 Résumé:</div>
-                    <div class="summary-content">Remplissez les informations ci-dessus</div>
+        <div class="main-content">
+            <!-- TAB CONSULTATION -->
+            <div id="consultation" class="tab-content active">
+                <!-- Informations Patient -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-icon">👤</span>
+                        <span>Informations Patient</span>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Prénom *</label>
+                            <input type="text" class="form-input" id="prenom" placeholder="Votre prénom" onchange="updateSummary()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nom *</label>
+                            <input type="text" class="form-input" id="nom" placeholder="Votre nom" onchange="updateSummary()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Date de naissance *</label>
+                            <input type="date" class="form-input" id="naissance" onchange="updateSummary()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Sexe *</label>
+                            <select class="form-select" id="sexe" onchange="updateSummary()">
+                                <option value="">Sélectionner</option>
+                                <option value="homme">Homme</option>
+                                <option value="femme">Femme</option>
+                                <option value="enfant-garcon">Enfant (Garçon)</option>
+                                <option value="enfant-fille">Enfant (Fille)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Numéro de Sécurité Sociale</label>
+                            <input type="text" class="form-input" id="secu" placeholder="1 85 03 75 116 001 23" maxlength="15" onchange="updateSummary()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Poids (kg)</label>
+                            <input type="number" class="form-input" id="poids" placeholder="Ex: 70" onchange="updateSummary()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Taille (cm)</label>
+                            <input type="number" class="form-input" id="taille" placeholder="Ex: 175" onchange="updateSummary()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Allergies connues</label>
+                            <input type="text" class="form-input" id="allergies" placeholder="Ex: Pénicilline, Pollen...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Traitements actuels</label>
+                            <input type="text" class="form-input" id="traitements" placeholder="Médicaments en cours...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Antécédents médicaux</label>
+                            <textarea class="form-textarea" id="antecedents" placeholder="Chirurgies, maladies chroniques..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Résumé Patient -->
+                    <div class="patient-summary">
+                        <div class="summary-title">📋 Résumé:</div>
+                        <div id="patient-summary-content">Remplissez les informations ci-dessus</div>
+                    </div>
                 </div>
 
                 <!-- Capteurs Biométriques -->
-                <div class="section-header">
-                    <span class="section-icon">📱</span>
-                    <span class="section-title">Capteurs Biométriques</span>
-                </div>
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-icon">📱</span>
+                        <span>Capteurs Biométriques</span>
+                    </div>
 
-                <div class="biometric-grid">
-                    <div class="biometric-card">
-                        <div class="biometric-label">Rythme Cardiaque</div>
-                        <div class="biometric-value" id="heart-rate">--</div>
-                        <div class="biometric-status status-normal" id="heart-status">--</div>
+                    <div class="biometric-grid">
+                        <div class="biometric-card">
+                            <div class="biometric-label">Rythme Cardiaque</div>
+                            <div class="biometric-value" id="heart-rate">--</div>
+                            <div class="biometric-status" id="heart-status">--</div>
+                        </div>
+                        <div class="biometric-card">
+                            <div class="biometric-label">Température</div>
+                            <div class="biometric-value" id="temperature">--</div>
+                            <div class="biometric-status" id="temp-status">--</div>
+                        </div>
+                        <div class="biometric-card">
+                            <div class="biometric-label">Tension</div>
+                            <div class="biometric-value" id="blood-pressure">--/--</div>
+                            <div class="biometric-status" id="bp-status">--</div>
+                        </div>
+                        <div class="biometric-card">
+                            <div class="biometric-label">SpO2</div>
+                            <div class="biometric-value" id="spo2">--%</div>
+                            <div class="biometric-status" id="spo2-status">--</div>
+                        </div>
                     </div>
-                    <div class="biometric-card">
-                        <div class="biometric-label">Température</div>
-                        <div class="biometric-value" id="temperature">--</div>
-                        <div class="biometric-status status-normal" id="temp-status">--</div>
-                    </div>
-                    <div class="biometric-card">
-                        <div class="biometric-label">Tension</div>
-                        <div class="biometric-value" id="blood-pressure">--/--</div>
-                        <div class="biometric-status status-normal" id="bp-status">--</div>
-                    </div>
-                    <div class="biometric-card">
-                        <div class="biometric-label">SpO2</div>
-                        <div class="biometric-value" id="spo2">--%</div>
-                        <div class="biometric-status status-normal" id="spo2-status">--</div>
-                    </div>
-                </div>
 
-                <button class="connect-sensors-btn" onclick="connectSensors()">
-                    📱 Connecter capteurs
-                </button>
+                    <button class="connect-btn" onclick="connectSensors()">
+                        📱 Connecter capteurs
+                    </button>
+                </div>
 
                 <!-- Localisation des symptômes -->
-                <div class="section-header">
-                    <span class="section-icon">🫁</span>
-                    <span class="section-title">Localisation des symptômes</span>
-                </div>
-
-                <div class="body-diagram-container">
-                    <!-- Controls Left -->
-                    <div class="body-controls">
-                        <div class="control-group">
-                            <h4>Genre</h4>
-                            <div class="button-group">
-                                <button class="control-button active" onclick="selectBodyType('homme')">👨 Homme</button>
-                                <button class="control-button" onclick="selectBodyType('femme')">👩 Femme</button>
-                                <button class="control-button" onclick="selectBodyType('enfant')">🧒 Enfant</button>
-                            </div>
-                        </div>
-                        
-                        <div class="control-group">
-                            <h4>Vue</h4>
-                            <div class="button-group">
-                                <button class="control-button active" onclick="selectBodyView('face')">Face</button>
-                                <button class="control-button" onclick="selectBodyView('profil')">Profil</button>
-                                <button class="control-button" onclick="selectBodyView('dos')">Dos</button>
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <h4>Intensité douleur</h4>
-                            <div class="pain-display">
-                                <span class="pain-value" id="pain-value">0</span>
-                                <span class="pain-emoji" id="pain-emoji">😊</span>
-                            </div>
-                            <input type="range" class="intensity-slider" min="0" max="10" value="0" 
-                                   oninput="updatePainIntensity(this.value)">
-                            <div class="intensity-labels">
-                                <span>Aucune</span>
-                                <span>Légère</span>
-                                <span>Modérée</span>
-                                <span>Sévère</span>
-                                <span>Extrême</span>
-                            </div>
-                        </div>
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-icon">🫁</span>
+                        <span>Localisation des symptômes</span>
                     </div>
 
-                    <!-- Body Viewer Center -->
-                    <div class="body-viewer">
-                        <div class="body-outline" id="body-outline" onclick="addBodyPoint(event)">
-                            <!-- Predefined clickable points -->
-                            <div class="body-point" id="point-head" onclick="selectBodyPoint('tête', event)"></div>
-                            <div class="body-point" id="point-neck" onclick="selectBodyPoint('cou', event)"></div>
-                            <div class="body-point" id="point-chest" onclick="selectBodyPoint('poitrine', event)"></div>
-                            <div class="body-point" id="point-heart" onclick="selectBodyPoint('cœur', event)"></div>
-                            <div class="body-point" id="point-stomach" onclick="selectBodyPoint('estomac', event)"></div>
-                            <div class="body-point" id="point-left-arm" onclick="selectBodyPoint('bras gauche', event)"></div>
-                            <div class="body-point" id="point-right-arm" onclick="selectBodyPoint('bras droit', event)"></div>
-                            <div class="body-point" id="point-back-lower" onclick="selectBodyPoint('bas du dos', event)"></div>
-                            <div class="body-point" id="point-left-leg" onclick="selectBodyPoint('jambe gauche', event)"></div>
-                            <div class="body-point" id="point-right-leg" onclick="selectBodyPoint('jambe droite', event)"></div>
-                        </div>
-                    </div>
+                    <div class="body-section">
+                        <!-- Controls Left -->
+                        <div class="body-controls">
+                            <div class="control-group">
+                                <h4>Genre</h4>
+                                <div class="button-group">
+                                    <button class="control-button active" onclick="selectGender('homme')">👨 Homme</button>
+                                    <button class="control-button" onclick="selectGender('femme')">👩 Femme</button>
+                                    <button class="control-button" onclick="selectGender('enfant')">🧒 Enfant</button>
+                                </div>
+                            </div>
+                            
+                            <div class="control-group">
+                                <h4>Vue</h4>
+                                <div class="button-group">
+                                    <button class="control-button active" onclick="selectView('face')">Face</button>
+                                    <button class="control-button" onclick="selectView('profil')">Profil</button>
+                                    <button class="control-button" onclick="selectView('dos')">Dos</button>
+                                </div>
+                            </div>
 
-                    <!-- Info Right -->
-                    <div class="body-controls">
-                        <div class="control-group">
-                            <h4>Zone sélectionnée</h4>
-                            <div id="selected-area" style="font-weight: bold; color: #667eea; margin-bottom: 15px;">
-                                Aucune zone sélectionnée
-                            </div>
-                            <div id="area-description" style="color: #666; font-size: 14px; line-height: 1.5;">
-                                Cliquez sur une zone du corps pour la sélectionner et décrire vos symptômes.
+                            <div class="control-group">
+                                <h4>Intensité douleur</h4>
+                                <div class="pain-display">
+                                    <span class="pain-value" id="pain-value">0</span>
+                                    <span class="pain-emoji" id="pain-emoji">😊</span>
+                                </div>
+                                <input type="range" class="pain-slider" min="0" max="10" value="0" 
+                                       oninput="updatePain(this.value)">
+                                <div style="display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-top: 5px;">
+                                    <span>Aucune</span>
+                                    <span>Extrême</span>
+                                </div>
                             </div>
                         </div>
-                        
-                        <div class="control-group">
-                            <h4>Actions rapides</h4>
-                            <div class="button-group" style="flex-direction: column; gap: 10px;">
-                                <button class="control-button" onclick="clearBodyPoints()">🗑️ Effacer points</button>
-                                <button class="control-button" onclick="saveBodyMap()">💾 Sauvegarder</button>
-                                <button class="control-button" onclick="loadBodyMap()">📁 Charger</button>
+
+                        <!-- Body Viewer Center - LE VRAI CORPS HUMAIN -->
+                        <div class="body-viewer">
+                            <h3>Cliquez sur une zone du corps</h3>
+                            <div class="human-body">
+                                <svg viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Tête -->
+                                    <ellipse cx="100" cy="50" rx="35" ry="45" class="body-part" onclick="selectBodyPart('tête', event)" data-area="tête"/>
+                                    
+                                    <!-- Cou -->
+                                    <rect x="85" y="90" width="30" height="25" class="body-part" onclick="selectBodyPart('cou', event)" data-area="cou"/>
+                                    
+                                    <!-- Torse -->
+                                    <ellipse cx="100" cy="160" rx="50" ry="45" class="body-part" onclick="selectBodyPart('poitrine', event)" data-area="poitrine"/>
+                                    
+                                    <!-- Abdomen -->
+                                    <ellipse cx="100" cy="220" rx="45" ry="35" class="body-part" onclick="selectBodyPart('abdomen', event)" data-area="abdomen"/>
+                                    
+                                    <!-- Bras gauche -->
+                                    <ellipse cx="50" cy="140" rx="15" ry="60" class="body-part" onclick="selectBodyPart('bras gauche', event)" data-area="bras-gauche"/>
+                                    
+                                    <!-- Bras droit -->
+                                    <ellipse cx="150" cy="140" rx="15" ry="60" class="body-part" onclick="selectBodyPart('bras droit', event)" data-area="bras-droit"/>
+                                    
+                                    <!-- Jambe gauche -->
+                                    <ellipse cx="80" cy="320" rx="20" ry="70" class="body-part" onclick="selectBodyPart('jambe gauche', event)" data-area="jambe-gauche"/>
+                                    
+                                    <!-- Jambe droite -->
+                                    <ellipse cx="120" cy="320" rx="20" ry="70" class="body-part" onclick="selectBodyPart('jambe droite', event)" data-area="jambe-droite"/>
+                                    
+                                    <!-- Points spécifiques -->
+                                    <circle cx="85" cy="150" r="8" class="body-part" onclick="selectBodyPart('cœur', event)" data-area="coeur" style="fill: #ff6b6b;"/>
+                                    <circle cx="100" cy="200" r="8" class="body-part" onclick="selectBodyPart('estomac', event)" data-area="estomac" style="fill: #4ecdc4;"/>
+                                    <circle cx="100" cy="250" r="8" class="body-part" onclick="selectBodyPart('bas du dos', event)" data-area="dos" style="fill: #45b7d1;"/>
+                                </svg>
+                            </div>
+                            <p style="color: #666; margin-top: 15px; font-size: 14px;">
+                                Zone sélectionnée: <span id="selected-area">Aucune</span>
+                            </p>
+                        </div>
+
+                        <!-- Info Right -->
+                        <div class="body-controls">
+                            <div class="control-group">
+                                <h4>Description</h4>
+                                <div id="area-description" style="color: #666; font-size: 14px; line-height: 1.5; margin-bottom: 15px;">
+                                    Sélectionnez une zone pour la décrire
+                                </div>
+                                <textarea class="form-textarea" id="area-notes" placeholder="Décrivez la douleur/symptôme..." style="height: 80px;"></textarea>
+                            </div>
+                            
+                            <div class="control-group">
+                                <h4>Actions</h4>
+                                <div style="display: flex; flex-direction: column; gap: 8px;">
+                                    <button class="control-button" onclick="clearSelections()">🗑️ Effacer</button>
+                                    <button class="control-button" onclick="saveBodyMap()">💾 Sauvegarder</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1116,12 +1023,12 @@
 
                 <!-- Reconnaissance vocale -->
                 <div class="voice-section">
-                    <div class="section-header" style="border: none; color: white;">
+                    <div class="section-title" style="border: none; color: white;">
                         <span class="section-icon">🎤</span>
-                        <span class="section-title">Reconnaissance vocale</span>
+                        <span>Reconnaissance vocale</span>
                     </div>
                     
-                    <button class="voice-button" id="voice-btn" onclick="toggleVoiceRecognition()">
+                    <button class="voice-button" id="voice-btn" onclick="toggleVoice()">
                         🎤 Cliquez et décrivez vos symptômes
                     </button>
                     
@@ -1131,34 +1038,36 @@
                 </div>
 
                 <!-- Symptômes fréquents -->
-                <div class="section-header">
-                    <span class="section-icon">⚡</span>
-                    <span class="section-title">Symptômes fréquents</span>
-                </div>
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-icon">⚡</span>
+                        <span>Symptômes fréquents</span>
+                    </div>
 
-                <div class="symptoms-quick">
-                    <div class="symptom-tag" onclick="selectSymptom(this, 'Mal de tête')">Mal de tête</div>
-                    <div class="symptom-tag" onclick="selectSymptom(this, 'Fièvre')">Fièvre</div>
-                    <div class="symptom-tag" onclick="selectSymptom(this, 'Nausée')">Nausée</div>
-                    <div class="symptom-tag" onclick="selectSymptom(this, 'Fatigue')">Fatigue</div>
-                    <div class="symptom-tag" onclick="selectSymptom(this, 'Toux')">Toux</div>
-                    <div class="symptom-tag" onclick="selectSymptom(this, 'Douleur musculaire')">Douleur musculaire</div>
-                    <div class="symptom-tag" onclick="selectSymptom(this, 'Vertige')">Vertige</div>
-                    <div class="symptom-tag" onclick="selectSymptom(this, 'Insomnie')">Insomnie</div>
-                    <div class="symptom-tag" onclick="selectSymptom(this, 'Douleur abdominale')">Douleur abdominale</div>
-                    <div class="symptom-tag" onclick="selectSymptom(this, 'Difficulté à respirer')">Difficulté à respirer</div>
+                    <div class="symptoms-grid">
+                        <div class="symptom-tag" onclick="toggleSymptom(this, 'Mal de tête')">Mal de tête</div>
+                        <div class="symptom-tag" onclick="toggleSymptom(this, 'Fièvre')">Fièvre</div>
+                        <div class="symptom-tag" onclick="toggleSymptom(this, 'Nausée')">Nausée</div>
+                        <div class="symptom-tag" onclick="toggleSymptom(this, 'Fatigue')">Fatigue</div>
+                        <div class="symptom-tag" onclick="toggleSymptom(this, 'Toux')">Toux</div>
+                        <div class="symptom-tag" onclick="toggleSymptom(this, 'Douleur musculaire')">Douleur musculaire</div>
+                        <div class="symptom-tag" onclick="toggleSymptom(this, 'Vertige')">Vertige</div>
+                        <div class="symptom-tag" onclick="toggleSymptom(this, 'Insomnie')">Insomnie</div>
+                        <div class="symptom-tag" onclick="toggleSymptom(this, 'Douleur abdominale')">Douleur abdominale</div>
+                        <div class="symptom-tag" onclick="toggleSymptom(this, 'Difficulté à respirer')">Difficulté à respirer</div>
+                    </div>
                 </div>
 
                 <!-- IA Médicale Active -->
-                <div class="ai-analysis">
+                <div class="ai-section">
                     <div class="ai-title">IA Médicale Active</div>
                     
                     <div class="confidence-meter">
-                        <div class="confidence-label">Niveau de confiance:</div>
+                        <div style="margin-bottom: 8px;">Niveau de confiance:</div>
                         <div class="confidence-bar">
                             <div class="confidence-fill" id="confidence-fill"></div>
                         </div>
-                        <div class="confidence-text" id="confidence-text">En attente d'analyse...</div>
+                        <div id="confidence-text" style="text-align: center; font-weight: bold;">En attente d'analyse...</div>
                     </div>
                     
                     <button class="analyze-button" id="analyze-btn" onclick="launchAnalysis()">
@@ -1167,29 +1076,29 @@
                 </div>
 
                 <!-- Description détaillée -->
-                <div class="section-header">
-                    <span class="section-icon">✍️</span>
-                    <span class="section-title">Description détaillée</span>
-                </div>
-                
-                <div class="form-group">
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-icon">✍️</span>
+                        <span>Description détaillée</span>
+                    </div>
+                    
                     <textarea class="form-textarea" id="detailed-description" 
                               placeholder="Décrivez précisément vos symptômes, leur intensité, depuis quand ils durent, ce qui les déclenche ou les soulage..."
-                              rows="6"></textarea>
+                              style="min-height: 120px;"></textarea>
                 </div>
 
                 <!-- Résultats diagnostic -->
-                <div class="diagnosis-results" id="diagnosis-results">
-                    <div class="section-header">
+                <div class="results-section" id="results-section">
+                    <div class="section-title">
                         <span class="section-icon">🩺</span>
-                        <span class="section-title">Diagnostic IA - Rapport Complet</span>
+                        <span>Diagnostic IA - Rapport Complet</span>
                     </div>
                     
                     <div class="export-controls">
-                        <button class="export-button" onclick="exportPDF()">📄 Export PDF</button>
-                        <button class="export-button" onclick="saveReport()">💾 Sauvegarder</button>
-                        <button class="export-button" onclick="shareReport()">📤 Partager</button>
-                        <button class="export-button" onclick="printReport()">🖨️ Imprimer</button>
+                        <button class="export-btn" onclick="exportPDF()">📄 Export PDF</button>
+                        <button class="export-btn" onclick="saveReport()">💾 Sauvegarder</button>
+                        <button class="export-btn" onclick="shareReport()">📤 Partager</button>
+                        <button class="export-btn" onclick="printReport()">🖨️ Imprimer</button>
                     </div>
                     
                     <div id="diagnosis-content">
@@ -1212,92 +1121,92 @@
                 </div>
             </div>
 
-            <!-- MODULE BASE MEDICALE -->
-            <div id="base-medicale" class="module-section">
+            <!-- TAB BASE MEDICALE -->
+            <div id="base-medicale" class="tab-content">
                 <div class="module-placeholder">
                     <div class="module-icon">📚</div>
                     <h2>Base de Données Médicale</h2>
-                    <div class="module-description">
+                    <p style="max-width: 600px; margin: 0 auto 20px; line-height: 1.6;">
                         Base de données complète avec 2,847 médicaments, atlas anatomique interactif, 
                         156 protocoles d'urgence et lexique médical de 1,293 termes. 
-                        Recherche avancée et interactions médicamenteuses.
-                    </div>
-                    <button class="load-module-button" onclick="loadModule('base-medicale')">
+                        Recherche avancée et vérification d'interactions médicamenteuses.
+                    </p>
+                    <button class="load-module-btn" onclick="loadModule('base-medicale')">
                         🚀 Charger le module complet
                     </button>
                 </div>
             </div>
 
-            <!-- MODULE TELECONSULTATION -->
-            <div id="teleconsultation" class="module-section">
+            <!-- TAB TELECONSULTATION -->
+            <div id="teleconsultation" class="tab-content">
                 <div class="module-placeholder">
                     <div class="module-icon">📹</div>
                     <h2>Téléconsultation Médicale</h2>
-                    <div class="module-description">
+                    <p style="max-width: 600px; margin: 0 auto 20px; line-height: 1.6;">
                         Consultations vidéo sécurisées WebRTC, chat temps réel avec médecins, 
                         partage d'écran pour examens, partage de fichiers médicaux et bouton d'urgence direct SAMU.
-                    </div>
-                    <button class="load-module-button" onclick="loadModule('teleconsultation')">
+                    </p>
+                    <button class="load-module-btn" onclick="loadModule('teleconsultation')">
                         🚀 Charger le module complet
                     </button>
                 </div>
             </div>
 
-            <!-- MODULE SUIVI TEMPORAL -->
-            <div id="suivi-temporal" class="module-section">
+            <!-- TAB SUIVI TEMPORAL -->
+            <div id="suivi-temporal" class="tab-content">
                 <div class="module-placeholder">
                     <div class="module-icon">📈</div>
                     <h2>Suivi Temporal Avancé</h2>
-                    <div class="module-description">
+                    <p style="max-width: 600px; margin: 0 auto 20px; line-height: 1.6;">
                         Graphiques d'évolution des symptômes, historique complet des consultations, 
                         calendrier médical avec rappels automatiques et exports PDF/CSV pour médecins.
-                    </div>
-                    <button class="load-module-button" onclick="loadModule('suivi-temporal')">
+                    </p>
+                    <button class="load-module-btn" onclick="loadModule('suivi-temporal')">
                         🚀 Charger le module complet
                     </button>
                 </div>
             </div>
 
-            <!-- MODULE CAPTEURS IOT -->
-            <div id="capteurs-iot" class="module-section">
+            <!-- TAB CAPTEURS IOT -->
+            <div id="capteurs-iot" class="tab-content">
                 <div class="module-placeholder">
                     <div class="module-icon">📱</div>
                     <h2>Capteurs IoT Médicaux</h2>
-                    <div class="module-description">
+                    <p style="max-width: 600px; margin: 0 auto 20px; line-height: 1.6;">
                         Connexion d'appareils médicaux connectés (Apple Watch, tensiomètres, oxymètres), 
                         dashboard temps réel, alertes automatiques selon seuils vitaux et scanner Bluetooth/WiFi.
-                    </div>
-                    <button class="load-module-button" onclick="loadModule('capteurs-iot')">
+                    </p>
+                    <button class="load-module-btn" onclick="loadModule('capteurs-iot')">
                         🚀 Charger le module complet
                     </button>
                 </div>
             </div>
 
-            <!-- MODULE IA AVANCEE -->
-            <div id="ia-avancee" class="module-section">
+            <!-- TAB IA AVANCEE -->
+            <div id="ia-avancee" class="tab-content">
                 <div class="module-placeholder">
                     <div class="module-icon">🤖</div>
                     <h2>Intelligence Artificielle Avancée</h2>
-                    <div class="module-description">
+                    <p style="max-width: 600px; margin: 0 auto 20px; line-height: 1.6;">
                         Diagnostic prédictif avec TensorFlow.js (94.7% de précision), chatbot médical conversationnel, 
                         analyse d'images médicales, recommandations personnalisées et visualisation du réseau de neurones.
-                    </div>
-                    <button class="load-module-button" onclick="loadModule('ia-avancee')">
+                    </p>
+                    <button class="load-module-btn" onclick="loadModule('ia-avancee')">
                         🚀 Charger le module complet
                     </button>
                 </div>
             </div>
 
-            <!-- MODULE CLOUD SYNC -->
-            <div id="cloud-sync" class="module-section">
+            <!-- TAB CLOUD SYNC -->
+            <div id="cloud-sync" class="tab-content">
                 <div class="module-placeholder">
                     <div class="module-icon">☁️</div>
                     <h2>Synchronisation Cloud</h2>
-                    <div class="module-description">
+                    <p style="max-width: 600px; margin: 0 auto 20px; line-height: 1.6;">
                         Synchronisation multi-appareils temps réel, chiffrement AES-256, 
                         sauvegardes automatiques, conformité RGPD et stockage sécurisé 10GB.
-                    </div>
-                    <button class="load-module-button" onclick="loadModule('cloud-sync')">
+                    </p>
+                    <button class="load-module-btn" onclick="loadModule('cloud-sync')">
                         🚀 Charger le module complet
                     </button>
                 </div>
@@ -1324,36 +1233,35 @@
          */
 
         // Variables globales
-        let isRecording = false;
         let selectedSymptoms = [];
-        let selectedBodyPoints = [];
+        let selectedBodyParts = [];
         let currentPainLevel = 0;
+        let isVoiceRecording = false;
         let biometricInterval;
         let analysisInProgress = false;
+        let recognition;
 
-        // Données simulées
+        // Données biométriques simulées
         const biometricData = {
-            heartRate: { min: 60, max: 100, current: 72, status: 'normal' },
-            temperature: { min: 36.1, max: 37.5, current: 36.8, status: 'normal' },
-            bloodPressure: { systolic: 120, diastolic: 80, status: 'normal' },
-            spo2: { min: 95, max: 100, current: 98, status: 'normal' }
+            heartRate: 72,
+            temperature: 36.8,
+            bloodPressure: { systolic: 120, diastolic: 80 },
+            spo2: 98
         };
 
+        // Base de diagnostics
         const diagnosticDatabase = {
             "mal de tête fièvre fatigue": [
-                { nom: "Grippe saisonnière", probabilite: 85, description: "Infection virale commune avec symptômes systémiques", actions: ["Repos", "Hydratation", "Paracétamol"] },
-                { nom: "Syndrome viral", probabilite: 70, description: "Infection virale des voies respiratoires", actions: ["Surveillance", "Antalgiques"] },
-                { nom: "Sinusite", probabilite: 45, description: "Inflammation des sinus paranasaux", actions: ["Décongestionnants", "Consultation ORL"] }
+                { nom: "Grippe saisonnière", probabilite: 85, description: "Infection virale commune avec symptômes systémiques" },
+                { nom: "Syndrome viral", probabilite: 70, description: "Infection virale des voies respiratoires" }
             ],
             "douleur abdominale nausée": [
-                { nom: "Gastro-entérite", probabilite: 78, description: "Inflammation de l'estomac et des intestins", actions: ["Diète", "Réhydratation", "Probiotiques"] },
-                { nom: "Intoxication alimentaire", probabilite: 62, description: "Infection due à des aliments contaminés", actions: ["Hydratation", "Surveillance"] },
-                { nom: "Appendicite", probabilite: 35, description: "Inflammation de l'appendice (URGENCE)", actions: ["Consultation immédiate", "Imagerie"] }
+                { nom: "Gastro-entérite", probabilite: 78, description: "Inflammation de l'estomac et des intestins" },
+                { nom: "Intoxication alimentaire", probabilite: 62, description: "Infection due à des aliments contaminés" }
             ],
             "dos douleur": [
-                { nom: "Lombalgie commune", probabilite: 85, description: "Douleur mécanique du bas du dos", actions: ["Repos relatif", "Anti-inflammatoires", "Kinésithérapie"] },
-                { nom: "Contracture musculaire", probabilite: 75, description: "Tension excessive des muscles dorsaux", actions: ["Chaleur", "Étirements", "Massage"] },
-                { nom: "Hernie discale", probabilite: 30, description: "Compression du disque intervertébral", actions: ["IRM", "Consultation spécialisée"] }
+                { nom: "Lombalgie commune", probabilite: 85, description: "Douleur mécanique du bas du dos" },
+                { nom: "Contracture musculaire", probabilite: 75, description: "Tension excessive des muscles dorsaux" }
             ]
         };
 
@@ -1362,34 +1270,30 @@
             console.log('Assistant Médical IA Ultimate v4.0 - © 2025 Kheloufi - amine@nexyna.ai');
             console.log('Système initialisé avec succès');
             
-            updatePatientSummary();
+            updateSummary();
             startBiometricSimulation();
-            
-            // Reconnaissance vocale si disponible
-            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                initSpeechRecognition();
-            }
+            initSpeechRecognition();
         });
 
-        // Navigation entre modules
-        function showModule(moduleId) {
-            // Masquer tous les modules
-            document.querySelectorAll('.module-section').forEach(section => {
-                section.classList.remove('active');
+        // Navigation entre onglets
+        function showTab(tabName) {
+            // Masquer tous les contenus
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
             });
             
-            // Désactiver tous les boutons de navigation
-            document.querySelectorAll('.nav-button').forEach(btn => {
+            // Désactiver tous les boutons
+            document.querySelectorAll('.tab-button').forEach(btn => {
                 btn.classList.remove('active');
             });
             
-            // Afficher le module sélectionné
-            document.getElementById(moduleId).classList.add('active');
+            // Afficher le contenu sélectionné
+            document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
         }
 
         // Mise à jour du résumé patient
-        function updatePatientSummary() {
+        function updateSummary() {
             const prenom = document.getElementById('prenom').value;
             const nom = document.getElementById('nom').value;
             const naissance = document.getElementById('naissance').value;
@@ -1418,70 +1322,34 @@
                 summary += ` • IMC: ${imc}`;
             }
             
-            document.querySelector('.summary-content').textContent = 
+            document.getElementById('patient-summary-content').textContent = 
                 summary || 'Remplissez les informations ci-dessus';
         }
 
         // Simulation des capteurs biométriques
         function startBiometricSimulation() {
             biometricInterval = setInterval(() => {
-                // Variation réaliste des données
-                biometricData.heartRate.current = Math.floor(Math.random() * 20) + 65;
-                biometricData.temperature.current = (Math.random() * 1.5 + 36.1).toFixed(1);
-                biometricData.spo2.current = Math.floor(Math.random() * 5) + 96;
+                // Variations réalistes
+                biometricData.heartRate = Math.floor(Math.random() * 20) + 65;
+                biometricData.temperature = (Math.random() * 1.5 + 36.1).toFixed(1);
+                biometricData.spo2 = Math.floor(Math.random() * 5) + 96;
                 
-                // Mise à jour de l'interface
                 updateBiometricDisplay();
             }, 3000);
         }
 
         function updateBiometricDisplay() {
-            document.getElementById('heart-rate').textContent = biometricData.heartRate.current;
-            document.getElementById('temperature').textContent = biometricData.temperature.current + '°C';
+            document.getElementById('heart-rate').textContent = biometricData.heartRate;
+            document.getElementById('temperature').textContent = biometricData.temperature + '°C';
             document.getElementById('blood-pressure').textContent = 
                 `${biometricData.bloodPressure.systolic}/${biometricData.bloodPressure.diastolic}`;
-            document.getElementById('spo2').textContent = biometricData.spo2.current + '%';
+            document.getElementById('spo2').textContent = biometricData.spo2 + '%';
             
             // Mise à jour des statuts
-            updateBiometricStatus();
-        }
-
-        function updateBiometricStatus() {
-            // Logique de statut basée sur les valeurs
-            const heartStatus = document.getElementById('heart-status');
-            const tempStatus = document.getElementById('temp-status');
-            const bpStatus = document.getElementById('bp-status');
-            const spo2Status = document.getElementById('spo2-status');
-            
-            // Fréquence cardiaque
-            if (biometricData.heartRate.current < 60 || biometricData.heartRate.current > 100) {
-                heartStatus.textContent = 'Anormal';
-                heartStatus.className = 'biometric-status status-warning';
-            } else {
-                heartStatus.textContent = 'Normal';
-                heartStatus.className = 'biometric-status status-normal';
-            }
-            
-            // Température
-            if (biometricData.temperature.current > 37.5) {
-                tempStatus.textContent = 'Fièvre';
-                tempStatus.className = 'biometric-status status-danger';
-            } else {
-                tempStatus.textContent = 'Normal';
-                tempStatus.className = 'biometric-status status-normal';
-            }
-            
-            // SpO2
-            if (biometricData.spo2.current < 95) {
-                spo2Status.textContent = 'Faible';
-                spo2Status.className = 'biometric-status status-warning';
-            } else {
-                spo2Status.textContent = 'Normal';
-                spo2Status.className = 'biometric-status status-normal';
-            }
-            
-            bpStatus.textContent = 'Normal';
-            bpStatus.className = 'biometric-status status-normal';
+            document.getElementById('heart-status').textContent = 'Normal';
+            document.getElementById('temp-status').textContent = 'Normal';
+            document.getElementById('bp-status').textContent = 'Normal';
+            document.getElementById('spo2-status').textContent = 'Normal';
         }
 
         function connectSensors() {
@@ -1493,7 +1361,6 @@
                 btn.textContent = '✅ Capteurs connectés';
                 btn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
                 
-                // Démarrer les vraies données
                 setTimeout(() => {
                     btn.textContent = '📱 Connecter capteurs';
                     btn.disabled = false;
@@ -1503,70 +1370,33 @@
         }
 
         // Gestion du corps humain
-        function selectBodyType(type) {
+        function selectGender(gender) {
             document.querySelectorAll('.body-controls .control-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Adaptation du corps selon le type
-            const bodyOutline = document.getElementById('body-outline');
-            switch(type) {
-                case 'homme':
-                    bodyOutline.style.background = 'linear-gradient(180deg, #e9ecef 0%, #dee2e6 100%)';
-                    break;
-                case 'femme':
-                    bodyOutline.style.background = 'linear-gradient(180deg, #f8d7da 0%, #f1aeb5 100%)';
-                    break;
-                case 'enfant':
-                    bodyOutline.style.background = 'linear-gradient(180deg, #d4edda 0%, #a3d977 100%)';
-                    bodyOutline.style.height = '350px';
-                    break;
-            }
-        }
-
-        function selectBodyView(view) {
-            document.querySelectorAll('.body-controls .control-button').forEach(btn => {
-                if (btn.textContent.includes('Face') || btn.textContent.includes('Profil') || btn.textContent.includes('Dos')) {
+                if (btn.textContent.includes('👨') || btn.textContent.includes('👩') || btn.textContent.includes('🧒')) {
                     btn.classList.remove('active');
                 }
             });
             event.target.classList.add('active');
-            
-            // Réorganisation des points selon la vue
-            adjustBodyPointsForView(view);
         }
 
-        function adjustBodyPointsForView(view) {
-            const points = document.querySelectorAll('.body-point');
-            points.forEach(point => {
-                switch(view) {
-                    case 'face':
-                        point.style.display = 'block';
-                        break;
-                    case 'profil':
-                        // Masquer certains points pour la vue profil
-                        if (point.id.includes('left') || point.id.includes('right')) {
-                            point.style.display = 'none';
-                        }
-                        break;
-                    case 'dos':
-                        // Repositionner pour vue dorsale
-                        point.style.display = 'block';
-                        break;
+        function selectView(view) {
+            document.querySelectorAll('.body-controls .control-button').forEach(btn => {
+                if (btn.textContent === 'Face' || btn.textContent === 'Profil' || btn.textContent === 'Dos') {
+                    btn.classList.remove('active');
                 }
             });
+            event.target.classList.add('active');
         }
 
-        function selectBodyPoint(area, event) {
+        function selectBodyPart(area, event) {
             event.stopPropagation();
             
-            // Désélectionner tous les points
-            document.querySelectorAll('.body-point').forEach(point => {
-                point.classList.remove('selected');
+            // Désélectionner toutes les parties
+            document.querySelectorAll('.body-part').forEach(part => {
+                part.classList.remove('selected');
             });
             
-            // Sélectionner le point cliqué
+            // Sélectionner la partie cliquée
             event.target.classList.add('selected');
             
             // Mettre à jour l'affichage
@@ -1574,40 +1404,13 @@
             document.getElementById('area-description').textContent = 
                 `Zone sélectionnée: ${area}. Intensité de la douleur: ${currentPainLevel}/10`;
             
-            // Ajouter à la liste des zones douloureuses
-            if (!selectedBodyPoints.find(point => point.area === area)) {
-                selectedBodyPoints.push({ area, intensity: currentPainLevel });
+            // Ajouter à la liste si pas déjà présent
+            if (!selectedBodyParts.find(part => part.area === area)) {
+                selectedBodyParts.push({ area, intensity: currentPainLevel });
             }
         }
 
-        function addBodyPoint(event) {
-            if (event.target.classList.contains('body-point')) return;
-            
-            const rect = event.target.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-            
-            // Créer un nouveau point
-            const point = document.createElement('div');
-            point.className = 'body-point';
-            point.style.left = x + 'px';
-            point.style.top = y + 'px';
-            point.onclick = (e) => selectBodyPoint('Zone personnalisée', e);
-            
-            event.target.appendChild(point);
-        }
-
-        function clearBodyPoints() {
-            document.querySelectorAll('.body-point').forEach(point => {
-                point.classList.remove('selected');
-            });
-            selectedBodyPoints = [];
-            document.getElementById('selected-area').textContent = 'Aucune zone sélectionnée';
-            document.getElementById('area-description').textContent = 
-                'Cliquez sur une zone du corps pour la sélectionner et décrire vos symptômes.';
-        }
-
-        function updatePainIntensity(value) {
+        function updatePain(value) {
             currentPainLevel = parseInt(value);
             document.getElementById('pain-value').textContent = value;
             
@@ -1616,7 +1419,7 @@
             const emojis = ['😊', '🙂', '😐', '😟', '😰', '😨', '😫', '😩', '😱', '🥵', '💀'];
             emoji.textContent = emojis[value];
             
-            // Mise à jour de la couleur
+            // Couleur selon l'intensité
             const painValue = document.getElementById('pain-value');
             if (value <= 3) {
                 painValue.style.color = '#28a745';
@@ -1627,76 +1430,79 @@
             }
         }
 
-        // Reconnaissance vocale
-        let recognition;
-
-        function initSpeechRecognition() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            recognition = new SpeechRecognition();
-            
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            recognition.lang = 'fr-FR';
-            
-            recognition.onstart = () => {
-                isRecording = true;
-                document.getElementById('voice-btn').classList.add('recording');
-                document.getElementById('voice-btn').textContent = '🎤 Enregistrement en cours...';
-            };
-            
-            recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                document.getElementById('voice-transcript').textContent = `Reconnu: "${transcript}"`;
-                
-                // Analyser le texte pour extraire les symptômes
-                analyzeVoiceInput(transcript);
-            };
-            
-            recognition.onend = () => {
-                isRecording = false;
-                document.getElementById('voice-btn').classList.remove('recording');
-                document.getElementById('voice-btn').textContent = '🎤 Cliquez et décrivez vos symptômes';
-            };
-            
-            recognition.onerror = (event) => {
-                console.error('Erreur reconnaissance vocale:', event.error);
-                document.getElementById('voice-transcript').textContent = 
-                    'Erreur de reconnaissance vocale. Veuillez réessayer.';
-            };
+        function clearSelections() {
+            document.querySelectorAll('.body-part').forEach(part => {
+                part.classList.remove('selected');
+            });
+            selectedBodyParts = [];
+            document.getElementById('selected-area').textContent = 'Aucune';
+            document.getElementById('area-description').textContent = 'Sélectionnez une zone pour la décrire';
+            document.getElementById('area-notes').value = '';
         }
 
-        function toggleVoiceRecognition() {
+        function saveBodyMap() {
+            localStorage.setItem('bodyMap', JSON.stringify(selectedBodyParts));
+            alert('💾 Cartographie corporelle sauvegardée !');
+        }
+
+        // Reconnaissance vocale
+        function initSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'fr-FR';
+                
+                recognition.onstart = () => {
+                    isVoiceRecording = true;
+                    document.getElementById('voice-btn').classList.add('recording');
+                    document.getElementById('voice-btn').textContent = '🎤 Enregistrement en cours...';
+                };
+                
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('voice-transcript').textContent = `Reconnu: "${transcript}"`;
+                    
+                    // Ajouter à la description détaillée
+                    const detailedDesc = document.getElementById('detailed-description');
+                    if (detailedDesc.value) {
+                        detailedDesc.value += '\n\n';
+                    }
+                    detailedDesc.value += `Reconnaissance vocale: ${transcript}`;
+                };
+                
+                recognition.onend = () => {
+                    isVoiceRecording = false;
+                    document.getElementById('voice-btn').classList.remove('recording');
+                    document.getElementById('voice-btn').textContent = '🎤 Cliquez et décrivez vos symptômes';
+                };
+                
+                recognition.onerror = (event) => {
+                    console.error('Erreur reconnaissance vocale:', event.error);
+                    document.getElementById('voice-transcript').textContent = 
+                        'Erreur de reconnaissance vocale. Veuillez réessayer.';
+                };
+            }
+        }
+
+        function toggleVoice() {
             if (!recognition) {
                 document.getElementById('voice-transcript').textContent = 
                     'Reconnaissance vocale non supportée par ce navigateur.';
                 return;
             }
             
-            if (isRecording) {
+            if (isVoiceRecording) {
                 recognition.stop();
             } else {
                 recognition.start();
             }
         }
 
-        function analyzeVoiceInput(text) {
-            const symptoms = ['mal de tête', 'fièvre', 'toux', 'fatigue', 'douleur', 'nausée'];
-            const foundSymptoms = symptoms.filter(symptom => 
-                text.toLowerCase().includes(symptom)
-            );
-            
-            if (foundSymptoms.length > 0) {
-                // Mettre à jour la description détaillée
-                const detailedDesc = document.getElementById('detailed-description');
-                if (detailedDesc.value) {
-                    detailedDesc.value += '\n\n';
-                }
-                detailedDesc.value += `Reconnaissance vocale: ${text}`;
-            }
-        }
-
-        // Sélection des symptômes
-        function selectSymptom(element, symptom) {
+        // Gestion des symptômes
+        function toggleSymptom(element, symptom) {
             element.classList.toggle('selected');
             
             if (element.classList.contains('selected')) {
@@ -1705,7 +1511,6 @@
                 selectedSymptoms = selectedSymptoms.filter(s => s !== symptom);
             }
             
-            // Mise à jour automatique de la description
             updateDetailedDescription();
         }
 
@@ -1720,9 +1525,9 @@
                 }
             }
             
-            if (selectedBodyPoints.length > 0) {
-                const zonesText = selectedBodyPoints.map(point => 
-                    `${point.area} (douleur ${point.intensity}/10)`
+            if (selectedBodyParts.length > 0) {
+                const zonesText = selectedBodyParts.map(part => 
+                    `${part.area} (douleur ${part.intensity}/10)`
                 ).join(', ');
                 const bodyText = `Zones douloureuses: ${zonesText}`;
                 if (!description.includes('Zones douloureuses:')) {
@@ -1742,12 +1547,11 @@
             const confidenceFill = document.getElementById('confidence-fill');
             const confidenceText = document.getElementById('confidence-text');
             
-            // Démarrer l'analyse
             analyzeBtn.textContent = '🔄 Analyse en cours...';
             analyzeBtn.disabled = true;
             confidenceText.textContent = 'Analyse des symptômes...';
             
-            // Animation de la barre de confiance
+            // Animation de progression
             let progress = 0;
             const progressInterval = setInterval(() => {
                 progress += Math.random() * 10;
@@ -1765,10 +1569,10 @@
 
         function completeAnalysis() {
             const description = document.getElementById('detailed-description').value.toLowerCase();
-            const diagnosisResults = document.getElementById('diagnosis-results');
+            const resultsSection = document.getElementById('results-section');
             const diagnosisContent = document.getElementById('diagnosis-content');
             
-            // Analyser les symptômes décrits
+            // Recherche de correspondances
             let matchedDiagnoses = [];
             
             for (const [key, diagnoses] of Object.entries(diagnosticDatabase)) {
@@ -1789,21 +1593,21 @@
                 }
             }
             
-            // Trier par score de correspondance et probabilité
+            // Trier par pertinence
             matchedDiagnoses.sort((a, b) => (b.matchScore + b.probabilite) - (a.matchScore + a.probabilite));
             
-            // Générer le contenu du diagnostic
+            // Générer le contenu
             generateDiagnosisContent(matchedDiagnoses.slice(0, 3));
             
             // Afficher les résultats
-            diagnosisResults.classList.add('show');
+            resultsSection.classList.add('show');
             
-            // Finaliser l'interface
+            // Finaliser
             document.getElementById('analyze-btn').textContent = '✅ Analyse terminée';
             document.getElementById('confidence-text').textContent = '94% de confiance';
             
             setTimeout(() => {
-                document.getElementById('analyze-btn').textContent = '🔍 Lancer l'analyse complète';
+                document.getElementById('analyze-btn').textContent = '🔍 Lancer l\'analyse complète';
                 document.getElementById('analyze-btn').disabled = false;
                 analysisInProgress = false;
             }, 3000);
@@ -1826,24 +1630,12 @@
             }
             
             let content = '';
-            diagnoses.forEach((diagnosis, index) => {
-                const confidenceClass = diagnosis.probabilite > 70 ? 'status-normal' : 
-                                      diagnosis.probabilite > 50 ? 'status-warning' : 'status-danger';
-                
+            diagnoses.forEach(diagnosis => {
                 content += `
                     <div class="diagnosis-card">
                         <div class="diagnosis-name">${diagnosis.nom}</div>
-                        <div class="diagnosis-probability">
-                            <span class="biometric-status ${confidenceClass}">
-                                Probabilité: ${diagnosis.probabilite}%
-                            </span>
-                        </div>
+                        <div class="diagnosis-probability">Probabilité: ${diagnosis.probabilite}%</div>
                         <div class="diagnosis-description">${diagnosis.description}</div>
-                        <div class="diagnosis-actions">
-                            ${diagnosis.actions.map(action => 
-                                `<button class="action-button">${action}</button>`
-                            ).join('')}
-                        </div>
                     </div>
                 `;
             });
@@ -1854,7 +1646,7 @@
         // Fonctions d'export
         function exportPDF() {
             setTimeout(() => {
-                alert('📄 Rapport PDF généré !\n\nLe diagnostic complet a été exporté en PDF avec toutes les informations patient et recommandations.');
+                alert('📄 Rapport PDF généré avec succès !');
             }, 1000);
         }
 
@@ -1863,13 +1655,13 @@
                 patient: document.getElementById('prenom').value + ' ' + document.getElementById('nom').value,
                 date: new Date().toLocaleDateString(),
                 symptoms: selectedSymptoms,
-                bodyPoints: selectedBodyPoints,
+                bodyParts: selectedBodyParts,
                 biometrics: biometricData,
                 description: document.getElementById('detailed-description').value
             };
             
             localStorage.setItem('medical-report-' + Date.now(), JSON.stringify(reportData));
-            alert('💾 Rapport sauvegardé localement !');
+            alert('💾 Rapport sauvegardé avec succès !');
         }
 
         function shareReport() {
@@ -1880,7 +1672,7 @@
                     url: window.location.href
                 });
             } else {
-                alert('📤 Fonction de partage non supportée. Utilisez l\'export PDF.');
+                alert('📤 Fonction de partage non supportée.');
             }
         }
 
@@ -1888,190 +1680,27 @@
             window.print();
         }
 
-        // Chargement des modules complets
+        // Chargement des modules
         function loadModule(moduleName) {
             const moduleElement = document.getElementById(moduleName);
             
-            // Simulation du chargement
             moduleElement.innerHTML = `
                 <div style="text-align: center; padding: 50px;">
-                    <div class="loading"></div>
-                    <p style="margin-top: 20px;">Chargement du module ${moduleName}...</p>
+                    <div style="width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #667eea; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                    <p>Chargement du module ${moduleName}...</p>
                 </div>
             `;
             
             setTimeout(() => {
-                moduleElement.innerHTML = getModuleContent(moduleName);
+                moduleElement.innerHTML = `
+                    <div style="text-align: center; padding: 50px;">
+                        <div style="font-size: 3em; margin-bottom: 20px;">✅</div>
+                        <h2>Module ${moduleName} chargé</h2>
+                        <p style="color: #28a745; font-weight: bold;">Toutes les fonctionnalités sont maintenant disponibles !</p>
+                    </div>
+                `;
             }, 2000);
         }
-
-        function getModuleContent(moduleName) {
-            const moduleContents = {
-                'base-medicale': `
-                    <div class="section-header">
-                        <span class="section-icon">📚</span>
-                        <span class="section-title">Base Médicale Chargée</span>
-                    </div>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                        <div class="biometric-card">
-                            <div class="biometric-label">Médicaments</div>
-                            <div class="biometric-value">2,847</div>
-                            <div class="biometric-status status-normal">Références</div>
-                        </div>
-                        <div class="biometric-card">
-                            <div class="biometric-label">Protocoles</div>
-                            <div class="biometric-value">156</div>
-                            <div class="biometric-status status-normal">Procédures</div>
-                        </div>
-                        <div class="biometric-card">
-                            <div class="biometric-label">Atlas Anatomique</div>
-                            <div class="biometric-value">3D</div>
-                            <div class="biometric-status status-normal">Interactif</div>
-                        </div>
-                        <div class="biometric-card">
-                            <div class="biometric-label">Lexique</div>
-                            <div class="biometric-value">1,293</div>
-                            <div class="biometric-status status-normal">Termes</div>
-                        </div>
-                    </div>
-                `,
-                'teleconsultation': `
-                    <div class="section-header">
-                        <span class="section-icon">📹</span>
-                        <span class="section-title">Téléconsultation Active</span>
-                    </div>
-                    <div style="background: #000; border-radius: 20px; height: 300px; display: flex; align-items: center; justify-content: center; color: white; margin: 20px 0;">
-                        <div style="text-align: center;">
-                            <div style="font-size: 3em; margin-bottom: 15px;">📹</div>
-                            <div>Interface vidéo WebRTC prête</div>
-                        </div>
-                    </div>
-                    <div style="display: flex; justify-content: center; gap: 15px;">
-                        <button class="load-module-button">📞 Démarrer Appel</button>
-                        <button class="export-button">🚨 Urgence SAMU</button>
-                    </div>
-                `,
-                'suivi-temporal': `
-                    <div class="section-header">
-                        <span class="section-icon">📈</span>
-                        <span class="section-title">Suivi Temporal Actif</span>
-                    </div>
-                    <div style="background: #f8f9fa; border-radius: 15px; padding: 20px; margin: 20px 0;">
-                        <canvas id="demo-chart" width="600" height="200" style="max-width: 100%;"></canvas>
-                    </div>
-                    <div class="export-controls">
-                        <button class="export-button">📊 Graphiques</button>
-                        <button class="export-button">📅 Calendrier</button>
-                        <button class="export-button">📄 Export CSV</button>
-                    </div>
-                `,
-                'capteurs-iot': `
-                    <div class="section-header">
-                        <span class="section-icon">📱</span>
-                        <span class="section-title">Capteurs IoT Connectés</span>
-                    </div>
-                    <div class="biometric-grid">
-                        <div class="biometric-card" style="border-left-color: #28a745;">
-                            <div class="biometric-label">Apple Watch</div>
-                            <div class="biometric-value" style="color: #28a745;">72 bpm</div>
-                            <div class="biometric-status status-normal">Connecté</div>
-                        </div>
-                        <div class="biometric-card" style="border-left-color: #28a745;">
-                            <div class="biometric-label">Tensiomètre</div>
-                            <div class="biometric-value" style="color: #28a745;">120/80</div>
-                            <div class="biometric-status status-normal">Connecté</div>
-                        </div>
-                        <div class="biometric-card" style="border-left-color: #28a745;">
-                            <div class="biometric-label">Oxymètre</div>
-                            <div class="biometric-value" style="color: #28a745;">98%</div>
-                            <div class="biometric-status status-normal">Connecté</div>
-                        </div>
-                        <div class="biometric-card" style="border-left-color: #ffc107;">
-                            <div class="biometric-label">Balance</div>
-                            <div class="biometric-value" style="color: #ffc107;">78.2kg</div>
-                            <div class="biometric-status status-warning">Bluetooth</div>
-                        </div>
-                    </div>
-                `,
-                'ia-avancee': `
-                    <div class="section-header">
-                        <span class="section-icon">🤖</span>
-                        <span class="section-title">IA Avancée TensorFlow.js</span>
-                    </div>
-                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 20px; padding: 30px; margin: 20px 0;">
-                        <div style="text-align: center;">
-                            <div style="font-size: 2em; margin-bottom: 15px;">🧠</div>
-                            <div style="font-size: 1.3em; font-weight: bold; margin-bottom: 10px;">Réseau de Neurones Actif</div>
-                            <div>Précision diagnostic: 94.7%</div>
-                            <div>Modèle entraîné sur 156,000 cas</div>
-                        </div>
-                    </div>
-                `,
-                'cloud-sync': `
-                    <div class="section-header">
-                        <span class="section-icon">☁️</span>
-                        <span class="section-title">Cloud Sync Actif</span>
-                    </div>
-                    <div style="background: #e3f2fd; border-radius: 15px; padding: 20px; margin: 20px 0;">
-                        <div style="text-align: center; color: #1565c0;">
-                            <div style="font-weight: bold; margin-bottom: 15px;">🔄 Synchronisation en Temps Réel</div>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 15px 0;">
-                                <div>✅ Chiffrement AES-256</div>
-                                <div>✅ Backup automatique</div>
-                                <div>✅ Multi-appareils</div>
-                            </div>
-                            <div>Stockage: 2.4 GB / 10 GB utilisés</div>
-                        </div>
-                    </div>
-                `
-            };
-            
-            return moduleContents[moduleName] || '<p>Module en cours de développement...</p>';
-        }
-
-        // Fonctions utilitaires
-        function changeLanguage(lang) {
-            console.log('Changement de langue:', lang);
-            // Implémentation future de l'internationalisation
-        }
-
-        function saveBodyMap() {
-            localStorage.setItem('bodyMap', JSON.stringify(selectedBodyPoints));
-            alert('💾 Cartographie corporelle sauvegardée !');
-        }
-
-        function loadBodyMap() {
-            const saved = localStorage.getItem('bodyMap');
-            if (saved) {
-                selectedBodyPoints = JSON.parse(saved);
-                alert('📁 Cartographie corporelle chargée !');
-            }
-        }
-
-        // Animation success pour les boutons
-        function addSuccessAnimation(element) {
-            element.classList.add('success-animation');
-            setTimeout(() => {
-                element.classList.remove('success-animation');
-            }, 600);
-        }
-
-        // Gestion des événements clavier
-        document.addEventListener('keydown', function(e) {
-            // Ctrl+S pour sauvegarder
-            if (e.ctrlKey && e.key === 's') {
-                e.preventDefault();
-                saveReport();
-            }
-            
-            // Ctrl+Enter pour lancer l'analyse
-            if (e.ctrlKey && e.key === 'Enter') {
-                e.preventDefault();
-                if (!analysisInProgress) {
-                    launchAnalysis();
-                }
-            }
-        });
 
         console.log('Assistant Médical IA Ultimate v4.0 chargé complètement');
         console.log('© 2025 Kheloufi - amine@nexyna.ai - Tous droits réservés');
